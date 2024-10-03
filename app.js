@@ -1,9 +1,8 @@
 const http = require("http");
 const jwt = require("jsonwebtoken");
-const appRouter = require("./routes/mainRouter");
-const webRouter = require("./routes/webRouter");
+const apiRouter = require("./routes/apiRoutes/apiRouter");
+const webRouter = require("./routes/webRoutes/webRouter");
 require('dotenv').config();
-const UsersRouter = require('./routes/usersRoutes');
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -23,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI);
 
 //Routes
 app.use('/', webRouter);
-app.use('/api', appRouter);
+app.use('/api', apiRouter);
 app.get('/', (req, res) => {
     res.redirect('/login'); // Redirect root to login page
 });

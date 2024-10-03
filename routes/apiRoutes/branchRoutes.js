@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const branchController = require('../controllers/branch');
+const branchController = require('../../controllers/branch');
 
 router.get('/:id', branchController.getBranchById);
 router.get('/', branchController.getAllBranches);
