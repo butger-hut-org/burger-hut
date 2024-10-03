@@ -16,12 +16,14 @@ async function getBranchById(req, res) {
     }
     const branch = await Branch.findById({ _id: branchId });
     if (branch) {
+      console.log("Successfully retrieved a branch");
       return res.status(StatusCodes.OK).json(branch);
     }
     return res
       .status(StatusCodes.NOT_FOUND)
       .json({ error: `Branch with id: ${branchId} not found!` });
   } catch (error) {
+    console.log("Error encountered while retrieving a branch");
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -33,6 +35,7 @@ async function getAllBranches(_, res) {
     const branches = await Branch.find();
     res.status(StatusCodes.OK).json(branches);
   } catch (error) {
+    console.log("Error encountered while retrieving branches");
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -63,6 +66,7 @@ async function createBranch(req, res) {
 
     const branch = new Branch({ ...branchData });
     await Branch.create(branch);
+    console.log("Successfully created a new branch");
     res.status(StatusCodes.OK).json({});
   } catch (error) {
     if (error.code === DUPLICATE_KEY_STATUS_CODE) {
@@ -72,6 +76,7 @@ async function createBranch(req, res) {
         )} already exists!`,
       });
     }
+    console.log("Error encountered while creating a new branch");
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -93,6 +98,7 @@ async function updateBranch(req, res) {
       { new: true, runValidators: true }
     );
     if (newBranch) {
+      console.log("Successfully updated a branch");
       return res.status(StatusCodes.OK).json(newBranch);
     }
     return res
@@ -106,6 +112,7 @@ async function updateBranch(req, res) {
         )} already exists!`,
       });
     }
+    console.log("Error encountered while updating a branch");
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -122,6 +129,7 @@ async function deleteBranchById(req, res) {
     }
     const deletedBranch = await Branch.findByIdAndDelete({ _id: branchId });
     if (deletedBranch) {
+      console.log("Successfully deleted a branch");
       return res
         .status(StatusCodes.OK)
         .json({ msg: `Successfully deleted branch ${branchId}!` });
@@ -130,6 +138,7 @@ async function deleteBranchById(req, res) {
       .status(StatusCodes.NOT_FOUND)
       .json({ error: `Branch with id: ${branchId} not found!` });
   } catch (error) {
+    console.log("Error encountered while deleting a branch");
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
