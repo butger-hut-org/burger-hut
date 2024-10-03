@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const jwt = require("jsonwebtoken");
@@ -18,7 +17,7 @@ const server = http.createServer(app);
 
 const run = async () => {
     try {
-        const port = process.env.PORT;
+        const port = 9898;
         server.listen(port, () =>
             console.log(`Server is listening on port ${port}...`)
         );
