@@ -1,6 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
 const Branch = require("../models/branch");
-const BaseError = require("../errors");
 const mongoose = require("mongoose");
 // const {postTweet} = require('../twitter');
 
