@@ -1,8 +1,8 @@
 const express = require('express');
 const appRouter = express.Router();
-const OrderRouter = require('./routes/orderRoutes');
-const UsersRouter = require('./routes/usersRoutes');
-const branchRouter = require('./routes/branchRoutes');
+const OrderRouter = require('./orderRoutes');
+const UsersRouter = require('./usersRoutes');
+const branchRouter = require('./branchRoutes');
 
 
 appRouter.use('/', UsersRouter);
