@@ -1,5 +1,8 @@
 const express = require('express');
-const AppRouter = express.Router();
+const appRouter = express.Router();
+const OrderRouter = require('./routes/orderRoutes');
+
+appRouter.use('/orders', OrderRouter);
 
 
-module.exports = AppRouter;
+module.exports = appRouter;
