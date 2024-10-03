@@ -4,6 +4,7 @@ const BaseError = require("../errors");
 const mongoose = require("mongoose");
 // const {postTweet} = require('../twitter');
 
+const DUPLICATE_KEY_STATUS_CODE = 11000;
 
 //TODO: add logs to functions
 async function getBranchById(req, res) {
@@ -62,27 +63,20 @@ async function createBranch(req, res) {
         .status(StatusCodes.BAD_REQUEST)
         .json("Not all required fields were provided!");
     }
-    // TODO: change duplicate entry validations
-    if (await Branch.findOne({ name: branchData.name })) {
-      return res
-        .status(StatusCodes.CONFLICT)
-        .json("A branch with this name already exists!");
-    }
-    if (await Branch.findOne({ name: branchData.phoneNumber })) {
-      return res
-        .status(StatusCodes.CONFLICT)
-        .json("A branch with this phone number already exists!");
-    }
-    if (await Branch.findOne({ name: branchData.address })) {
-      return res
-        .status(StatusCodes.CONFLICT)
-        .json("A branch with this address already exists!");
-    }
 
     const branch = new Branch({ ...branchData });
-    Branch.create(branch);
+    await Branch.create(branch);
     res.status(StatusCodes.OK).json({});
   } catch (error) {
+    if (error.code === DUPLICATE_KEY_STATUS_CODE) {
+      return res
+        .status(StatusCodes.CONFLICT)
+        .json({
+          error: `A branch with this ${Object.keys(
+            error.keyValue
+          )} already exists!`,
+        });
+    }
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -99,7 +93,9 @@ async function deleteBranchById(req, res) {
     }
     const deletedBranch = await Branch.findByIdAndDelete({ _id: branchId });
     if (deletedBranch) {
-      return res.status(StatusCodes.OK).json(`Successfully deleted branch ${branchId}!`);
+      return res
+        .status(StatusCodes.OK)
+        .json(`Successfully deleted branch ${branchId}!`);
     }
     return res
       .status(StatusCodes.NOT_FOUND)

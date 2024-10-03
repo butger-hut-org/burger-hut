@@ -19,7 +19,7 @@ const branchSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       required: true,
-      uniqure: true,
+      unique: true, //TODO: remember to change this to unique in the collection itself
     },
     active: {
       type: Boolean,
