@@ -1,6 +1,6 @@
 const express = require("express");
 const http = require("http");
-const jwt = require("jsonwebtoken");
+const AppRouter = require("./router");
 
 // main
 const app = express();
@@ -9,6 +9,7 @@ app.use(express.static("public"));
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded({extended: true})); // to support URL-encoded bodies
 app.set("view engine", "ejs");
+app.use('/api', AppRouter);
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home Page' });
   });
