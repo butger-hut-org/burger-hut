@@ -28,7 +28,7 @@ async function verifyJwt(req, res, next) {
     if (!token) {
         console.log("no token");
         // redirect if no token was supplied
-        res.redirect('/api/auth/login');
+        res.redirect('/api/users/login');
         // throw new BaseError.UnauthenticatedError('no jwt token provided, please log in first');
     }
 
@@ -41,7 +41,7 @@ async function verifyJwt(req, res, next) {
         //in case of invalid token
         // throw new BaseError.UnauthenticatedError('invalid jwt token');
         console.log("invalid token");
-        res.redirect('/api/auth/login')
+        res.redirect('/api/users/login')
     }
 }
 

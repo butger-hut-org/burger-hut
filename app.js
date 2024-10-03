@@ -7,6 +7,10 @@ require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+// middleware
+const middleware = require("./middleware/auth");
+const errorHandlerMiddleware = require("./middleware/error-handler");
+
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
 
@@ -23,9 +27,12 @@ mongoose.connect(process.env.MONGO_URI);
 //Routes
 app.use('/', webRouter);
 app.use('/api', appRouter);
-app.get('/', (req, res) => {
+
+app.get('/', async (req, res) => {
     res.redirect('/login'); // Redirect root to login page
-});
+    // res.render('/login', {isAuthenticated: await middleware.isLoggedIn(req),
+    //      isAdmin: await middleware.isAdmin(req)});
+})
 
 const server = http.createServer(app);
 

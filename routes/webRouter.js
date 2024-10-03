@@ -1,5 +1,5 @@
 const middleware = require("../middleware/auth")
-const auth = require("../controllers/users");
+const user = require("../controllers/users");
 const express = require('express');
 const router = express.Router();
 
@@ -7,10 +7,13 @@ const router = express.Router();
 router.get('/register', (req, res) => {
   res.render('public/register', {});
 });
+router.post("/register", middleware.prepareForRegistration, user.registerUser);
+
 
 // Route for login page
 router.get('/login', (req, res) => {
   res.render('public/login', {});
 });
+router.post("/login", user.login);
 
 module.exports = router;
