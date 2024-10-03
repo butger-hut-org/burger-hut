@@ -21,13 +21,11 @@ app.set("view engine", "ejs");
 mongoose.connect(process.env.MONGO_URI);
 
 //Routes
+app.use('/', appRouter);
 
-app.use('/', UsersRouter); 
-app.use('/api', appRouter);
 app.get('/', (req, res) => {
-    res.render('public/login', { title: 'Home Page' });
-  });
-
+    res.redirect('/login'); // Redirect root to login page
+});
 
 const server = http.createServer(app);
 
