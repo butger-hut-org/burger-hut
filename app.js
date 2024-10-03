@@ -1,6 +1,6 @@
 const express = require("express");
 const http = require("http");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 
 // main
 const app = express();
@@ -12,7 +12,14 @@ app.set("view engine", "ejs");
 app.get('/', (req, res) => {
     res.render('index', { title: 'Home Page' });
   });
-  
+
+
+// Route for login page
+app.get('/login', (req, res) => {
+  res.render('login'); // Render login.ejs
+});
+
+
 const server = http.createServer(app);
 
 const run = async () => {
