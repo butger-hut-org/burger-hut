@@ -21,9 +21,7 @@ async function getBranchById(req, res) {
     }
     return res
       .status(StatusCodes.NOT_FOUND)
-      .json(
-        new BaseError.NotFoundError(`Object with id: ${branchId} not found!`)
-      );
+      .json({ error: `Object with id: ${branchId} not found!` });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -61,7 +59,7 @@ async function createBranch(req, res) {
     ) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .json("Not all required fields were provided!");
+        .json({ error: "Not all required fields were provided!" });
     }
 
     const branch = new Branch({ ...branchData });
@@ -69,13 +67,11 @@ async function createBranch(req, res) {
     res.status(StatusCodes.OK).json({});
   } catch (error) {
     if (error.code === DUPLICATE_KEY_STATUS_CODE) {
-      return res
-        .status(StatusCodes.CONFLICT)
-        .json({
-          error: `A branch with this ${Object.keys(
-            error.keyValue
-          )} already exists!`,
-        });
+      return res.status(StatusCodes.CONFLICT).json({
+        error: `A branch with this ${Object.keys(
+          error.keyValue
+        )} already exists!`,
+      });
     }
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -95,13 +91,11 @@ async function deleteBranchById(req, res) {
     if (deletedBranch) {
       return res
         .status(StatusCodes.OK)
-        .json(`Successfully deleted branch ${branchId}!`);
+        .json({ msg: `Successfully deleted branch ${branchId}!` });
     }
     return res
       .status(StatusCodes.NOT_FOUND)
-      .json(
-        new BaseError.NotFoundError(`Object with id: ${branchId} not found!`)
-      );
+      .json({ error: `Object with id: ${branchId} not found!` });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
