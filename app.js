@@ -1,7 +1,11 @@
 const http = require("http");
+const jwt = require("jsonwebtoken");
+const appRouter = require("./router");
+require('dotenv').config();
+const UsersRouter = require('./routes/usersRoutes');
+
 const express = require("express");
 const mongoose = require("mongoose");
-const appRouter = require("./router");
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
@@ -14,13 +18,16 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 //Connect to mongodb database
-mongoose.connect(process.env.DATABASE_URI);
+mongoose.connect(process.env.MONGO_URI);
 
 //Routes
-app.use("/api", appRouter);
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home Page" });
-});
+
+app.use('/', UsersRouter); 
+app.use('/api', appRouter);
+app.get('/', (req, res) => {
+    res.render('public/login', { title: 'Home Page' });
+  });
+
 
 const server = http.createServer(app);
 
