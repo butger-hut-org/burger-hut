@@ -21,7 +21,7 @@ async function getBranchById(req, res) {
     }
     return res
       .status(StatusCodes.NOT_FOUND)
-      .json({ error: `Object with id: ${branchId} not found!` });
+      .json({ error: `Branch with id: ${branchId} not found!` });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -79,6 +79,40 @@ async function createBranch(req, res) {
   }
 }
 
+async function updateBranch(req, res) {
+  try {
+    const branchId = req.params.id;
+    const dataToUpdate = { ...req.body };
+    if (!mongoose.isValidObjectId(branchId)) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "Invalid branch ID format" });
+    }
+    const newBranch = await Branch.findOneAndUpdate(
+      { _id: branchId },
+      dataToUpdate,
+      { new: true, runValidators: true }
+    );
+    if (newBranch) {
+      return res.status(StatusCodes.OK).json(newBranch);
+    }
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ error: `Branch with id: ${branchId} not found!` });
+  } catch (error) {
+    if (error.code === DUPLICATE_KEY_STATUS_CODE) {
+      return res.status(StatusCodes.CONFLICT).json({
+        error: `A branch with this ${Object.keys(
+          error.keyValue
+        )} already exists!`,
+      });
+    }
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
+  }
+}
+
 async function deleteBranchById(req, res) {
   try {
     const branchId = req.params.id;
@@ -95,7 +129,7 @@ async function deleteBranchById(req, res) {
     }
     return res
       .status(StatusCodes.NOT_FOUND)
-      .json({ error: `Object with id: ${branchId} not found!` });
+      .json({ error: `Branch with id: ${branchId} not found!` });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -108,4 +142,5 @@ module.exports = {
   getAllBranches,
   createBranch,
   deleteBranchById,
+  updateBranch,
 };
