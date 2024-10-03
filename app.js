@@ -1,9 +1,8 @@
 const http = require("http");
 const jwt = require("jsonwebtoken");
-const appRouter = require("./routes/mainRouter");
-const webRouter = require("./routes/webRouter");
+const appRouter = require("./routes/apiRoutes/apiRouter");
+const webRouter = require("./routes/webRoutes/webRouter");
 require('dotenv').config();
-const UsersRouter = require('./routes/usersRoutes');
 
 const express = require("express");
 const mongoose = require("mongoose");
