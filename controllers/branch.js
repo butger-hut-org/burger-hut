@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
 
-//TODO: add logs to functions
+//TODO: add time to logs
 async function getBranchById(req, res) {
   try {
     const branchId = req.params.id;
@@ -63,11 +63,9 @@ async function createBranch(req, res) {
         .status(StatusCodes.BAD_REQUEST)
         .json({ error: "Not all required fields were provided!" });
     }
-
-    const branch = new Branch({ ...branchData });
-    await Branch.create(branch);
+    const branch = await Branch.create(new Branch({ ...branchData }));
     console.log("Successfully created a new branch");
-    res.status(StatusCodes.OK).json({});
+    res.status(StatusCodes.CREATED).json(branch);
   } catch (error) {
     if (error.code === DUPLICATE_KEY_STATUS_CODE) {
       return res.status(StatusCodes.CONFLICT).json({
@@ -92,14 +90,14 @@ async function updateBranch(req, res) {
         .status(StatusCodes.BAD_REQUEST)
         .json({ error: "Invalid branch ID format" });
     }
-    const newBranch = await Branch.findOneAndUpdate(
+    const updatedBranch = await Branch.findOneAndUpdate(
       { _id: branchId },
       dataToUpdate,
       { new: true, runValidators: true }
     );
-    if (newBranch) {
+    if (updatedBranch) {
       console.log("Successfully updated a branch");
-      return res.status(StatusCodes.OK).json(newBranch);
+      return res.status(StatusCodes.OK).json(updatedBranch);
     }
     return res
       .status(StatusCodes.NOT_FOUND)
