@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const appRouter = require("./router");
+require('dotenv').config();
 
 // main
 const app = express();
@@ -18,7 +19,7 @@ const server = http.createServer(app);
 
 const run = async () => {
     try {
-        const port = 9898;
+        const port = process.env.PORT;
         server.listen(port, () =>
             console.log(`Server is listening on port ${port}...`)
         );
