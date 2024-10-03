@@ -6,5 +6,6 @@ const branchController = require('../controllers/branch');
 router.get('/:id', branchController.getBranchById);
 router.get('/', branchController.getAllBranches);
 router.post('/', branchController.createBranch);
+router.delete('/:id', branchController.deleteBranchById);
 
 module.exports = router;

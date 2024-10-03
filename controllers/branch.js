@@ -4,17 +4,25 @@ const BaseError = require("../errors");
 const mongoose = require("mongoose");
 // const {postTweet} = require('../twitter');
 
+
+//TODO: add logs to functions
 async function getBranchById(req, res) {
   try {
     const branchId = req.params.id;
     if (!mongoose.isValidObjectId(branchId)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid branch ID format' });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "Invalid branch ID format" });
     }
-    const branch = await Branch.findById({_id: branchId});
+    const branch = await Branch.findById({ _id: branchId });
     if (branch) {
-        return res.status(StatusCodes.OK).json(branch);
+      return res.status(StatusCodes.OK).json(branch);
     }
-    return res.status(StatusCodes.NOT_FOUND).json(new BaseError.NotFoundError(`Object with id: ${branchId} not found!`));
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json(
+        new BaseError.NotFoundError(`Object with id: ${branchId} not found!`)
+      );
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -81,8 +89,33 @@ async function createBranch(req, res) {
   }
 }
 
+async function deleteBranchById(req, res) {
+  try {
+    const branchId = req.params.id;
+    if (!mongoose.isValidObjectId(branchId)) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ error: "Invalid branch ID format" });
+    }
+    const deletedBranch = await Branch.findByIdAndDelete({ _id: branchId });
+    if (deletedBranch) {
+      return res.status(StatusCodes.OK).json(`Successfully deleted branch ${branchId}!`);
+    }
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json(
+        new BaseError.NotFoundError(`Object with id: ${branchId} not found!`)
+      );
+  } catch (error) {
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
+  }
+}
+
 module.exports = {
   getBranchById,
   getAllBranches,
   createBranch,
+  deleteBranchById,
 };
