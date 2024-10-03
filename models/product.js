@@ -25,6 +25,6 @@ var productSchema = new mongoose.Schema({
 
 const myDB = mongoose.connection.useDb('products');
 
-// var Product = mongoose.model('product', productSchema);
+var Product = mongoose.model('product', productSchema);
 
 exports = module.exports = Product;
