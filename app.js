@@ -1,35 +1,45 @@
-const express = require("express");
 const http = require("http");
 const jwt = require("jsonwebtoken");
 const appRouter = require("./router");
 require('dotenv').config();
 const UsersRouter = require('./routes/usersRoutes');
 
+const express = require("express");
+const mongoose = require("mongoose");
 
-// main
+//Make sure your .env file contains everything required for you application to operate properly.
+require("dotenv").config();
+
 const app = express();
-app.use(express.static("public"));
 
-app.use(express.json()); // to support JSON-encoded bodies
-app.use(express.urlencoded({extended: true})); // to support URL-encoded bodies
+app.use(express.json());
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+
+//Connect to mongodb database
+mongoose.connect(process.env.MONGO_URI);
+
+//Routes
+
 app.use('/', UsersRouter); 
 app.use('/api', appRouter);
 app.get('/', (req, res) => {
     res.render('public/login', { title: 'Home Page' });
   });
 
+
 const server = http.createServer(app);
 
 const run = async () => {
-    try {
-        const port = process.env.PORT;
-        server.listen(port, () =>
-            console.log(`Server is listening on port ${port}...`)
-        );
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    const port = process.env.PORT;
+    server.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 run();
