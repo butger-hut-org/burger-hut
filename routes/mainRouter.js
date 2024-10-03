@@ -5,7 +5,7 @@ const UsersRouter = require('./usersRoutes');
 const branchRouter = require('./branchRoutes');
 
 
-appRouter.use('/', UsersRouter);
+appRouter.use('/users', UsersRouter);
 appRouter.use('/orders', OrderRouter);
 appRouter.use('/branches', branchRouter);
 
