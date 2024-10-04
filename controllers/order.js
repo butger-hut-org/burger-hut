@@ -1,6 +1,7 @@
 const {StatusCodes} = require('http-status-codes');
 const { Order } = require('../models/order');
 const { Product } = require('../models/product');
+const { User } = require('../models/user')
 const mongoose = require('mongoose');
 
 async function orderCreate(req, res) {
@@ -71,23 +72,50 @@ async function orderCreate(req, res) {
         .json({ error: 'An unexpected error occurred' });
     }
   }
-  
-async function orderDelete (req, res) {
-    user = await User.findOne({username: req.body.user.username});
-    if (!user) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: `No user: ${req.body.user.username}` });
-    }
 
-    result = await Order.findOneAndDelete({user: user});
-    if (!result) {
+  async function orderDelete(req, res) {
+    try {
+      if (!req.body.user || !req.body.user._id) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ error: 'User is not authenticated' });
+      }
+      const userId = req.body.user._id;
+      const orderId = req.body.orderId;
+      if (!orderId) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ error: `Failed to delete order` });
+          .json({ error: 'Order ID is required' });
+      }
+      if (!mongoose.Types.ObjectId.isValid(orderId)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: `Invalid order ID: ${orderId}` });
+      }
+      const order = await Order.findById(orderId);
+      if (!order) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: 'Order not found' });
+      }
+      if (!order.user.equals(userId)) {
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .json({ error: 'You are not authorized to delete this order' });
+      }
+      await Order.findByIdAndDelete(orderId);
+      return res.status(StatusCodes.OK).json({
+        message: 'Order deleted successfully',
+        orderId: orderId,
+      });
+    } catch (err) {
+      console.error('Error in orderDelete:', err);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: 'An unexpected error occurred' });
     }
-    res.status(StatusCodes.OK).json({result});
-}
+  }
+  
 
 async function orderList (req, res) {return res.status(StatusCodes.CREATED).json({});}
 

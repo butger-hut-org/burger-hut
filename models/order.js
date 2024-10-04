@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
-const { productSchema } = require('./product'); // Adjust the path as necessary
+const { productSchema } = require('./product'); 
 
-// Define the orderProductSchema by adding the 'amount' field
+
 const orderProductSchema = new mongoose.Schema({
-  product: productSchema, // Embed productSchema under 'product' field
+  product: productSchema, 
   amount: {
     type: Number,
     required: true,
   },
 }, { _id: false });
 
-// Define the main orderSchema
 const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   products: [orderProductSchema],
