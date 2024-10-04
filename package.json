@@ -5,25 +5,28 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "dev": "nodemon --watch views --ext js,ejs,css app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "browser-sync": "^3.0.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "http-status-codes": "^2.3.0",
-    "mongoose": "^8.7.0"
+    "mongoose": "^8.7.0",
+    "nodemon": "^3.1.7"
   },
   "dependencies": {
-    "joi": "^17.13.3",
-    "jsonwebtoken": "^9.0.2",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "http-status-codes": "^2.3.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0"
   }
 }

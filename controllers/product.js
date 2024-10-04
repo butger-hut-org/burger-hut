@@ -5,7 +5,7 @@ const BaseError = require('../errors');
 // const {postTweet} = require('../twitter');
 
 
-const productCreate = async (req, res) => {
+async function productCreate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.price ||
         !req.body.category || !req.body.size || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
@@ -29,7 +29,7 @@ const productCreate = async (req, res) => {
     return res.status(StatusCodes.CREATED).json({result});
 }
 
-const productUpdate = async (req, res) => {
+async function productUpdate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.price ||
         !req.body.category || !req.body.size || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
@@ -51,7 +51,7 @@ const productUpdate = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 }
 
-const productDelete = async (req, res) => {
+async function productDelete(req, res) {
     result = await Product.findOneAndDelete({name: req.body.name});
     if (!result) {
         throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.name}`);
@@ -60,7 +60,7 @@ const productDelete = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 };
 
-const productList = async (req, res) => {
+async function productList(req, res) {
     result = await Product.find();
     if (!result) {
         throw new BaseError.InternalError("Failed to list products");
@@ -69,7 +69,7 @@ const productList = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 };
 
-const productSearch = async (req, res) => {
+async function productSearch(req, res) {
     result = await Product.findOne({name: req.body.name});
     if (!result) {
         throw new BaseError.NotFoundError(`No product: ${req.body.name}`);
@@ -78,7 +78,7 @@ const productSearch = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 };
 
-const productSpecificSearch = async (req, res) => {
+async function productSpecificSearch(req, res) {
     let searchParametrs = [];
 
     if (!req.query["category"].includes("All")) {
