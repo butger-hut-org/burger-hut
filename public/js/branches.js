@@ -1,6 +1,10 @@
+require("dotenv").config();
+
 $(document).ready(function () {
   initializePage();
 });
+
+const port = process.env.PORT;
 
 function initializePage() {
   $("#newBranchForm").hide();
@@ -20,7 +24,7 @@ function initializePage() {
 function getBranches() {
   $.ajax({
     type: "GET",
-    url: "http://localhost:9898/api/branches",
+    url: `http://localhost:${port}/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (response) {
@@ -56,7 +60,7 @@ function getBranches() {
 function editBranch(branchId) {
   $.ajax({
     type: "GET",
-    url: `http://localhost:9898/api/branches/${branchId}`,
+    url: `http://localhost:${port}/api/branches/${branchId}`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (branch) {
@@ -80,7 +84,7 @@ function deleteBranch(branchId) {
   if (confirm("Are you sure you want to delete this branch?")) {
     $.ajax({
       type: "DELETE",
-      url: `http://localhost:9898/api/branches/${branchId}`,
+      url: `http://localhost:${port}/api/branches/${branchId}`,
       success: function () {
         // Reload the branches list after deletion
         $("#branchList").empty();
@@ -114,7 +118,7 @@ function saveBranch() {
 function updateBranch(branchId, branchData) {
   $.ajax({
     type: "PUT",
-    url: `http://localhost:9898/api/branches/${branchId}`,
+    url: `http://localhost:${port}/api/branches/${branchId}`,
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
@@ -131,7 +135,7 @@ function updateBranch(branchId, branchData) {
 function createBranch(branchData) {
   $.ajax({
     type: "POST",
-    url: "http://localhost:9898/api/branches",
+    url: `http://localhost:${port}/api/branches`,
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
