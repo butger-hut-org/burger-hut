@@ -55,8 +55,7 @@ async function createBranch(req, res) {
     !branchData.name ||
     !branchData.address ||
     !branchData.city ||
-    !branchData.phoneNumber ||
-    !branchData.active
+    !branchData.phoneNumber
   ) {
     return res
       .status(StatusCodes.BAD_REQUEST)

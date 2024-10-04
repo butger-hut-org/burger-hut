@@ -66,7 +66,7 @@ function editBranch(branchId) {
       $("#branchAddress").val(branch.address);
       $("#branchCity").val(branch.city);
       $("#branchPhoneNumber").val(branch.phoneNumber);
-      // Show the form
+      $("#branchStatus").prop('checked', branch.active);
       $("#saveBranchButton").text("Save");
       $("#newBranchForm").show();
     },
@@ -101,7 +101,7 @@ function saveBranch() {
       address: $("#branchAddress").val(),
       city: $("#branchCity").val(),
       phoneNumber: $("#branchPhoneNumber").val(),
-      active: true,
+      active: $("#branchStatus").prop('checked'),
     };
     if (branchId) {
       updateBranch(branchId, branchData);
@@ -151,4 +151,5 @@ function resetForm() {
   $("#branchAddress").val("");
   $("#branchCity").val("");
   $("#branchPhoneNumber").val("");
+  $("#branchStatus").prop('checked', false);
 }

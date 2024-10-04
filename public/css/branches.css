@@ -25,3 +25,15 @@
     border-radius: 10px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba
 }
+/* Styling for the checkbox and label container */
+.form-group {
+    display: flex;              /* Flexbox layout for inline elements */
+    align-items: center;       /* Vertically centers items */
+    margin: 15px 0;           /* Space between form elements */
+    color: #ffffff;            /* White text for label */
+    font-size: 14px;           /* Consistent font size */
+}
+
+.form-group label {
+    margin-right: 10px;        /* Space between label and checkbox */
+}
