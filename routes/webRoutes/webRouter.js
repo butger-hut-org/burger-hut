@@ -8,6 +8,8 @@ router.get("/register", (req, res) => {
   res.render("public/register", {});
 });
 
+
+
 // Route for login page
 router.get("/login", (req, res) => {
   res.render("public/login", {});

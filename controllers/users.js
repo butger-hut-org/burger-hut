@@ -1,5 +1,5 @@
 // USER CONTROLLER
-const {User, validateUser, validateLogin} = require("../models/user.js");
+const { User, validateUser, validateLogin } = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const BaseError = require('../errors');
@@ -7,49 +7,55 @@ require('dotenv').config();
 
 const COOKIE_MAX_AGE = 2 * 60 * 60 * 1000;
 
-async function registerUser(req, res) {
-    let user = new User({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        creditNumber:req.body.creditNumber,
-        date: req.body.date,
-        cvv: req.body.cvv,
-        admin: req.body.admin
-    });
-    // validate the request body first
-    const {error} = validateUser(req.body);
-    if (error) {
-        throw new BaseError.BadRequestError(error.details[0].message);
+async function registerUser(req, res, next) {
+    try {
+        let user = new User({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email,
+            creditNumber: req.body.creditNumber,
+            date: req.body.date,
+            cvv: req.body.cvv,
+            admin: req.body.admin
+        });
+        // validate the request body first
+        const { error } = validateUser(req.body);
+        if (error) {
+            throw new BaseError.BadRequestError(error.details[0].message);
+        }
+        //find an existing user
+        if (await User.findOne({ email: user.email }) || await User.findOne({ username: user.username })) {
+            throw new BaseError.BadRequestError('User already registered');
+        }
+
+        console.log('after checks')
+        user.password = await bcrypt.hash(user.password, 10);
+        await user.save();
+
+        const token = user.generateAuthToken();
+
+        res.cookie("jwt", token, {
+            maxAge: COOKIE_MAX_AGE,
+            httpOnly: true,
+            sameSite: true,
+            secure: true,
+            sameSite: 'strict'
+        });
+        res.json({message: "Registered Successfully"})
+    } catch (error) {
+        console.log('sending to error handler')
+        next(error)
     }
-    //find an existing user
-    if (await User.findOne({email: user.email}) || await User.findOne({username: user.username})) {
-        throw new BaseError.BadRequestError('User already registered');
-    }
-
-    user.password = await bcrypt.hash(user.password, 10);
-    await user.save();
-
-    const token = user.generateAuthToken();
-
-    res.cookie("jwt", token, {
-        maxAge: COOKIE_MAX_AGE,
-        httpOnly: true,
-        sameSite: true,
-        secure: true,
-        sameSite: 'strict'
-    });
-    res.redirect('/');
 }
 
 async function login(req, res) {
     console.log('[Login]', req.body);
-    const {error} = validateLogin(req.body);
+    const { error } = validateLogin(req.body);
     if (error) {
         console.log("error")
         throw new BaseError.BadRequestError(error.details[0].message);
     }
-    let user = await User.findOne({username: req.body.username})
+    let user = await User.findOne({ username: req.body.username })
     console.log(user)
     if (!user) {
         console.log("!user")
@@ -86,11 +92,11 @@ async function listUsers(req, res) {
 }
 
 async function deleteUser(req, res) {
-    const deletedUser = await User.findOneAndDelete({username: req.body.userToDelete});
+    const deletedUser = await User.findOneAndDelete({ username: req.body.userToDelete });
     if (!deletedUser) {
         throw new BaseError.BadRequestError('user does not exist');
     }
     res.send(`the user "${deletedUser.username}" was deleted`);
 }
 
-module.exports = {registerUser, login, listUsers, deleteUser, logout};
+module.exports = { registerUser, login, listUsers, deleteUser, logout };

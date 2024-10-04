@@ -22,21 +22,14 @@ app.set("view engine", "ejs");
 mongoose.connect(process.env.MONGO_URI);
 
 //Routes
-<<<<<<< HEAD
-app.use('/', webRouter);
-app.use('/api', apiRouter);
-app.get('/', (req, res) => {
-    res.redirect('/login'); // Redirect root to login page
-    // res.render('/login', {isAuthenticated: await middleware.isLoggedIn(req),
-    //      isAdmin: await middleware.isAdmin(req)});
-})
-=======
 app.use("/", webRouter);
 app.use("/api", apiRouter);
 app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
->>>>>>> 5da78581a2bb7815d5d273ebf7c5b7f04bfa5ad8
+
+// Error handler middleware
+app.use(errorHandlerMiddleware);
 
 const server = http.createServer(app);
 

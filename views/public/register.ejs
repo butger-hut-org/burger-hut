@@ -1,27 +1,33 @@
 <!DOCTYPE html>
-<html>
-<html>
+<html lang="en"></html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="/public/css/login.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="body">
-<form class="login_form" method="post">
-    <h1 class="formtitle">REGISTRATION</h1>
-    <input name="email" type="text" placeholder=" Email address"/>
-    <input name="username" type="text" placeholder=" Username"/>
-    <input name="password" type="password" id="password" placeholder=" Password"/>
-    <input name="confirmPassword" type="password" id="confirmPassword" placeholder=" Confirm password"/>
-    <input name="creditNumber" type="text" placeholder=" Credit number"/>
-    <input name="date" type="text" placeholder=" Date"/>
-    <input name="cvv" type="text" placeholder=" CVV"/>
-    <button type="submit">REGISTER</button>
-    <button type="button" onclick="window.location.href='/'">BACK TO LOGIN</button>
-</form>
-</body>
+    <form class="login_form" id="register_form">
+        <h1 class="formtitle">REGISTRATION</h1>
+        <input name="email" type="email" placeholder="Email address" required />
+        <input name="username" type="text" placeholder="Username" required />
+        <input name="password" type="password" id="password" placeholder="Password" required />
+        <input name="confirmPassword" type="password" id="confirmPassword" placeholder="Confirm password" required />
+        <input name="creditNumber" type="text" placeholder="Credit number" pattern="\d{13,19}" title="13-19 digits credit number" required />
+        <input name="date" type="date" placeholder="Date" required />
+        <input name="cvv" type="text" placeholder="CVV" pattern="\d{3,4}" title="3-4 digits CVV" required />
+        <button type="submit">REGISTER</button>
+        <button type="button" onclick="window.location.href='/'">BACK TO LOGIN</button>
+    </form>
 
-</html>
+    <!-- Error message display -->
+    <div id="error-message" style="color: red;"></div>
+
+    <!-- Reference to the external JavaScript file -->
+    <script src="/public/js/register.js"></script>
+</body>
 
 </html>

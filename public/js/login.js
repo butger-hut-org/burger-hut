@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 $("#login_form").submit(function (event) {
     event.preventDefault();
+    console.log('fdsfs');
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;

@@ -1,16 +1,17 @@
-const {StatusCodes} = require('http-status-codes');
+const errorHandlerMiddleware = (err, req, res, next) => {
+    console.log('Error handling')
+    const statusCode = err.statusCode || 500;
 
-const errorHandlerMiddleware = (err, _req, res, _next) => {
-    if (err.name === 'CastError') {
-        err.message = `No item found with id : ${err.value}`;
-        err.statusCode = StatusCodes.NOT_FOUND;
-    } else if (err.name === 'ValidationError') {
-        err.message = `Got invalid values : ${err.value}`;
-        err.statusCode = StatusCodes.BAD_REQUEST;
+    // Check if the error occurred on the register page
+    if (req.originalUrl === '/register') {
+        return res.status(statusCode).render('register', { error: err.message });
     }
 
-    console.error(`Something went wrong: ${err}`);
-    return res.status(err.statusCode).json({msg: err});
+    // For other routes, handle errors as needed
+    res.status(statusCode).send({
+        status: 'error',
+        message: err.message,
+    });
 };
 
 module.exports = errorHandlerMiddleware;

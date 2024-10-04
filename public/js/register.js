@@ -1,34 +1,62 @@
-$("#register_form").submit(function (event) {
-    event.preventDefault();
+$(document).ready(function() {
+    $("#register_form").submit(function (event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    const formData = {
-        email: document.querySelector('input[name="email"]').value,
-        username: document.querySelector('input[name="username"]').value,
-        password: document.querySelector('input[name="password"]').value,
-        confirmPassword: document.querySelector('input[name="confirmPassword"]').value,
-        creditNumber: document.querySelector('input[name="creditNumber"]').value,
-        date: document.querySelector('input[name="date"]').value,
-        cvv: document.querySelector('input[name="cvv"]').value
-    };
+        // Collect form data
+        const email = $('input[name="email"]').val().trim();
+        const username = $('input[name="username"]').val().trim();
+        const password = $('input[name="password"]').val();
+        const confirmPassword = $('input[name="confirmPassword"]').val();
+        const creditNumber = $('input[name="creditNumber"]').val().trim();
+        const date = $('input[name="date"]').val().trim();
+        const cvv = $('input[name="cvv"]').val().trim();
 
-    var registerRequest = new Request('register', {
-        headers: { "Content-Type": "application/json" },
-        method: 'POST',
-        body: JSON.stringify(formData)
-    });
+        // Basic validation
+        if (!email || !username || !password || !confirmPassword || !creditNumber || !date || !cvv) {
+            document.getElementById('error-message').innerText = 'All fields are required.';
+            return; // Stop the submission
+        }
 
-    fetch(registerRequest)
-        .then(response => response.json())
-        .then(data => {
-            if (data.msg) {
-                // Display the error message from the response
-                document.getElementById('error-message').innerText = data.msg;
-            } else {
-                window.location.replace('/');
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            document.getElementById('error-message').innerText = 'An error occurred. Please try again.';
+        if (password !== confirmPassword) {
+            document.getElementById('error-message').innerText = 'Passwords do not match.';
+            return; // Stop the submission
+        }
+
+        // Prepare the request
+        const formData = {
+            email,
+            username,
+            password,
+            confirmPassword,
+            creditNumber,
+            date,
+            cvv
+        };
+
+        var registerRequest = new Request('/api/users/register', {
+            headers: { "Content-Type": "application/json" },
+            method: 'POST',
+            body: JSON.stringify(formData)
         });
+
+        // Send the request
+        fetch(registerRequest)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        // Throw an error with the message from the error response
+                        throw new Error(errorData.message || 'An error occurred');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Success')
+                window.location.replace('/'); // Redirect on success
+            })
+            .catch(err => {
+                console.log(err);
+                document.getElementById('error-message').innerText = err.message || 'An error occurred. Please try again.';
+            });
+    });
 });
