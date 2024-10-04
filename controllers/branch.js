@@ -6,7 +6,6 @@ const logger = require("../middleware/logger");
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
 
-// TODO: clear form values when canceling
 async function getBranchById(req, res) {
   const branchId = req.params.id;
   if (!mongoose.isValidObjectId(branchId)) {
