@@ -63,7 +63,23 @@ async function orderCreate (req, res) {
 
     return res.status(StatusCodes.CREATED).json({result});
 }
-async function orderDelete (req, res) {return res.status(StatusCodes.CREATED).json({});}
+async function orderDelete (req, res) {
+    user = await User.findOne({username: req.body.user.username});
+    if (!user) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: `No user: ${req.body.user.username}` });
+    }
+
+    result = await Order.findOneAndDelete({user: user});
+    if (!result) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: `Failed to delete order` });
+    }
+    res.status(StatusCodes.OK).json({result});
+}
+
 async function orderList (req, res) {return res.status(StatusCodes.CREATED).json({});}
 
 module.exports = {
