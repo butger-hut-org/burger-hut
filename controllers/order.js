@@ -1,68 +1,77 @@
 const {StatusCodes} = require('http-status-codes');
-const {Order, OrderedProduct} = require('../models/order');
-const Product = require('../models/product');
+const { Order } = require('../models/order');
+const { Product } = require('../models/product');
+const mongoose = require('mongoose');
 
-async function orderCreate (req, res) {
-    if (!req.body.productName || !req.body.amount) {
-        throw new BaseError.BadRequestError('Please provide values');
-    }
-
-    product_scheme = await Product.findOne({name: req.body.productName});
-    if (!product_scheme) {
+async function orderCreate(req, res) {
+    try {
+      const userId = req.body.user && req.body.user._id;
+      if (!userId) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ error: "Invalid Product" });
-    }
+          .json({ error: 'User ID is required' });
+      }
 
-    orderedProduct = new OrderedProduct({
-        product: product_scheme._id,
-        amount: req.body.amount
-    });
-
-    if (req.body.setAmount) {
-        update = {$set: {"products.$.amount": req.body.amount}};
-        result = await Order.updateOne({
-            user: req.user._id,
-            products: {$elemMatch: {product: product_scheme._id}}
-        }, update);
-        if (!result) {
-            return res
-              .status(StatusCodes.BAD_REQUEST)
-              .json({ error: "Failed to update amount" });
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: `Invalid user ID: ${userId}` });
+      }
+  
+      const userObjectId = new mongoose.Types.ObjectId(userId);
+  
+      const products = req.body.products;
+      if (!Array.isArray(products) || products.length === 0) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ error: 'Products must be a non-empty array' });
+      }
+  
+      const orderProducts = [];
+  
+      for (const item of products) {
+        const productData = item.product;
+        const amount = item.amount;
+  
+        if (!productData || !amount) {
+          return res.status(StatusCodes.BAD_REQUEST).json({
+            error: 'Each product must have product details and an amount',
+          });
         }
-    } else {
-        try {
-            order = await Order.findOne({user: req.user._id});
-            if (!order) {
-                return res
-                  .status(StatusCodes.BAD_REQUEST)
-                  .json({ error: `No user: ${req.user._id}` });
-            }
-
-            result = await Order.updateOne({user: req.user._id},
-                {$push: {products: orderedProduct}});
-            if (!result) {
-                return res
-                  .status(StatusCodes.BAD_REQUEST)
-                  .json({ error: "Failed to save new product" });
-            }
-        } catch (error) {
-            newOrder = new Order({
-                user: req.user._id,
-                products: [orderedProduct]
+        const { name, price } = productData;
+        if (!name || price === undefined) {
+          return res.status(StatusCodes.BAD_REQUEST).json({
+            error: 'Product name and price are required',
+          });
+        }
+        let product = await Product.findOne({ name: productData.name });
+  
+        if (!product) {
+            return res.status(StatusCodes.BAD_REQUEST).json({
+              error: 'Product does not exist',
             });
-            result = await newOrder.save();
-            if (!result) {
-                return res
-                  .status(StatusCodes.BAD_REQUEST)
-                  .json({ error: "Failed to save new product" });
-            }
-        }
+        } 
+        const orderProduct = {
+          product: product.toObject({ versionKey: false }), // Exclude __v field
+          amount: amount,
+        };
+        orderProducts.push(orderProduct);
+      }
+      const order = new Order({
+        user: userObjectId,
+        products: orderProducts,
+      });
+      const result = await order.save();
 
+      return res.status(StatusCodes.CREATED).json({ order: result });
+    } catch (err) {
+      console.error('Error in orderCreate:', err);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: 'An unexpected error occurred' });
     }
-
-    return res.status(StatusCodes.CREATED).json({result});
-}
+  }
+  
 async function orderDelete (req, res) {
     user = await User.findOne({username: req.body.user.username});
     if (!user) {

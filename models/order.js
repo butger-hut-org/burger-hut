@@ -1,21 +1,22 @@
 const mongoose = require('mongoose');
+const { productSchema } = require('./product'); // Adjust the path as necessary
 
-const OrderedProductSchema = new mongoose.Schema({
-    product: {type: mongoose.Schema.Types.ObjectId, ref: 'Product'},
-    amount: {
-        type: Number
-    }
-});
+// Define the orderProductSchema by adding the 'amount' field
+const orderProductSchema = new mongoose.Schema({
+  product: productSchema, // Embed productSchema under 'product' field
+  amount: {
+    type: Number,
+    required: true,
+  },
+}, { _id: false });
 
+// Define the main orderSchema
 const orderSchema = new mongoose.Schema({
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    products: [OrderedProductSchema],
-}, {autoCreate: true});
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  products: [orderProductSchema],
+  orderDate: { type: Date, default: Date.now },
+}, { autoCreate: true });
 
-const myDB = mongoose.connection.useDb('orders');
+const Order = mongoose.model('Order', orderSchema);
 
-const OrderedProduct = mongoose.model('orderedProduct', OrderedProductSchema);
-
-const Order = mongoose.model('order', orderSchema);
-
-module.exports = {Order, OrderedProduct}
+module.exports = { Order };
