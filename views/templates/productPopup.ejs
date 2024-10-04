@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<%- include ("./includes/head") %>
-
 <body>
     <div class="container mt-5 text-center">
-        <h1>Add Food Product</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">Add Product</button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered"> <!-- Added modal-dialog-centered -->
+        <div class="modal fade" id="addProductPopup" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
@@ -54,15 +46,11 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" form="addProductForm" class="btn btn-primary">Add Product</button>
+                        <button type="submit" form="newProductForm" class="btn btn-primary" onclick="createProduct()">DONE</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-        
-    <%- include ("./includes/scripts") %>
     
 </body>
-</html>

@@ -52,9 +52,9 @@ async function productUpdate(req, res) {
 }
 
 async function productDelete(req, res) {
-    result = await Product.findOneAndDelete({name: req.body.name});
+    result = await Product.findOneAndDelete({_id: req.body.productId});
     if (!result) {
-        throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.name}`);
+        throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.productId}`);
     }
 
     res.status(StatusCodes.OK).json({result});
