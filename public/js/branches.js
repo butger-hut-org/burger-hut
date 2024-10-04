@@ -5,6 +5,7 @@ $(document).ready(function () {
 function initializePage() {
     $('#newBranchForm').hide();
     $('#addBranchButton').click(function () {
+        $('#saveBranchButton').text('Create');
         $('#newBranchForm').toggle();
     });
     $('#cancelButton').click(function () {
@@ -64,6 +65,7 @@ function editBranch(branchId) {
             $('#branchCity').val(branch.city);
             $('#branchPhoneNumber').val(branch.phoneNumber);
             // Show the form
+            $('#saveBranchButton').text('Save');
             $('#newBranchForm').show();
         },
         error: function (response) {
