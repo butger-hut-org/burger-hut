@@ -1,7 +1,7 @@
 const http = require("http");
 const jwt = require("jsonwebtoken");
-const appRouter = require("./routes/mainRouter");
-const webRouter = require("./routes/webRouter");
+const apiRouter = require("./routes/apiRoutes/apiRouter");
+const webRouter = require("./routes/webRoutes/webRouter");
 require('dotenv').config();
 
 const express = require("express");
@@ -26,9 +26,8 @@ mongoose.connect(process.env.MONGO_URI);
 
 //Routes
 app.use('/', webRouter);
-app.use('/api', appRouter);
-
-app.get('/', async (req, res) => {
+app.use('/api', apiRouter);
+app.get('/', (req, res) => {
     res.redirect('/login'); // Redirect root to login page
     // res.render('/login', {isAuthenticated: await middleware.isLoggedIn(req),
     //      isAdmin: await middleware.isAdmin(req)});
