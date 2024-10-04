@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branches</title>
+    <style>
+        .branch-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Branches</h1>
+    <button id="addBranchButton">Add Branch</button>
+    <div id="newBranchForm">
+        <form id="branchForm" method="post">
+            <h1 class="formtitle">Add a new branch</h1>
+            <input id="branchId" type="hidden" name="branchId" />
+            <input id="branchName" type="text" name="Branch Name" placeholder="Branch Name"/>
+            <input id="branchAddress" type="text" name="Address" placeholder="Address"/>
+            <input id="branchCity" type="text" name="City" placeholder="City"/>
+            <input id="branchPhoneNumber" type="text" name="Phone Number" placeholder="Phone Number"/>
+            <button id="saveBranchButton" type="button">Create</button>
+            <button id="cancelButton" type="button">Cancel</button>
+        </form>
+    </div>
+    <div id="branchList">
+        <!-- Branch cards will be appended here by JavaScript -->
+    </div>
+    <!-- Template for a branch card -->
+    <script type="text/template" id="branchCard">
+        <div class="branch-card">
+            <h2>Branch Name: {name}</h2>
+            <p>Address: {address}, {city}</p>
+            <p>Phone number: {phoneNumber}</p>
+            <button class="editBranchButton" data-id="{_id}">Edit</button>
+            <button class="deleteBranchButton" data-id="{_id}">Delete</button>
+        </div>
+    </script>
+
+    <!-- Reference to the external JavaScript file -->
+    <script src="/public/js/branches.js"></script>
+</body>
+
+</html>
