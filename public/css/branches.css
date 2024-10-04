@@ -1,0 +1,27 @@
+/* General page styling */
+.body {
+    background-color: #222831;
+    /*background-image: url('../images/login.jpg');*/
+    background-size: fill;
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Title styling */
+.formtitle {
+    font-family: "Dancing Script", Fantasy;
+    color: #ffffff;
+}
+
+/* Styling for the branch form container */
+#newBranchForm {
+    background: #53566c;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba
+}

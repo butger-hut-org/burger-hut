@@ -82,7 +82,6 @@ function deleteBranch(branchId) {
       type: "DELETE",
       url: `http://localhost:9898/api/branches/${branchId}`,
       success: function () {
-        alert("Branch deleted successfully.");
         // Reload the branches list after deletion
         $("#branchList").empty();
         getBranches();
@@ -119,7 +118,6 @@ function updateBranch(branchId, branchData) {
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
-      alert("Branch updated successfully.");
       $("#newBranchForm").hide();
       $("#branchList").empty();
       getBranches(); // Refresh the list
@@ -137,7 +135,6 @@ function createBranch(branchData) {
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
-      alert("Branch created successfully.");
       $("#newBranchForm").hide();
       $("#branchList").empty();
       getBranches(); // Refresh the list
