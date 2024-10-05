@@ -21,7 +21,7 @@ router.get("/main", async(req, res) => {
 
 // Route for displaying branches
 router.get("/branches", async (req, res) => {
-  res.render("public/branches", {isAdmin: true});
+  res.render("public/branches", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
 router.get("/products/mgmt", async (req, res) => {
