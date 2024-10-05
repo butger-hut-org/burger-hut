@@ -81,13 +81,14 @@ async function login(req, res, next) {
                 username: user.username,
                 email: user.email
             });
-            res.json({message: "Login Successfully"})
-            res.redirect("/") // change this to next page
+            // res.json({message: "Login Successfully"})
+            // res.redirect("/main") 
         } else {
             console.log('wrong password');
             throw new BaseError.UnauthenticatedError('incorrect user or password');
         }
     }catch (error) {
+        console.log(error);
         console.log('Error in login: sending to error handler')
         next(error)
     }
@@ -116,5 +117,18 @@ async function deleteUser(req, res, next) {
     }
 
 }
+async function promoteUser(req, res, next) {
+    try{
+        const promotedUser = await User.findOneAndUpdate({username: req.body.userToPromote}, {admin: true});
+        if (!promotedUser) {
+            throw new BaseError.BadRequestError('user does not exist');
+        }
+        res.send(`the user "${promotedUser.username}" was promoted`);
+    }catch(error){
+        console.log('Error in promoteUser: sending to error handler')
+        next(error)
+    }
+    
+}
 
-module.exports = { registerUser, login, listUsers, deleteUser, logout };
+module.exports = {registerUser, login, listUsers, deleteUser, logout, promoteUser};

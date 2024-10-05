@@ -5,6 +5,8 @@ const webRouter = require("./routes/webRoutes/webRouter");
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const cookieParser = require('cookie-parser');
+
 
 // middleware
 const middleware = require("./middleware/auth");
@@ -30,6 +32,7 @@ app.get("/", (req, res) => {
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
+app.use(cookieParser());
 
 const server = http.createServer(app);
 

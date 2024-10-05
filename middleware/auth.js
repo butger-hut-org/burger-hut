@@ -44,8 +44,9 @@ async function verifyJwt(req, res, next) {
 
 async function isLoggedIn(req) {
     // returns whether a jwt token was used
-    return Boolean(req.cookies["jwt"]);
+    return Boolean(req.cookies && req.cookies["jwt"]);
 }
+
 
 async function isAdmin(req) {
     // checks whether the current user is an admin

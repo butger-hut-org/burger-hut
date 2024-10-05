@@ -30,7 +30,7 @@ $(document).ready(function () {
                     alert("Something went wrong, please try again")
                 } else {
                     alert("Welcome back!")
-                    window.location.replace('http://localhost:9898/register'); // change this to correct screen
+                    window.location.replace('http://localhost:9898/main'); // change this to correct screen
                 }
             }).catch(err => {
                 console.log(err);
