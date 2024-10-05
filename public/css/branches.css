@@ -1,0 +1,86 @@
+/* General page styling */
+.body {
+    background-color: #222831;
+    /*background-image: url('../images/login.jpg');*/
+    background-size: fill;
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+    font-family: "Open Sans", sans-serif;
+}
+
+/* Title styling */
+.formtitle {
+    font-family: "Dancing Script", Fantasy;
+    color: #ffffff;
+}
+
+/* Styling for the branch form container */
+/* Additional CSS for the modal dialog */
+/* Additional CSS for the modal dialog */
+#newBranchForm {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed positioning */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position */
+    background: #53566c; /* Background color */
+    padding: 45px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* On top of other elements */
+}
+
+#overlay {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed positioning */
+    top: 0;
+    left: 0;
+    width: 100%; /* Cover full screen */
+    height: 100%; /* Cover full screen */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Below the modal */
+}
+
+.body {
+    background-color: #222831;
+    padding: 8% 0; /* Padding for vertical space */
+    font-family: "Open Sans", sans-serif;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center elements horizontally */
+    min-height: 100vh; /* Full height of viewport */
+}
+
+h1 {
+    color: #ffffff;
+}
+
+#branchList {
+    margin-top: 20px; /* Add some space above branch list */
+    width: 100%; /* Full width */
+    max-width: 400px; /* Limit the max width */
+}
+
+.branch-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    background: #53566c;
+    color: #ffffff;
+}
+
+/* Styling for the checkbox and label container */
+.form-group {
+    display: flex;              /* Flexbox layout for inline elements */
+    align-items: center;       /* Vertically centers items */
+    margin: 15px 0;           /* Space between form elements */
+    color: #ffffff;            /* White text for label */
+    font-size: 14px;           /* Consistent font size */
+}
+
+.form-group label {
+    margin-right: 10px;        /* Space between label and checkbox */
+}

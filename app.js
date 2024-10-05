@@ -1,9 +1,13 @@
 const http = require("http");
+const express = require("express");
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const logger = require("./middleware/logger");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
-const express = require("express");
-const mongoose = require("mongoose");
+
+const connectDB = require("./db/connect");
+
 const app = express();
 const cookieParser = require('cookie-parser');
 
@@ -21,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 //Connect to mongodb database
-mongoose.connect(process.env.MONGO_URI);
+connectDB()
 
 //Routes
 app.use("/", webRouter);
@@ -40,10 +44,10 @@ const run = async () => {
   try {
     const port = process.env.PORT;
     server.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
+      logger.info(`Server is listening on port ${port}...`)
     );
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 

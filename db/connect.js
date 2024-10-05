@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
+const logger = require("../middleware/logger");
 
 function connectDB() {
     const mongoUri = process.env.MONGO_URI;
@@ -8,7 +9,7 @@ function connectDB() {
 
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
-        console.log('Connected to DB!');
+        logger.info('Connected to DB!');
     });
 }
 module.exports = connectDB;

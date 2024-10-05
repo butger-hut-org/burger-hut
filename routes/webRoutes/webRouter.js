@@ -25,5 +25,10 @@ router.get("/branches", async (req, res) => {
     res.status(500).send('An error occurred while fetching branches');
   }
 });
+
+router.get('/products/mgmt', async (req, res) => {
+  res.render('./productsMgmt');
+})
+
 module.exports = router;
 

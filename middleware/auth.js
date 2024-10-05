@@ -59,4 +59,10 @@ async function isAdmin(req) {
     }
 }
 
-module.exports = {prepareForRegistration, verifyJwt, verifyAdmin, isLoggedIn, isAdmin}
+module.exports = {
+    prepareForRegistration,
+    verifyJwt,
+    verifyAdmin,
+    isLoggedIn,
+    isAdmin
+}
