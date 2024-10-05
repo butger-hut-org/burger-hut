@@ -1,0 +1,513 @@
+/* סגנון כללי לגוף העמוד */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* עיצוב כותרת ותפריט */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #ff9800;
+}
+
+.hero_area {
+    height: 500px;
+    background: url('public\images\home.png') no-repeat center center/cover;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.hero_area .bg-box img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.hero_area .detail-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.hero_area h1 {
+    font-size: 3em;
+    margin: 0.5em 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero_area p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.hero_area a.btn {
+    padding: 15px 30px;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.hero_area a.btn:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב תפריט המוצרים */
+.menu_section {
+    padding: 80px 0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.menu_section h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.menu_items {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.menu_items .item {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu_items .item:hover {
+    transform: scale(1.05);
+}
+
+.menu_items img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.menu_items h3 {
+    font-size: 1.5em;
+    margin: 15px 0;
+    color: #333;
+}
+
+.menu_items p {
+    font-size: 1.2em;
+    color: #777;
+}
+
+.menu_items a.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.menu_items a.btn:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב עגלת הקניות */
+.cart_section {
+    padding: 60px;
+    background-color: #f9f9f9;
+    min-height: 400px;
+}
+
+.cart_section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.cart_section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart_section ul li {
+    background-color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cart_section ul li a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cart_section ul li a:hover {
+    color: #e68900;
+}
+
+.cart_section .total {
+    margin-top: 30px;
+}
+
+.cart_section .total h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.cart_section a.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.cart_section a.btn:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב עמוד המבצעים */
+.deals_section {
+    padding: 80px 0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.deals_section h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.deals_section .deal_item {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    width: 300px;
+    text-align: center;
+}
+
+.deals_section h3 {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.deals_section p {
+    font-size: 1.2em;
+    color: #777;
+}
+
+.deals_section a.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.deals_section a.btn:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב דף ההתחברות */
+.login_section {
+    padding: 60px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.login_section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login_section form {
+    display: inline-block;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login_section .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login_section label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.login_section input[type="email"],
+.login_section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.login_section button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.login_section button:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב דף הרשמה */
+.register_section {
+    padding: 60px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.register_section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.register_section form {
+    display: inline-block;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register_section .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.register_section label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.register_section input[type="text"],
+.register_section input[type="email"],
+.register_section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.register_section button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.register_section button:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב דף התשלום */
+.checkout_section {
+    padding: 60px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.checkout_section h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.checkout_section form {
+    display: inline-block;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.checkout_section .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.checkout_section label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.checkout_section input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.checkout_section button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.checkout_section button:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב דף אודות */
+.about_section {
+    padding: 60px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.about_section h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.about_section p {
+    font-size: 1.2em;
+    color: #777;
+    line-height: 1.6;
+}
+
+/* עיצוב דף יצירת קשר */
+.contact_section {
+    padding: 60px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.contact_section h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.contact_section form {
+    display: inline-block;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.contact_section .form-group {
+    margin-bottom: 20px;
+}
+
+.contact_section label {
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.contact_section input[type="text"],
+.contact_section input[type="email"],
+.contact_section textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.contact_section textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.contact_section button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.contact_section button:hover {
+    background-color: #e68900;
+}
+
+/* עיצוב הפוטר */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1em;
+}

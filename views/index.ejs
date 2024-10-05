@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <%- include('./includes/head') %>
+</head>
 <body>
-<div class="hero_area">
-    <div class="bg-box">
-    </div>
-    <section class="hero-text">
-        <div class="container ">
-            <div class="row">
+    <%- include('./includes/header') %>
+
+    <div class="hero_area">
+        <div class="bg-box">
+            <img src="/images/hero-bg.jpg" alt="Hero Image">
+        </div>
+        <section class="slider_section">
+            <div class="container">
                 <div class="detail-box">
-                    <h1>
-                        Burger-Hut inc.
-                    </h1>
-                    <p>
-                        Welcome to Burger Hut
-                    </p>
+                    <h1>Welcome to Burger Hut</h1>
+                    <p>Best burgers in town, order now!</p>
+                    <a href="/menu">View Menu</a>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
-</div>
-<script src="/js/index.js"></script>
+        </section>
+    </div>
+
+    <%- include('./includes/footer') %>
 </body>
 </html>

@@ -1,0 +1,32 @@
+<!-- Add to Cart Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Add to Cart </h5>
+                <div style="display: none;" id="productId">Here will be the product id that opens this popup</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addToCartForm">
+                    <div class="mb-3">
+                        <label for="productSize" class="form-label">Select Size</label>
+                        <select class="form-select" id="productSize" required>
+                            <option value="">Choose size</option>
+                            <option value="S">Small (S)</option>
+                            <option value="M">Medium (M)</option>
+                            <option value="L">Large (L)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="productQuantity" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addToCartButton" onclick="addToTempCart()">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
