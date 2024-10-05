@@ -1,5 +1,5 @@
 const {StatusCodes} = require('http-status-codes');
-const Product = require('../models/product');
+const {Product} = require('../models/product');
 const BaseError = require('../errors');
 // const {postTweet} = require('../twitter');
 
