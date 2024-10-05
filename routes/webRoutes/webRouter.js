@@ -21,15 +21,11 @@ router.get("/main", async(req, res) => {
 
 // Route for displaying branches
 router.get("/branches", async (req, res) => {
-  try {
-    res.render("public/branches", {});
-  } catch (error) {
-    res.status(500).send("An error occurred while fetching branches");
-  }
+  res.render("public/branches", {isAdmin: true});
 });
 
-router.get('/products/mgmt', async (req, res) => {
-  res.render('./productsMgmt');
-})
+router.get("/products/mgmt", async (req, res) => {
+  res.render("./productsMgmt");
+});
 
 module.exports = router;
