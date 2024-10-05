@@ -31,4 +31,9 @@ router.get("/products/mgmt", async (req, res) => {
 router.get('/menu', async (req, res) => {
   res.render('./menu');
 })
+
+const usersController = require('../controllers/users');
+
+router.get('/logout', usersController.logout);
+
 module.exports = router;
