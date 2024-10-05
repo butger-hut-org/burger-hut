@@ -1,10 +1,8 @@
-require("dotenv").config();
+const port = 9898;
 
 $(document).ready(function () {
   initializePage();
 });
-
-const port = process.env.PORT;
 
 function initializePage() {
   $("#newBranchForm").hide();
