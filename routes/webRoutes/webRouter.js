@@ -13,6 +13,11 @@ router.get("/login", (req, res) => {
   res.render("public/login", {});
 });
 
+// Route for main page
+router.get("/main", async(req, res) => {
+  res.render("./index",{isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
+});
+
 router.get("/branches", async (req, res) => {
   try {
     res.render("public/branches", {});
@@ -26,3 +31,4 @@ router.get('/products/mgmt', async (req, res) => {
 })
 
 module.exports = router;
+

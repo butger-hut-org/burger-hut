@@ -9,6 +9,12 @@ const webRouter = require("./routes/webRoutes/webRouter");
 const connectDB = require("./db/connect");
 
 const app = express();
+const cookieParser = require('cookie-parser');
+
+
+// middleware
+const middleware = require("./middleware/auth");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
@@ -28,6 +34,9 @@ app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
 
+// Error handler middleware
+app.use(errorHandlerMiddleware);
+app.use(cookieParser());
 
 const server = http.createServer(app);
 
