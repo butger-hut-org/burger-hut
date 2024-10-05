@@ -8,7 +8,6 @@ $(document).ready(function () {
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
   }).addTo(map);
-  getAllBranches();
 });
 
 function addMarker(lat, lon, popupText) {
@@ -24,20 +23,9 @@ function getRandomCoordinates() {
   return { lat: parseFloat(lat), lon: parseFloat(lon) };
 }
 
-function getAllBranches() {
-  $.ajax({
-    type: "GET",
-    url: `http://localhost:${port1}/api/branches`,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (branchList) {
-      branchList.map((branch) => {
-        let location = getRandomCoordinates();
-        addMarker(location.lat, location.lon, location.name);
-      });
-    },
-    error: function (response) {
-      alert("Error fetching branch details: " + response.responseText);
-    },
+function markBranches(branchList) {
+  branchList.map((_) => {
+    let location = getRandomCoordinates();
+    addMarker(location.lat, location.lon, location.name);
   });
 }

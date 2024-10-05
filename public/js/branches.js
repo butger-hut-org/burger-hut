@@ -43,6 +43,8 @@ function getBranches() {
         const branchId = $(this).data("id");
         deleteBranch(branchId);
       });
+
+      markBranches(response);
     },
     failure: function (response) {
       alert(response.responseText);
