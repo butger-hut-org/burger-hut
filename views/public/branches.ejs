@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branches</title>
+    <title>Branches and Map</title>
     <link rel="stylesheet" href="/public/css/branches.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
-        .body {
-            background-color: #222831;
-            background-size: fill;
-            width: 100%; /* Adjusted to cover full width */
-            height: 100vh; /* Full height of the viewport */
+        .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100vh;
+            background-color: #222831;
             font-family: "Open Sans", sans-serif;
+        }
+
+        #branchList {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        #map {
+            flex: 2;
+            height: 100vh;
         }
 
         .formtitle {
@@ -96,37 +107,50 @@
             margin-right: 10px; /* Space between label and checkbox */
             color: #ffffff; /* Label color */
         }
+
+        /* Overlay for making other parts unclickable */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
     </style>
-    <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
-<body class="body">
-    <h1 class="formtitle">Branches</h1>
-    <button id="addBranchButton">Add Branch</button>
-    <!-- Overlay for the modal -->
-    <div id="overlay"></div>
+<body>
+    <div class="container">
+        <div id="branchList">
+            <h1 class="formtitle">Branches</h1>
+            <button id="addBranchButton">Add Branch</button>
+            <!-- Overlay for the modal -->
+            <div id="overlay"></div>
 
-    <div id="newBranchForm" class="login_form">
-        <form id="branchForm" method="post">
-            <h1 class="formtitle">Add a new branch</h1>
-            <input id="branchId" type="hidden" name="branchId" />
-            <input id="branchName" type="text" name="Branch Name" placeholder="Branch Name"/>
-            <input id="branchAddress" type="text" name="Address" placeholder="Address"/>
-            <input id="branchCity" type="text" name="City" placeholder="City"/>
-            <input id="branchPhoneNumber" type="text" name="Phone Number" placeholder="Phone Number"/>
-            <div class="form-group">
-                <label for="branchStatus">Active</label>
-                <input type="checkbox" id="branchStatus" name="active" />
+            <div id="newBranchForm" class="login_form" style="display: none;">
+                <form id="branchForm" method="post">
+                    <h1 class="formtitle">Add a new branch</h1>
+                    <input id="branchId" type="hidden" name="branchId" />
+                    <input id="branchName" type="text" name="Branch Name" placeholder="Branch Name"/>
+                    <input id="branchAddress" type="text" name="Address" placeholder="Address"/>
+                    <input id="branchCity" type="text" name="City" placeholder="City"/>
+                    <input id="branchPhoneNumber" type="text" name="Phone Number" placeholder="Phone Number"/>
+                    <div class="form-group">
+                        <label for="branchStatus">Active</label>
+                        <input type="checkbox" id="branchStatus" name="active" />
+                    </div>
+                    <button id="saveBranchButton" type="button">Create</button>
+                    <button id="cancelButton" type="button">Cancel</button>
+                </form>
             </div>
-            <button id="saveBranchButton" type="button">Create</button>
-            <button id="cancelButton" type="button">Cancel</button>
-        </form>
-    </div>
-
-    <div id="branchList">
-        <!-- Branch cards will be appended here by JavaScript -->
+            <!-- Branch cards will be appended here by JavaScript -->
+        </div>
+        <div id="map"></div>
     </div>
     <!-- Template for a branch card -->
     <script type="text/template" id="branchCard">
@@ -140,5 +164,6 @@
         </div>
     </script>
     <script src="/public/js/branches.js"></script>
+    <script src="/public/js/map.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 const CENTER_ISRAEL_COORDINATES = [31.5461, 34.8516];
 const ZOOM_LEVEL = 7;
-const port = 9898;
-const map = L.map("map").setView(CENTER_ISRAEL_COORDINATES, ZOOM_LEVEL); // Default center coordinates
+const port1 = 9898;
+const map = L.map("map").setView(CENTER_ISRAEL_COORDINATES, ZOOM_LEVEL);
 
 $(document).ready(function () {
   // Add OpenStreetMap tiles
@@ -11,7 +11,6 @@ $(document).ready(function () {
   getAllBranches();
 });
 
-// Function to add a marker to the map
 function addMarker(lat, lon, popupText) {
   const marker = L.marker([lat, lon]).addTo(map);
   if (popupText) {
@@ -28,7 +27,7 @@ function getRandomCoordinates() {
 function getAllBranches() {
   $.ajax({
     type: "GET",
-    url: `http://localhost:${port}/api/branches`,
+    url: `http://localhost:${port1}/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (branchList) {
