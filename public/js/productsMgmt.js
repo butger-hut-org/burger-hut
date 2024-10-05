@@ -1,5 +1,3 @@
-// const { json } = require("express");
-
 document.addEventListener('DOMContentLoaded', () => {
     $().ready(function () {
         $.ajax({
