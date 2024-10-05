@@ -81,8 +81,6 @@ async function login(req, res, next) {
                 username: user.username,
                 email: user.email
             });
-            // res.json({message: "Login Successfully"})
-            // res.redirect("/main") 
         } else {
             console.log('wrong password');
             throw new BaseError.UnauthenticatedError('incorrect user or password');
