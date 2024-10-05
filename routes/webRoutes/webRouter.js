@@ -17,4 +17,8 @@ router.get("/login", (req, res) => {
   res.render("public/login", {});
 });
 
+router.get('/products/mgmt', async (req, res) => {
+  res.render('./productsMgmt');
+})
+
 module.exports = router;

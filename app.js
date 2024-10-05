@@ -26,9 +26,6 @@ app.get('/', (req, res) => {
     res.redirect('/login'); // Redirect root to login page
 });
 
-app.get('/products/mgmt', async (req, res) => {
-  res.render('./productsMgmt');
-})
 
 const server = http.createServer(app);
 
