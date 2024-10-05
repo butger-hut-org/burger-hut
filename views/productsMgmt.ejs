@@ -3,7 +3,7 @@
 <%- include ("./includes/head") %>
 <body>
     <div class="container mt-5">
-        <button class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addProductPopup">Add Product</button>
+        <button onclick="changePopupToCreate()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addProductPopup">Add Product</button>
         <%- include("templates/productPopup") %>
 
         <h1 class="text-center">Our Products</h1>

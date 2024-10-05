@@ -36,13 +36,13 @@ async function productUpdate(req, res) {
     }
 
     // using callback
-    result = await Product.findOneAndUpdate({name: req.body.name}, {
+    result = await Product.findOneAndUpdate({_id: req.body.productId}, {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
         size: req.body.size,
-        bestSeller: req.body.bestSeller,
+        bestSeller: req.body.bestSeller
     });
     if (!result) {
         throw new BaseError.NotFoundError(`Failed to update product : ${req.body.name}`);
@@ -70,9 +70,10 @@ async function productList(req, res) {
 };
 
 async function productSearch(req, res) {
-    result = await Product.findOne({name: req.body.name});
+    const productId = req.query.productId;
+    result = await Product.findOne({_id: productId});
     if (!result) {
-        throw new BaseError.NotFoundError(`No product: ${req.body.name}`);
+        throw new BaseError.NotFoundError(`No product: ${productId}`);
     }
 
     res.status(StatusCodes.OK).json({result});

@@ -1,3 +1,4 @@
+// const { json } = require("express");
 
 document.addEventListener('DOMContentLoaded', () => {
     $().ready(function () {
@@ -13,10 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 d-flex flex-column">
                                 <div class="card-body">
-                                    <button class="btn btn-danger position-absolute top-0 end-0 m-2" onclick="deleteProduct('${product._id}')">Delete</button>
+                                    <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                    <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
+                                        <li onclick="deleteProduct('${product._id}')"><a class="dropdown-item" href="#">DELETE</a></li>
+                                        <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
+                                    </ul>
+                                    
                                     <h5 class="card-title">${product.name}</h5>
                                     <p class="card-text"><strong>Description:</strong> ${product.description}</p>
-                                    <p class="card-text"><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+                                    <p class="card-text"><strong>Price:</strong> ${product.price.toFixed(2)} $</p>
                                     <p class="card-text"><strong>Category:</strong> ${product.category}</p>
                                     <p class="card-text"><strong>Size:</strong> ${product.size}</p>
                                     ${product.bestSeller ? '<p class="text-success"><strong>🌟 Best Seller 🌟</strong></p>' : ''}
@@ -48,6 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function deleteProduct(productId){
+    const userResponse = confirm("Do you want to proceed?");
+    if(!userResponse){
+        return;
+    }
     $.ajax({
         url: "http://localhost:9898/api/products/delete",
         type: "POST",
@@ -67,8 +77,6 @@ function deleteProduct(productId){
 }
 
 function createProduct(){
-    console.log("im hereeeeeeeeeeeeee")
-    // event.preventDefault();
     const req = collectFormFields();
     if (req != null) {
         $.ajax({
@@ -109,7 +117,6 @@ function collectFormFields() {
         size: $("#productSize").val(),
         bestSeller: $("#bestSeller").is(":checked") ? "true" : "false",
     };
-    console.log(request);
     if (request.name == null || request.price == null || request.size == null || request.description == null || request.category == null) {
         alert("Please fill out all fields")
         return null;
@@ -119,4 +126,68 @@ function collectFormFields() {
         return null
     }
     return request;
+}
+
+function updateProduct(productId) {
+    const req = collectFormFields();
+    $.ajax({
+        url: "http://localhost:9898/api/products/update",
+        type: "POST",
+        data: {
+            name: req.name,
+            description: req.description,
+            price: req.price,
+            size: req.size,
+            category: req.category,
+            bestSeller: req.bestSeller,
+            productId: productId
+        },
+        success: function (res) {
+            alert("Updated!");
+            console.log(res);
+            location.reload();
+        },
+        failure: function (res) {
+            alert(response.responseText);
+            alert("Failure");
+        },
+        error: function (res) {
+            alert(response.responseText);
+            alert("Failed to update the product");
+        },
+    });
+
+};
+
+function changePopupToEdit(productId){
+    $('#actionButton').text('Edit');
+    $('#productModalLabel').text('Edit product');
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:9898/api/products/search",
+        contentType: "application/json; charset=utf-8",
+        data: {
+            productId: productId
+        },
+        success: function (response) {
+            let product = response.result;
+            $('#productPrice').val(product.price);
+            $('#productDescription').val(product.description);
+            $('#productName').val(product.name);
+            $('#productCategory').val(product.category);
+            $('#productSize').val(product.size);
+            $('#bestSeller').val(product.bestSeller);
+        }
+    });
+
+    const button = document.getElementById('actionButton');
+    button.setAttribute( "onClick", `updateProduct('${productId}')`);
+}
+
+
+function changePopupToCreate(){
+    $('#actionButton').text('Create');
+    $('#productModalLabel').text('Create new product');
+    const button = document.getElementById('actionButton');
+    button.setAttribute( "onClick", `createProduct()`);
 }
