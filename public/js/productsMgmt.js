@@ -1,5 +1,3 @@
-// const { json } = require("express");
-
 document.addEventListener('DOMContentLoaded', () => {
     $().ready(function () {
         $.ajax({
@@ -18,13 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
                                         <li onclick="deleteProduct('${product._id}')"><a class="dropdown-item" href="#">DELETE</a></li>
                                         <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
-                                    </ul>
-                                    
+                                    </ul>              
                                     <h5 class="card-title">${product.name}</h5>
                                     <p class="card-text"><strong>Description:</strong> ${product.description}</p>
-                                    <p class="card-text"><strong>Price:</strong> ${product.price.toFixed(2)} $</p>
+                                    <p class="card-text"><strong>basePrice:</strong> ${product.basePrice.toFixed(2)} $</p>
+                                    <p class="card-text"><strong>extraPrice:</strong> ${product.extraPrice.toFixed(2)} $</p>
                                     <p class="card-text"><strong>Category:</strong> ${product.category}</p>
-                                    <p class="card-text"><strong>Size:</strong> ${product.size}</p>
                                     ${product.bestSeller ? '<p class="text-success"><strong>🌟 Best Seller 🌟</strong></p>' : ''}
                                 </div>
                             </div>
@@ -85,8 +82,8 @@ function createProduct(){
             data: {
                 name: req.name,
                 description: req.description,
-                price: req.price,
-                size: req.size,
+                basePrice: req.basePrice,
+                extraPrice: req.extraPrice,
                 category: req.category,
                 bestSeller: req.bestSeller,
             },
@@ -107,17 +104,17 @@ function createProduct(){
 }
 
 
-
 function collectFormFields() {
     const request = {
         name: $("#productName").val(),
         description: $("#productDescription").val(),
         category: $("#productCategory").val(),
-        price: $("#productPrice").val(),
-        size: $("#productSize").val(),
+        basePrice: $("#productBasePrice").val(),
+        extraPrice: $("#productExtraPrice").val(),
         bestSeller: $("#bestSeller").is(":checked") ? "true" : "false",
     };
-    if (request.name == null || request.price == null || request.size == null || request.description == null || request.category == null) {
+    if (request.name == null || request.basePrice == null ||
+        request.description == null || request.category == null) {
         alert("Please fill out all fields")
         return null;
     }
@@ -136,8 +133,8 @@ function updateProduct(productId) {
         data: {
             name: req.name,
             description: req.description,
-            price: req.price,
-            size: req.size,
+            basePrice: req.basePrice,
+            extraPrice: req.extraPrice,
             category: req.category,
             bestSeller: req.bestSeller,
             productId: productId
@@ -171,11 +168,10 @@ function changePopupToEdit(productId){
         },
         success: function (response) {
             let product = response.result;
-            $('#productPrice').val(product.price);
+            $('#productBasePrice').val(product.basePrice);
             $('#productDescription').val(product.description);
             $('#productName').val(product.name);
             $('#productCategory').val(product.category);
-            $('#productSize').val(product.size);
             $('#bestSeller').val(product.bestSeller);
         }
     });

@@ -1,4 +1,3 @@
-// Product CONTROLLER
 const {StatusCodes} = require('http-status-codes');
 const Product = require('../models/product');
 const BaseError = require('../errors');
@@ -6,17 +5,17 @@ const BaseError = require('../errors');
 
 
 async function productCreate(req, res) {
-    if (!req.body.name || !req.body.description || !req.body.price ||
-        !req.body.category || !req.body.size || !req.body.bestSeller) {
+    if (!req.body.name || !req.body.description || !req.body.basePrice ||
+        !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
     let newProduct = new Product({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
+        basePrice: req.body.basePrice,
+        extraPrice: req.body.extraPrice,
         category: req.body.category,
-        size: req.body.size,
         bestSeller: req.body.bestSeller,
     });
 
@@ -24,14 +23,14 @@ async function productCreate(req, res) {
     if (!result) {
         throw BaseError.InternalError("Failed to save new product");
     }
-    // postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.price}$\n OMG`)
+    // postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
     // TODO: post on facebook
     return res.status(StatusCodes.CREATED).json({result});
 }
 
 async function productUpdate(req, res) {
-    if (!req.body.name || !req.body.description || !req.body.price ||
-        !req.body.category || !req.body.size || !req.body.bestSeller) {
+    if (!req.body.name || !req.body.description || !req.body.basePrice ||
+        !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
@@ -39,9 +38,9 @@ async function productUpdate(req, res) {
     result = await Product.findOneAndUpdate({_id: req.body.productId}, {
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price,
+        basePrice: req.body.basePrice,
+        extraPrice: req.body.extraPrice,
         category: req.body.category,
-        size: req.body.size,
         bestSeller: req.body.bestSeller
     });
     if (!result) {
