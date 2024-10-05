@@ -4,6 +4,10 @@ const { productSchema } = require('./product');
 
 const orderProductSchema = new mongoose.Schema({
   product: productSchema, 
+  productId: {
+    type: String,
+    required: true,
+  },
   amount: {
     type: Number,
     required: true,
