@@ -5,7 +5,7 @@ const BaseError = require('../errors');
 // const {postTweet} = require('../twitter');
 
 
-const productCreate = async (req, res) => {
+async function productCreate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.price ||
         !req.body.category || !req.body.size || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
@@ -29,20 +29,20 @@ const productCreate = async (req, res) => {
     return res.status(StatusCodes.CREATED).json({result});
 }
 
-const productUpdate = async (req, res) => {
+async function productUpdate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.price ||
         !req.body.category || !req.body.size || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
     // using callback
-    result = await Product.findOneAndUpdate({name: req.body.name}, {
+    result = await Product.findOneAndUpdate({_id: req.body.productId}, {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
         size: req.body.size,
-        bestSeller: req.body.bestSeller,
+        bestSeller: req.body.bestSeller
     });
     if (!result) {
         throw new BaseError.NotFoundError(`Failed to update product : ${req.body.name}`);
@@ -51,16 +51,16 @@ const productUpdate = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 }
 
-const productDelete = async (req, res) => {
-    result = await Product.findOneAndDelete({name: req.body.name});
+async function productDelete(req, res) {
+    result = await Product.findOneAndDelete({_id: req.body.productId});
     if (!result) {
-        throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.name}`);
+        throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.productId}`);
     }
 
     res.status(StatusCodes.OK).json({result});
 };
 
-const productList = async (req, res) => {
+async function productList(req, res) {
     result = await Product.find();
     if (!result) {
         throw new BaseError.InternalError("Failed to list products");
@@ -69,16 +69,17 @@ const productList = async (req, res) => {
     res.status(StatusCodes.OK).json({result});
 };
 
-const productSearch = async (req, res) => {
-    result = await Product.findOne({name: req.body.name});
+async function productSearch(req, res) {
+    const productId = req.query.productId;
+    result = await Product.findOne({_id: productId});
     if (!result) {
-        throw new BaseError.NotFoundError(`No product: ${req.body.name}`);
+        throw new BaseError.NotFoundError(`No product: ${productId}`);
     }
 
     res.status(StatusCodes.OK).json({result});
 };
 
-const productSpecificSearch = async (req, res) => {
+async function productSpecificSearch(req, res) {
     let searchParametrs = [];
 
     if (!req.query["category"].includes("All")) {

@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const logger = require("./middleware/logger");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
+
+const connectDB = require("./db/connect");
+
 const app = express();
 
 //Make sure your .env file contains everything required for you application to operate properly.
@@ -16,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 //Connect to mongodb database
-mongoose.connect(process.env.MONGO_URI);
+connectDB()
 
 //Routes
 app.use("/", webRouter);
@@ -24,6 +27,7 @@ app.use("/api", apiRouter);
 app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
+
 
 const server = http.createServer(app);
 
