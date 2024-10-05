@@ -7,7 +7,6 @@ require('dotenv').config();
 
 async function prepareForRegistration(req, res, next) {
     try{
-
         req.body.admin = false;
         if (req.body.password != req.body.confirmPassword) {
             throw new BaseError.BadRequestError("passwords do not match");

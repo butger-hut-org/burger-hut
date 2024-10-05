@@ -18,6 +18,7 @@ async function registerUser(req, res, next) {
             cvv: req.body.cvv,
             admin: req.body.admin
         });
+
         // validate the request body first
         const { error } = validateUser(req.body);
         if (error) {
@@ -27,6 +28,11 @@ async function registerUser(req, res, next) {
         if (await User.findOne({ email: user.email }) || await User.findOne({ username: user.username })) {
             throw new BaseError.BadRequestError('User already registered');
         }
+
+        if (await User.findOne({ creditNumber: user.creditNumber })) {
+            throw new BaseError.BadRequestError('Credit card is already in use');
+        }
+
 
         console.log('after checks')
         user.password = await bcrypt.hash(user.password, 10);
@@ -43,41 +49,47 @@ async function registerUser(req, res, next) {
         });
         res.json({message: "Registered Successfully"})
     } catch (error) {
-        console.log('sending to error handler')
+        console.log('Error in RegisterUser: sending to error handler')
         next(error)
     }
 }
 
-async function login(req, res) {
-    console.log('[Login]', req.body);
-    const { error } = validateLogin(req.body);
-    if (error) {
-        console.log("error")
-        throw new BaseError.BadRequestError(error.details[0].message);
-    }
-    let user = await User.findOne({ username: req.body.username })
-    console.log(user)
-    if (!user) {
-        console.log("!user")
-        throw new BaseError.UnauthenticatedError('incorrect user or password');
-    }
-    if (await bcrypt.compare(req.body.password, user.password)) {
-        const token = user.generateAuthToken();
-        res.cookie("jwt", token, {
-            maxAge: COOKIE_MAX_AGE,
-            httpOnly: true,
-            sameSite: true,
-            secure: true,
-            sameSite: 'strict'
-        }).send({
-            _id: user._id,
-            username: user.username,
-            email: user.email
-        });
-        res.redirect("/")
-    } else {
-        console.log('wrong password');
-        throw new BaseError.UnauthenticatedError('incorrect user or password');
+async function login(req, res, next) {
+    try{
+        console.log('[Login]', req.body);
+        const { error } = validateLogin(req.body);
+        if (error) {
+            console.log("error")
+            throw new BaseError.BadRequestError(error.details[0].message);
+        }
+        let user = await User.findOne({ username: req.body.username })
+        console.log(user)
+        if (!user) {
+            console.log("!user")
+            throw new BaseError.UnauthenticatedError('incorrect user or password');
+        }
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            const token = user.generateAuthToken();
+            res.cookie("jwt", token, {
+                maxAge: COOKIE_MAX_AGE,
+                httpOnly: true,
+                sameSite: true,
+                secure: true,
+                sameSite: 'strict'
+            }).send({
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            });
+            res.json({message: "Login Successfully"})
+            res.redirect("/") // change this to next page
+        } else {
+            console.log('wrong password');
+            throw new BaseError.UnauthenticatedError('incorrect user or password');
+        }
+    }catch (error) {
+        console.log('Error in login: sending to error handler')
+        next(error)
     }
 }
 
@@ -91,12 +103,18 @@ async function listUsers(req, res) {
     res.send(userList);
 }
 
-async function deleteUser(req, res) {
-    const deletedUser = await User.findOneAndDelete({ username: req.body.userToDelete });
-    if (!deletedUser) {
-        throw new BaseError.BadRequestError('user does not exist');
+async function deleteUser(req, res, next) {
+    try{
+        const deletedUser = await User.findOneAndDelete({ username: req.body.userToDelete });
+        if (!deletedUser) {
+            throw new BaseError.BadRequestError('user does not exist');
+        }
+        res.send(`the user "${deletedUser.username}" was deleted`);
+    } catch(error){
+        console.log('Error in deleteUser: sending to error handler')
+        next(error)
     }
-    res.send(`the user "${deletedUser.username}" was deleted`);
+
 }
 
 module.exports = { registerUser, login, listUsers, deleteUser, logout };
