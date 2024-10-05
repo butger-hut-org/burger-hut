@@ -3,130 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Branches</title>
+    <title>Branch Locations</title>
     <link rel="stylesheet" href="/public/css/branches.css">
-    <style>
-        .body {
-            background-color: #222831;
-            background-size: fill;
-            width: 100%; /* Adjusted to cover full width */
-            height: 100vh; /* Full height of the viewport */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Open Sans", sans-serif;
-        }
-
-        .formtitle {
-            font-family: "Dancing Script", Fantasy;
-            color: #ffffff;
-        }
-
-        .branch-card {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            background: #53566c;
-            color: #ffffff;
-        }
-
-        .login_form {
-            background: #53566c;
-            max-width: 360px;
-            margin: 0 auto;
-            padding: 45px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-        }
-
-        .login_form input {
-            outline: 0;
-            background: #f2f2f2;
-            width: 100%;
-            border: 0;
-            margin: 0 0 15px;
-            padding: 15px;
-            box-sizing: border-box;
-            font-size: 14px;
-            border-radius: 10px;
-        }
-
-        .login_form button {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: .1em;
-            outline: 0;
-            background: #ffbe33;
-            width: 100%;
-            border: 0;
-            border-radius: 30px;
-            margin: 8px 0px 8px;
-            padding: 15px;
-            color: #FFFFFF;
-        }
-
-        .login_form button:hover {
-            background-color: #e69c00;
-        }
-
-        /* Additional styles for the dialog */
-        .ui-dialog {
-            background: #53566c; /* Background color of the dialog */
-            border-radius: 10px;
-            color: #ffffff; /* Text color */
-        }
-
-        .ui-dialog-titlebar {
-            background: #ffbe33; /* Title bar color */
-            color: #fff; /* Title bar text color */
-        }
-
-        /* Custom styles for form group */
-        .form-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px; /* Spacing between form elements */
-        }
-
-        .form-group label {
-            margin-right: 10px; /* Space between label and checkbox */
-            color: #ffffff; /* Label color */
-        }
-    </style>
-    <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
-<body class="body">
-    <h1 class="formtitle">Branches</h1>
-    <button id="addBranchButton">Add Branch</button>
-    <!-- Overlay for the modal -->
-    <div id="overlay"></div>
-
-    <div id="newBranchForm" class="login_form">
-        <form id="branchForm" method="post">
-            <h1 class="formtitle">Add a new branch</h1>
-            <input id="branchId" type="hidden" name="branchId" />
-            <input id="branchName" type="text" name="Branch Name" placeholder="Branch Name"/>
-            <input id="branchAddress" type="text" name="Address" placeholder="Address"/>
-            <input id="branchCity" type="text" name="City" placeholder="City"/>
-            <input id="branchPhoneNumber" type="text" name="Phone Number" placeholder="Phone Number"/>
-            <div class="form-group">
-                <label for="branchStatus">Active</label>
-                <input type="checkbox" id="branchStatus" name="active" />
+<body>
+    <div class="container">
+        <div id="branches">
+            <div id="branchHeader">
+                <h1 class="formtitle">Branches</h1>
+                <button id="addBranchButton">Add Branch</button>
             </div>
-            <button id="saveBranchButton" type="button">Create</button>
-            <button id="cancelButton" type="button">Cancel</button>
-        </form>
-    </div>
-
-    <div id="branchList">
-        <!-- Branch cards will be appended here by JavaScript -->
+            <!-- Overlay for the modal -->
+            <div id="overlay"></div>
+            <div id="newBranchForm" class="login_form">
+                <form id="branchForm" method="post">
+                    <h1 class="formtitle">Add a new branch</h1>
+                    <input id="branchId" type="hidden" name="branchId" />
+                    <input id="branchName" type="text" name="Branch Name" placeholder="Branch Name"/>
+                    <input id="branchAddress" type="text" name="Address" placeholder="Address"/>
+                    <input id="branchCity" type="text" name="City" placeholder="City"/>
+                    <input id="branchPhoneNumber" type="text" name="Phone Number" placeholder="Phone Number"/>
+                    <div class="form-group">
+                        <h1 for="branchStatus">Active</h1>
+                        <input type="checkbox" id="branchStatus" name="active" />
+                    </div>
+                    <button id="saveBranchButton" type="button">Create</button>
+                    <button id="cancelButton" type="button">Cancel</button>
+                </form>
+            </div>
+            <div id="branchList">
+                <!-- Branch cards will be appended here by JavaScript -->
+            </div>
+        </div>
+        <div id="map"></div>
     </div>
     <!-- Template for a branch card -->
     <script type="text/template" id="branchCard">
@@ -140,5 +54,6 @@
         </div>
     </script>
     <script src="/public/js/branches.js"></script>
+    <script src="/public/js/map.js"></script>
 </body>
 </html>
