@@ -43,6 +43,7 @@ function getBranches() {
         deleteBranch(branchId);
       });
 
+      clearMarkers();
       markBranches(response);
     },
     failure: function (response) {

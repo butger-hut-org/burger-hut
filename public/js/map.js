@@ -1,6 +1,5 @@
 const CENTER_ISRAEL_COORDINATES = [31.5461, 34.8516];
 const ZOOM_LEVEL = 7;
-const port1 = 9898;
 const map = L.map("map").setView(CENTER_ISRAEL_COORDINATES, ZOOM_LEVEL);
 
 $(document).ready(function () {
@@ -12,9 +11,7 @@ $(document).ready(function () {
 
 function addMarker(lat, lon, popupText) {
   const marker = L.marker([lat, lon]).addTo(map);
-  if (popupText) {
-    marker.bindPopup(popupText).openPopup();
-  }
+  marker.bindPopup(popupText);
 }
 
 function getRandomCoordinates() {
@@ -24,8 +21,16 @@ function getRandomCoordinates() {
 }
 
 function markBranches(branchList) {
-  branchList.map((_) => {
+  branchList.map((branch) => {
     let location = getRandomCoordinates();
-    addMarker(location.lat, location.lon, location.name);
+    addMarker(location.lat, location.lon, branch.name);
   });
 }
+
+function clearMarkers() {
+  map.eachLayer(function (layer) {
+    if (layer instanceof L.Marker) {
+      map.removeLayer(layer);
+    }
+  });
+};
