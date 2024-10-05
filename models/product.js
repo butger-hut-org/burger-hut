@@ -7,7 +7,7 @@ var productSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    basePrice: { // The base price for S size
+    basePrice: { // The base price for S (small) size
         type: Number
     },
     extraPrice: { // When making the product to a bigger one, it adds this number to the price
