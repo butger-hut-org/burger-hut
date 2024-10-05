@@ -35,4 +35,28 @@ router.get('/products/mgmt', async (req, res) => {
 router.get('/menu', async (req, res) => {
   res.render('./menu');
 })
+
+router.get(
+  "/adminPortal",
+  middleware.verifyJwt,
+  middleware.verifyAdmin,
+  (req, res) => {
+      res.render("./adminPortal.ejs", {isAuthenticated: true, isAdmin: true});
+  }
+);
+
+router.get(
+  "/userManagement",
+  middleware.verifyJwt,
+  middleware.verifyAdmin,
+  (req, res) => {
+      res.render("./userManagement.ejs", {
+          isAuthenticated: true,
+          isAdmin: true,
+      });
+  }
+);
+
 module.exports = router;
+
+

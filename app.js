@@ -18,7 +18,9 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
-
+// Error handler middleware
+app.use(errorHandlerMiddleware);
+app.use(cookieParser());
 app.use(express.json());
 app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -33,10 +35,6 @@ app.use("/api", apiRouter);
 app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
-
-// Error handler middleware
-app.use(errorHandlerMiddleware);
-app.use(cookieParser());
 
 const server = http.createServer(app);
 
