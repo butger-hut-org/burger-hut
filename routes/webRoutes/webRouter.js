@@ -32,4 +32,7 @@ router.get('/products/mgmt', async (req, res) => {
   res.render('./productsMgmt');
 })
 
+router.get('/menu', async (req, res) => {
+  res.render('./menu');
+})
 module.exports = router;
