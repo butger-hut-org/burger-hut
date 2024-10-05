@@ -6,12 +6,16 @@ require('dotenv').config();
 
 
 async function prepareForRegistration(req, res, next) {
-    req.body.admin = false;
-    if (req.body.password != req.body.confirmPassword) {
-        throw new BaseError.BadRequestError("passwords do not match");
+    try{
+        req.body.admin = false;
+        if (req.body.password != req.body.confirmPassword) {
+            throw new BaseError.BadRequestError("passwords do not match");
+        }
+        delete req.body.confirmPassword;
+        next();
+    } catch (error) {
+        return next(error)
     }
-    delete req.body.confirmPassword;
-    next();
 }
 
 async function verifyAdmin(req, res, next) {
@@ -22,33 +26,27 @@ async function verifyAdmin(req, res, next) {
 }
 
 async function verifyJwt(req, res, next) {
-    // get the token from the cookie
     const token = req.cookies["jwt"];
-
     if (!token) {
         console.log("no token");
-        // redirect if no token was supplied
-        res.redirect('/api/auth/login');
-        // throw new BaseError.UnauthenticatedError('no jwt token provided, please log in first');
+        return next(new BaseError.UnauthenticatedError('no jwt token provided, please log in first')); // Pass the error to the next middleware
     }
 
     try {
-        //if can verify the token, set req.user and pass to next middleware
         const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
         req.user = await User.findById(decoded._id).select("-password");
         next();
     } catch (ex) {
-        //in case of invalid token
-        // throw new BaseError.UnauthenticatedError('invalid jwt token');
         console.log("invalid token");
-        res.redirect('/api/auth/login')
+        return next(new BaseError.UnauthenticatedError('invalid jwt token')); // Pass the error to the next middleware
     }
 }
 
 async function isLoggedIn(req) {
     // returns whether a jwt token was used
-    return Boolean(req.cookies["jwt"]);
+    return Boolean(req.cookies && req.cookies["jwt"]);
 }
+
 
 async function isAdmin(req) {
     // checks whether the current user is an admin
@@ -61,4 +59,10 @@ async function isAdmin(req) {
     }
 }
 
-module.exports = {prepareForRegistration, verifyJwt, verifyAdmin, isLoggedIn, isAdmin}
+module.exports = {
+    prepareForRegistration,
+    verifyJwt,
+    verifyAdmin,
+    isLoggedIn,
+    isAdmin
+}

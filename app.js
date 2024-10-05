@@ -5,7 +5,16 @@ const mongoose = require("mongoose");
 const logger = require("./middleware/logger");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
+
+const connectDB = require("./db/connect");
+
 const app = express();
+const cookieParser = require('cookie-parser');
+
+
+// middleware
+const middleware = require("./middleware/auth");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
@@ -16,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 //Connect to mongodb database
-mongoose.connect(process.env.MONGO_URI);
+connectDB()
 
 //Routes
 app.use("/", webRouter);
@@ -24,6 +33,10 @@ app.use("/api", apiRouter);
 app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
+
+// Error handler middleware
+app.use(errorHandlerMiddleware);
+app.use(cookieParser());
 
 const server = http.createServer(app);
 
