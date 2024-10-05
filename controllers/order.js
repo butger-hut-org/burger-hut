@@ -1,7 +1,6 @@
 const {StatusCodes} = require('http-status-codes');
 const { Order } = require('../models/order');
 const { Product } = require('../models/product');
-const { User } = require('../models/user')
 const mongoose = require('mongoose');
 
 async function orderCreate(req, res) {
@@ -117,7 +116,28 @@ async function orderCreate(req, res) {
   }
   
 
-async function orderList (req, res) {return res.status(StatusCodes.CREATED).json({});}
+  async function orderList(req, res) {
+    try {
+      if (!req.body.user || !req.body.user._id) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ error: 'User is not authenticated' });
+      }
+      const userId = req.body.user._id;
+      const orders = await Order.find({ user: userId });
+      if (orders.length === 0) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ message: 'No orders found for this user' });
+      }
+      return res.status(StatusCodes.OK).json({ orders });
+    } catch (err) {
+      console.error('Error in orderList:', err);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ error: 'An unexpected error occurred' });
+    }
+  }
 
 module.exports = {
     orderCreate,
