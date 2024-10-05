@@ -13,8 +13,12 @@ router.get("/login", (req, res) => {
   res.render("public/login", {});
 });
 
-router.get("/login", (req, res) => {
-  res.render("public/login", {});
+router.get("/branches", async (req, res) => {
+  try {
+    res.render("public/branches", {});
+  } catch (error) {
+    res.status(500).send('An error occurred while fetching branches');
+  }
 });
 
 router.get('/products/mgmt', async (req, res) => {
