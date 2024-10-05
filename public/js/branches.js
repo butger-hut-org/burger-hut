@@ -26,14 +26,13 @@ function getBranches() {
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (response) {
-      for (let index = 0; index < response.length; index++) {
-        let branch = response[index];
+      response.forEach((branch) => {
         let branchObject = $("#branchCard").html();
-        for (const key in branch) {
+        Object.keys(branch).forEach((key) => {
           branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
-        }
+        });
         $("#branchList").append(branchObject);
-      }
+      });
 
       $(".editBranchButton").click(function () {
         const branchId = $(this).data("id");
