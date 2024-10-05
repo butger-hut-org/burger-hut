@@ -13,12 +13,13 @@
 </head>
 <body>
     <div class="container">
-        <div id="branchList">
-            <h1 class="formtitle">Branches</h1>
-            <button id="addBranchButton">Add Branch</button>
+        <div id="branches">
+            <div id="branchHeader">
+                <h1 class="formtitle">Branches</h1>
+                <button id="addBranchButton">Add Branch</button>
+            </div>
             <!-- Overlay for the modal -->
             <div id="overlay"></div>
-
             <div id="newBranchForm" class="login_form">
                 <form id="branchForm" method="post">
                     <h1 class="formtitle">Add a new branch</h1>
@@ -35,7 +36,9 @@
                     <button id="cancelButton" type="button">Cancel</button>
                 </form>
             </div>
-            <!-- Branch cards will be appended here by JavaScript -->
+            <div id="branchList">
+                <!-- Branch cards will be appended here by JavaScript -->
+            </div>
         </div>
         <div id="map"></div>
     </div>
