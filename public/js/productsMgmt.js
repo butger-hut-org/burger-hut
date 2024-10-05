@@ -1,50 +1,48 @@
 document.addEventListener('DOMContentLoaded', () => {
-    $().ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:9898/api/products/list",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                const products = response.result;
-                products.forEach(product => {
-                    const productCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100 d-flex flex-column">
-                                <div class="card-body">
-                                    <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                    <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
-                                        <li onclick="deleteProduct('${product._id}')"><a class="dropdown-item" href="#">DELETE</a></li>
-                                        <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
-                                    </ul>              
-                                    <h5 class="card-title">${product.name}</h5>
-                                    <p class="card-text"><strong>Description:</strong> ${product.description}</p>
-                                    <p class="card-text"><strong>basePrice:</strong> ${product.basePrice.toFixed(2)} $</p>
-                                    <p class="card-text"><strong>extraPrice:</strong> ${product.extraPrice.toFixed(2)} $</p>
-                                    <p class="card-text"><strong>Category:</strong> ${product.category}</p>
-                                    ${product.bestSeller ? '<p class="text-success"><strong>🌟 Best Seller 🌟</strong></p>' : ''}
-                                </div>
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:9898/api/products/list",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            const products = response.result;
+            products.forEach(product => {
+                const productCard = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 d-flex flex-column">
+                            <div class="card-body">
+                                <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
+                                    <li onclick="deleteProduct('${product._id}')"><a class="dropdown-item" href="#">DELETE</a></li>
+                                    <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
+                                </ul>              
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text"><strong>Description:</strong> ${product.description}</p>
+                                <p class="card-text"><strong>basePrice:</strong> ${product.basePrice.toFixed(2)} $</p>
+                                <p class="card-text"><strong>extraPrice:</strong> ${product.extraPrice.toFixed(2)} $</p>
+                                <p class="card-text"><strong>Category:</strong> ${product.category}</p>
+                                ${product.bestSeller ? '<p class="text-success"><strong>🌟 Best Seller 🌟</strong></p>' : ''}
                             </div>
                         </div>
-                    `;
-                    const productList = document.getElementById('product-list');
-                    productList.insertAdjacentHTML('beforeend', productCard);
-                });
-            },
-            failure: function (response) {
-                alert(response.responseText);
-                alert("Failed loading products");
-            },
-            error: function (response) {
-                alert("Error");
-                alert(response);
-            },
-        });
-        $("input").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#productTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    </div>
+                `;
+                const productList = document.getElementById('product-list');
+                productList.insertAdjacentHTML('beforeend', productCard);
             });
+        },
+        failure: function (response) {
+            alert(response.responseText);
+            alert("Failed loading products");
+        },
+        error: function (response) {
+            alert("Error");
+            alert(response);
+        },
+    });
+    $("input").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#productTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
 });
