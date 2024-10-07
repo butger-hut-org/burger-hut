@@ -14,8 +14,8 @@ router.get("/login", (req, res) => {
   res.render("public/login", {});
 });
 
-// Route for main page
-router.get("/main", async(req, res) => {
+// Route for home page
+router.get("/home", async(req, res) => {
   res.render("./index",{isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
@@ -31,8 +31,31 @@ router.get("/products/mgmt", async (req, res) => {
 router.get('/menu', async (req, res) => {
   res.render('./menu');
 })
+
+router.get(
+  "/adminPortal",
+  middleware.verifyJwt,
+  middleware.verifyAdmin,
+  (req, res) => {
+      res.render("./adminPortal.ejs", {isAuthenticated: true, isAdmin: true});
+  }
+);
+
+router.get(
+  "/userManagement",
+  middleware.verifyJwt,
+  middleware.verifyAdmin,
+  (req, res) => {
+      res.render("./userManagement.ejs", {
+          isAuthenticated: true,
+          isAdmin: true,
+      });
+  }
+);
 const usersController = require('../../controllers/users');
 
 router.get('/logout', usersController.logout);
 
 module.exports = router;
+
+
