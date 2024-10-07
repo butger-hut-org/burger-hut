@@ -18,6 +18,7 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
+
 // Error handler middleware
 app.use(errorHandlerMiddleware);
 app.use(cookieParser());

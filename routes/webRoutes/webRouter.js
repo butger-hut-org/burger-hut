@@ -21,16 +21,12 @@ router.get("/home", async(req, res) => {
 
 // Route for displaying branches
 router.get("/branches", async (req, res) => {
-  try {
-    res.render("public/branches", {});
-  } catch (error) {
-    res.status(500).send("An error occurred while fetching branches");
-  }
+  res.render("public/branches", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
-router.get('/products/mgmt', async (req, res) => {
-  res.render('./productsMgmt');
-})
+router.get("/products/mgmt", async (req, res) => {
+  res.render("./productsMgmt");
+});
 
 router.get('/menu', async (req, res) => {
   res.render('./menu');
@@ -56,6 +52,9 @@ router.get(
       });
   }
 );
+const usersController = require('../../controllers/users');
+
+router.get('/logout', usersController.logout);
 
 module.exports = router;
 
