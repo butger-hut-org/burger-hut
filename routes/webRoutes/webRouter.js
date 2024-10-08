@@ -15,8 +15,8 @@ router.get("/login", (req, res) => {
 });
 
 // Route for main page
-router.get("/main", async(req, res) => {
-  res.render("./index",{isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
+router.get("/home", async(req, res) => {
+  res.render("public/home", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
 // Route for displaying branches
