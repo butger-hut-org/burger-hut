@@ -1,6 +1,7 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="he">
 <head>
+    <%- include('../includes/head') %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branch Locations</title>
@@ -12,13 +13,15 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
+    <%- include('../includes/header') %>
+
     <div class="container">
         <div id="branches">
             <div id="branchHeader">
                 <h1 class="formtitle">Branches</h1>
-                <% if (isAdmin) { %>
+                <!-- <% if (isAdmin) { %>
                     <button id="addBranchButton">Add Branch</button>
-                <% } %>
+                <% } %> -->
             </div>
             <!-- Overlay for the modal -->
             <div id="overlay"></div>
@@ -33,7 +36,7 @@
                     <div class="form-group">
                         <h1 for="branchStatus">Active</h1>
                         <input type="checkbox" id="branchStatus" name="active" />
-                    </div>
+                    </div>  
                     <button id="saveBranchButton" type="button">Create</button>
                     <button id="cancelButton" type="button">Cancel</button>
                 </form>
@@ -44,6 +47,7 @@
         </div>
         <div id="map"></div>
     </div>
+    <%- include('../includes/footer') %>
     <!-- Template for a branch card -->
     <script type="text/template" id="branchCard">
         <div class="branch-card">
@@ -51,10 +55,10 @@
             <p>Address: {address}, {city}</p>
             <p>Phone number: {phoneNumber}</p>
             <p>Active: {active}</p>
-            <% if (isAdmin) { %>
+            <!-- <% if (isAdmin) { %>
                 <button class="editBranchButton" data-id="{_id}">Edit</button>
                 <button class="deleteBranchButton" data-id="{_id}">Delete</button>
-            <% } %>
+            <% } %> -->
         </div>
     </script>
     <script src="/public/js/branches.js"></script>

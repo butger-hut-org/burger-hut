@@ -1,16 +1,48 @@
+/* סגנון כללי לגוף העמוד */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* עיצוב כותרת ותפריט */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #ff9800;
+}
+
 .container {
     display: flex;
     height: 100vh;
     background-color: #222831;
     font-family: "Open Sans", sans-serif;
-}
-
-#branchList {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    max-width: 500px;
-    background-color: #333;
+    margin-top: 50px;
 }
 
 #branches {
@@ -19,6 +51,20 @@
     background-color: #333;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+}
+
+#map {
+    flex: 2;
+    height: 100vh;
+}
+
+#branchList {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    max-width: 500px;
+    background-color: #333;
 }
 
 #branchHeader {
@@ -44,7 +90,7 @@
 }
 
 #newBranchForm {
-    display: none; /*Initially hidden */
+    display: none; /* Initially hidden */
     position: fixed; /* Fixed positioning */
     top: 50%; /* Center vertically */
     left: 50%; /* Center horizontally */
@@ -69,11 +115,11 @@
 
 /* Styling for the checkbox and label container */
 .form-group {
-    display: flex;              /* Flexbox layout for inline elements */
-    align-items: center;       /* Vertically centers items */
-    margin: 5px;           /* Space between form elements */
-    color: #ffffff;            /* White text for label */
-    font-size: 10px;           /* Consistent font size */
+    display: flex; /* Flexbox layout for inline elements */
+    align-items: center; /* Vertically centers items */
+    margin: 5px; /* Space between form elements */
+    color: #ffffff; /* White text for label */
+    font-size: 10px; /* Consistent font size */
 }
 
 .login_form {
@@ -125,9 +171,4 @@
 .ui-dialog-titlebar {
     background: #ffbe33; /* Title bar color */
     color: #fff; /* Title bar text color */
-}
-
-#map {
-    flex: 2;
-    height: 100vh;
 }

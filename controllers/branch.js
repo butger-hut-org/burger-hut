@@ -46,18 +46,18 @@ async function createBranch(req, res) {
     phoneNumber: req.body.phoneNumber,
     active: req.body.active,
   };
-  if (
-    !branchData.name ||
-    !branchData.address ||
-    !branchData.city ||
-    !branchData.phoneNumber ||
-    branchData.active === undefined
-  ) {
-    throw new BaseError.BadRequestError(
-      "Not all required fields were provided!"
-    );
-  }
   try {
+    if (
+      !branchData.name ||
+      !branchData.address ||
+      !branchData.city ||
+      !branchData.phoneNumber ||
+      branchData.active === undefined
+    ) {
+      throw new BaseError.BadRequestError(
+        "Not all required fields were provided!"
+      );
+    }
     const branch = await Branch.create(new Branch({ ...branchData }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
     return res.status(StatusCodes.CREATED).json(branch);
