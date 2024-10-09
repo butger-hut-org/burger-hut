@@ -1,23 +1,8 @@
 const port = 9898;
 
 $(document).ready(function () {
-  initializePage();
-});
-
-function initializePage() {
-  $("#addBranchForm").hide();
-//   $("#addBranchButton").click(function () {
-//     $("#saveBranchButton").text("Create");
-//     toggleForm();
-//     resetForm();
-//   });
-//   $("#cancelButton").click(function () {
-//     toggleForm();
-//     resetForm();
-//   });
-//   saveBranch();
   getBranches();
-}
+});
 
 function getBranches() {
   $.ajax({
@@ -53,13 +38,13 @@ function editBranch(branchId) {
     dataType: "json",
     success: function (branch) {
       // Populate the form with the existing branch data
-    //   toggleForm();
-      $("#branchId").val(branch._id);
+      $("#addBranchPopup").modal('toggle');
+      $("#branchId").val(branchId);
       $("#branchName").val(branch.name);
       $("#branchAddress").val(branch.address);
       $("#branchCity").val(branch.city);
       $("#branchPhoneNumber").val(branch.phoneNumber);
-      $("#branchStatus").prop("checked", branch.active);
+      $("#branchStatus").val(branch.active ? "true" : "false");
       $("#saveBranchButton").text("Save");
     },
     error: function (response) {
@@ -86,24 +71,21 @@ function deleteBranch(branchId) {
 }
 
 function saveBranch() {
-  $("#saveBranchButton").click(function () {
-    const branchId = $("#branchId").val();
-    const branchData = {
-      name: $("#branchName").val(),
-      address: $("#branchAddress").val(),
-      city: $("#branchCity").val(),
-      phoneNumber: $("#branchPhoneNumber").val(),
-      active: $("#branchStatus").prop("checked"),
-    };
-    if (branchId) {
-      updateBranch(branchId, branchData);
-    } else {
-        console.log("HERE")
-      createBranch(branchData);
-    }
-    $("#addBranchPopup").modal('toggle');
-    resetForm();
-  });
+  const branchId = $("#branchId").val();
+  const branchData = {
+    name: $("#branchName").val(),
+    address: $("#branchAddress").val(),
+    city: $("#branchCity").val(),
+    phoneNumber: $("#branchPhoneNumber").val(),
+    active: $("#branchStatus").val(),
+  };
+  if (branchId) {
+    updateBranch(branchId, branchData);
+  } else {
+    createBranch(branchData);
+  }
+  $("#addBranchPopup").modal('toggle');
+  resetForm();
 }
 
 function updateBranch(branchId, branchData) {
@@ -144,5 +126,6 @@ function resetForm() {
   $("#branchAddress").val("");
   $("#branchCity").val("");
   $("#branchPhoneNumber").val("");
-  $("#branchStatus").prop("checked", false);
+  $("#branchStatus").val("");
+  $("#saveBranchButton").text("Create");
 }

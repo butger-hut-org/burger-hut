@@ -4,8 +4,12 @@
             <div class="branch-card">
                 <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
                 <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
-                    <li onclick="deleteBranch('{_id}')"><a class="dropdown-item" href="#">Delete</a></li>
-                    <li onclick="editBranch('{_id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">Edit</a></li>
+                    <li onclick="deleteBranch('{_id}')">
+                        <a class="dropdown-item" href="#">Delete</a>
+                    </li>
+                    <li onclick="editBranch('{_id}')">
+                        <a class="dropdown-item" href="#">Edit</a>
+                    </li>
                 </ul>              
                 <h5>Branch Name: {name}</h5>
                 <p>Address: {address}, {city}</p>
