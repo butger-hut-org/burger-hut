@@ -1,12 +1,8 @@
 const port = 9898;
 
 $(document).ready(function () {
-  initializePage();
-});
-
-function initializePage() {
   getBranches();
-}
+});
 
 function getBranches() {
   $.ajax({
