@@ -73,14 +73,26 @@ function addToTempCart(){
     const productId = document.getElementById('productId').innerText;
     itemFields.productId = productId;
     let currentProductsInCart = localStorage.getItem('cart');
-    console.log(currentProductsInCart);
     if (!currentProductsInCart){
         currentProductsInCart = [];
     }
     else {
         currentProductsInCart = JSON.parse(currentProductsInCart);
     }
-    currentProductsInCart.push(itemFields);
+
+    let existingItem = currentProductsInCart.find(
+        cartItem => cartItem.productId === itemFields.productId && 
+        cartItem.size === itemFields.size
+    );
+    if (existingItem){
+        existingItem.quantity = parseInt(existingItem.quantity, 10);
+        itemFields.quantity = parseInt(itemFields.quantity, 10);
+        existingItem.quantity += itemFields.quantity;
+    }
+    else{
+        currentProductsInCart.push(itemFields);
+    }
+
     localStorage.setItem('cart', JSON.stringify(currentProductsInCart));
 }
 
