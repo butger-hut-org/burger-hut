@@ -45,7 +45,7 @@ function generateMenuItems(products) {
         const price = document.createElement("p");
         price.textContent = `$${product.basePrice.toFixed(2)}`;
         const button = document.createElement("a");
-        
+
         button.textContent = "Add to Cart";
         button.classList.add("btn", "btn-primary");
         button.setAttribute('data-bs-toggle', 'modal');
@@ -69,9 +69,31 @@ function addItemIdToModal(id){
 }
 
 function addToTempCart(){
-    const itemFields = collectFormFields();
+    let itemFields = collectFormFields();
     const productId = document.getElementById('productId').innerText;
-    localStorage.setItem(productId, JSON.stringify(itemFields));
+    itemFields.productId = productId;
+    let currentProductsInCart = localStorage.getItem('cart');
+    if (!currentProductsInCart){
+        currentProductsInCart = [];
+    }
+    else {
+        currentProductsInCart = JSON.parse(currentProductsInCart);
+    }
+
+    let existingItem = currentProductsInCart.find(
+        cartItem => cartItem.productId === itemFields.productId && 
+        cartItem.size === itemFields.size
+    );
+    if (existingItem){
+        existingItem.quantity = parseInt(existingItem.quantity, 10);
+        itemFields.quantity = parseInt(itemFields.quantity, 10);
+        existingItem.quantity += itemFields.quantity;
+    }
+    else{
+        currentProductsInCart.push(itemFields);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(currentProductsInCart));
 }
 
 function collectFormFields() {
@@ -79,8 +101,6 @@ function collectFormFields() {
         size: $("#productSize").val(),
         quantity: $("#productQuantity").val()
     };
-    console.log(request.size);
-    console.log(request.quantity);
     if (request.size == null || request.quantity == null) {
         alert("Please fill out all fields");
         return null;
