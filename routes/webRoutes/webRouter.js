@@ -24,7 +24,7 @@ router.get("/branches", async (req, res) => {
   res.render("public/branches", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
-router.get("/branches/mgmt", async (req, res) => {
+router.get("/branchesManagement", async (req, res) => {
   res.render("./branchMgmt", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
@@ -36,14 +36,9 @@ router.get('/menu', async (req, res) => {
   res.render('./menu');
 })
 
-router.get(
-  "/adminPortal",
-  middleware.verifyJwt,
-  middleware.verifyAdmin,
-  (req, res) => {
+router.get("/adminPortal", middleware.verifyJwt, middleware.verifyAdmin, (req, res) => {
       res.render("./adminPortal.ejs", {isAuthenticated: true, isAdmin: true});
-  }
-);
+});
 
 router.get(
   "/userManagement",
