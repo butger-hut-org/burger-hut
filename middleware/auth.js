@@ -1,7 +1,7 @@
-const {User, validateUser, validateLogin} = require("../models/user.js");
+const {User} = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const BaseError = require('../errors');
-const {bool} = require("joi");
+const logger = require("../middleware/logger");
 require('dotenv').config();
 
 
@@ -20,7 +20,11 @@ async function prepareForRegistration(req, res, next) {
 
 async function verifyAdmin(req, res, next) {
     if (!req.user.admin) {
-        throw new BaseError.UnauthorizedError('You do not have the required permission for this resource');
+        const header = "Permission Denied!";
+        const message = "You do not have permission to access this resource.";
+        logger.error(message);
+        // throw new BaseError.UnauthorizedError('You do not have the required permission for this resource');
+        return res.render("../views/includes/invalidPage", { header, message });
     }
     next();
 }
@@ -28,8 +32,11 @@ async function verifyAdmin(req, res, next) {
 async function verifyJwt(req, res, next) {
     const token = req.cookies["jwt"];
     if (!token) {
-        console.log("no token");
-        return next(new BaseError.UnauthenticatedError('no jwt token provided, please log in first')); // Pass the error to the next middleware
+        const header = "Missing Token!";
+        const message = "No token provided, please log in first.";
+        logger.error(message);
+        return res.render("../views/includes/invalidPage", { header, message });
+        // return next(new BaseError.UnauthenticatedError('no jwt token provided, please log in first')); // Pass the error to the next middleware
     }
 
     try {
@@ -37,8 +44,8 @@ async function verifyJwt(req, res, next) {
         req.user = await User.findById(decoded._id).select("-password");
         next();
     } catch (ex) {
-        console.log("invalid token");
-        return next(new BaseError.UnauthenticatedError('invalid jwt token')); // Pass the error to the next middleware
+        logger.error("invalid token");
+        // return next(new BaseError.UnauthenticatedError('invalid jwt token')); // Pass the error to the next middleware
     }
 }
 
