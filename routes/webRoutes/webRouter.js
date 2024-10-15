@@ -36,8 +36,8 @@ router.get("/branchManagement", middleware.verifyJwt, middleware.verifyAdmin, as
   res.render("./branchMgmt");
 });
 
-router.get("/products/mgmt", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./productsMgmt");
+router.get("/productManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./productMgmt");
 });
 
 router.get("/userManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
