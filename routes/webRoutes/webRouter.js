@@ -17,7 +17,7 @@ router.get("/home", middleware.verifyJwt, async (req, res) => {
 });
 
 router.get("/branches", middleware.verifyJwt, async (req, res) => {
-  res.render("public/branches", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./branches", { isAdmin: await middleware.isAdmin(req) });
 });
 
 router.get("/menu", middleware.verifyJwt, async (req, res) => {
