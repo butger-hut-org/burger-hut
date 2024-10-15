@@ -1,6 +1,5 @@
 // USER CONTROLLER
 const { User, validateUser, validateLogin } = require("../models/user.js");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const BaseError = require('../errors');
 require('dotenv').config();

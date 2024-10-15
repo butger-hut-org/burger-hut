@@ -1,0 +1,48 @@
+<body>
+    <div class="container mt-5 text-center">
+        <div class="modal fade" id="addBranchPopup" tabindex="-1" aria-labelledby="addBranchModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="branchModalLabel">Add New Branch</h5>
+                        <button type="button" class="btn-close" id="branchModalClose" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <input id="branchId" type="hidden" name="branchId" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchName" class="form-label">Branch Name</label>
+                                <input type="text" class="form-control" id="branchName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="branchAddress" required></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="branchCity" required></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchPhoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="branchPhoneNumber" required></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="branchStatus" class="form-label">Active</label>
+                                <select class="form-select" id="branchStatus" required>
+                                    <option value="" disabled selected>Select status</option>
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="saveBranchButton" class="btn btn-primary" onclick="saveBranch()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</body>

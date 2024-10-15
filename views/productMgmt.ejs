@@ -2,17 +2,17 @@
 <html lang="en">
 <%- include ("./includes/head") %>
 <body>
+    <%- include('./includes/header') %>
     <div class="container mt-5">
         <button onclick="changePopupToCreate()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addProductPopup">Add Product</button>
         <%- include("templates/productPopup") %>
-
         <h1 class="text-center">Our Products</h1>
         <div class="row" id="product-list">
             <!-- Product will be injected here by JavaScript -->
         </div>
     </div>
-    
     <%- include ("./includes/scripts") %>
-    <script src="/public/js/productsMgmt.js"></script>
+    <script src="/public/js/productMgmt.js"></script>
+    <%- include('./includes/footer') %>
 </body>
 </html>
