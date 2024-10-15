@@ -24,7 +24,7 @@ router.get("/branches", async (req, res) => {
   res.render("public/branches", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
-router.get("/branchesManagement", async (req, res) => {
+router.get("/branchManagement", async (req, res) => {
   res.render("./branchMgmt", {isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
 });
 
