@@ -24,7 +24,7 @@ async function verifyAdmin(req, res, next) {
         const message = "You do not have permission to access this resource.";
         logger.error(message);
         // throw new BaseError.UnauthorizedError('You do not have the required permission for this resource');
-        return res.render("../views/includes/invalidPage", { header, message });
+        return res.render("../views/includes/error", { header, message });
     }
     next();
 }
@@ -35,7 +35,7 @@ async function verifyJwt(req, res, next) {
         const header = "Missing Token!";
         const message = "No token provided, please log in first.";
         logger.error(message);
-        return res.render("../views/includes/invalidPage", { header, message });
+        return res.render("../views/includes/error", { header, message });
         // return next(new BaseError.UnauthenticatedError('no jwt token provided, please log in first')); // Pass the error to the next middleware
     }
 

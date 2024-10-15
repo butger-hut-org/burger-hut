@@ -13,7 +13,7 @@ body {
     height: 100vh;
 }
 
-.invalid-page-container {
+.error-page-container {
     text-align: center;
     padding: 20px;
     border: 1px solid #ccc;
