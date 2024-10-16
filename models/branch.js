@@ -33,7 +33,9 @@ const branchSchema = new mongoose.Schema(
       lon: {
         type: Number,
         required: true
-      }
+      },
+      required: true,
+      unique: true,
     }
   },
   { autoCreate: true }
