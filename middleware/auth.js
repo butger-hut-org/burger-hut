@@ -2,6 +2,7 @@ const {User} = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const BaseError = require('../errors');
 const logger = require("../middleware/logger");
+const middleware = require("../middleware/auth");
 require('dotenv').config();
 
 
@@ -23,8 +24,7 @@ async function verifyAdmin(req, res, next) {
         const header = "Permission Denied!";
         const message = "You do not have permission to access this resource.";
         logger.error(message);
-        // throw new BaseError.UnauthorizedError('You do not have the required permission for this resource');
-        return res.render("../views/includes/error", { header, message });
+        return res.render("../views/includes/error", { header, message, isAdmin: false });
     }
     next();
 }
@@ -35,8 +35,7 @@ async function verifyJwt(req, res, next) {
         const header = "Missing Token!";
         const message = "No token provided, please log in first.";
         logger.error(message);
-        return res.render("../views/includes/error", { header, message });
-        // return next(new BaseError.UnauthenticatedError('no jwt token provided, please log in first')); // Pass the error to the next middleware
+        return res.render("../views/includes/error", { header, message, isAdmin: false });
     }
 
     try {
@@ -45,7 +44,6 @@ async function verifyJwt(req, res, next) {
         next();
     } catch (ex) {
         logger.error("invalid token");
-        // return next(new BaseError.UnauthenticatedError('invalid jwt token')); // Pass the error to the next middleware
     }
 }
 
