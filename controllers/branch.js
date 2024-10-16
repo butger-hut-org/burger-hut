@@ -3,10 +3,13 @@ const Branch = require("../models/branch");
 const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
+const { getIsraelCoordinates } = require('./utils.js');
 // const {postTweet} = require('../twitter');
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
+const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
 
+// TODO: add bad request error handling on the catch of each route
 async function getBranchById(req, res) {
   const branchId = req.params.id;
   try {
@@ -47,18 +50,10 @@ async function createBranch(req, res) {
     active: req.body.active,
   };
   try {
-    if (
-      !branchData.name ||
-      !branchData.address ||
-      !branchData.city ||
-      !branchData.phoneNumber ||
-      branchData.active === undefined
-    ) {
-      throw new BaseError.BadRequestError(
-        "Not all required fields were provided!"
-      );
+    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || branchData.active === undefined) {
+      throw new BaseError.BadRequestError("Not all required fields were provided!");
     }
-    const branch = await Branch.create(new Branch({ ...branchData }));
+    const branch = await Branch.create(new Branch({ ...branchData, location: getIsraelCoordinates() }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
     return res.status(StatusCodes.CREATED).json(branch);
   } catch (error) {
@@ -79,6 +74,11 @@ async function updateBranch(req, res) {
     if (!mongoose.isValidObjectId(branchId)) {
       throw new BaseError.BadRequestError(`Invalid branch ID format: ${branchId}`);
     }
+    Object.keys(dataToUpdate).forEach((key) => {
+      if(UNUPDATEABLE_FIELDS.includes(key)) {
+        throw new BaseError.BadRequestError("Cannot update branch's address, city or location!");
+      }
+    })
     const updatedBranch = await Branch.findOneAndUpdate(
       { _id: branchId },
       dataToUpdate,

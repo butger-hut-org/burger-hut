@@ -10,8 +10,8 @@ function getBranches() {
     url: `http://localhost:${port}/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-    success: function (response) {
-      response.forEach((branch) => {
+    success: function (branches) {
+      branches.forEach((branch) => {
         let branchObject = $("#branchCard").html();
         Object.keys(branch).forEach((key) => {
           branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
@@ -19,7 +19,7 @@ function getBranches() {
         $("#branchList").append(branchObject);
       });
       clearMarkers();
-      markBranches(response);
+      markBranches(branches);
     },
     failure: function (response) {
       alert(response.responseText);
