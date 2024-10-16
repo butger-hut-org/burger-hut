@@ -1,6 +1,7 @@
 const {StatusCodes} = require('http-status-codes');
 const Product = require('../models/product');
 const BaseError = require('../errors');
+const logger = require("../middleware/logger");
 // const {postTweet} = require('../twitter');
 
 
@@ -23,6 +24,7 @@ async function productCreate(req, res) {
     if (!result) {
         throw BaseError.InternalError("Failed to save new product");
     }
+    logger.info(`Successfully created product ${req.body.name}`);
     // postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
     // TODO: post on facebook
     return res.status(StatusCodes.CREATED).json({result});
@@ -34,7 +36,6 @@ async function productUpdate(req, res) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
-    // using callback
     result = await Product.findOneAndUpdate({_id: req.body.productId}, {
         name: req.body.name,
         description: req.body.description,
@@ -55,7 +56,7 @@ async function productDelete(req, res) {
     if (!result) {
         throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.productId}`);
     }
-
+    logger.info(`Successfully deleted product ${req.body.name}`);
     res.status(StatusCodes.OK).json({result});
 };
 
@@ -64,7 +65,7 @@ async function productList(req, res) {
     if (!result) {
         throw new BaseError.InternalError("Failed to list products");
     }
-
+    logger.info(`Successfully get all product`);
     res.status(StatusCodes.OK).json({result});
 };
 
