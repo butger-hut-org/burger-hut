@@ -3,6 +3,7 @@ const Branch = require("../models/branch");
 const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
+const { getIsraelCoordinates } = require('./utils.js');
 // const {postTweet} = require('../twitter');
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
@@ -48,16 +49,12 @@ async function createBranch(req, res) {
     city: req.body.city,
     phoneNumber: req.body.phoneNumber,
     active: req.body.active,
-    location: { ...req.body.location },
   };
   try {
-    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || !branchData.location || branchData.active === undefined) {
+    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || branchData.active === undefined) {
       throw new BaseError.BadRequestError("Not all required fields were provided!");
     }
-    if (!validateLocationDictionary(branchData.location)) {
-      throw new BaseError.BadRequestError("Excessive keys were detected! Must be of type {lat: Number, lon: Number}");
-    }
-    const branch = await Branch.create(new Branch({ ...branchData }));
+    const branch = await Branch.create(new Branch({ ...branchData, location: getIsraelCoordinates() }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
     return res.status(StatusCodes.CREATED).json(branch);
   } catch (error) {
@@ -124,18 +121,6 @@ async function deleteBranchById(req, res) {
     const status = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
     return res.status(status).json(error);
   }
-}
-
-function validateLocationDictionary(location) {
-  if (typeof location !== 'object' || location === null || Array.isArray(location) || Object.keys(location).length !== 2) {
-    return false;
-  }
-  const locationKeys = Object.keys(location);
-  locationKeys.forEach((key) => {
-    if (typeof location[key] !== 'number' || !isFinite(location[key]) || !LOCATION_VALID_FIELDS.includes(key)) {
-      throw new BaseError.BadRequestError("The provided location is not valid! Must be of type {lat: Number, lon: Number}")    }
-  });
-  return locationKeys.length === LOCATION_VALID_FIELDS.length;
 }
 
 module.exports = {
