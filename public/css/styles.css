@@ -5,6 +5,8 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 /* עיצוב כותרת ותפריט */
@@ -507,7 +509,7 @@ footer {
     width: 100%;
     position: fixed;
     bottom: 0;
-    position: relative;
+    z-index: 9999;
 }
 
 footer p {
