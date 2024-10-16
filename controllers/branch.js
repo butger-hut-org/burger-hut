@@ -7,7 +7,6 @@ const { getIsraelCoordinates } = require('./utils.js');
 // const {postTweet} = require('../twitter');
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
-const LOCATION_VALID_FIELDS = ["lat", "lon"];
 const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
 
 // TODO: add bad request error handling on the catch of each route
