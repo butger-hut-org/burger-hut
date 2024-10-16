@@ -36,6 +36,11 @@ app.use("/api", apiRouter);
 app.get("/", (req, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
+app.use((req, res) => {
+  const header = "Oops!";
+  const message = "This page doesn't exist...";
+  res.render("../views/includes/error", { header, message });
+});
 
 const server = http.createServer(app);
 
