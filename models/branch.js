@@ -19,12 +19,22 @@ const branchSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       required: true,
-      unique: true, //TODO: remember to change this to unique in the collection itself
+      unique: true,
     },
     active: {
       type: Boolean,
       required: true,
     },
+    location: {
+      lat: {
+        type: Number,
+        required: true
+      },
+      lon: {
+        type: Number,
+        required: true
+      }
+    }
   },
   { autoCreate: true }
 );

@@ -6,7 +6,10 @@ const logger = require("../middleware/logger");
 // const {postTweet} = require('../twitter');
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
+const LOCATION_VALID_FIELDS = ["lat", "lon"];
+const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
 
+// TODO: add bad request error handling on the catch of each route
 async function getBranchById(req, res) {
   const branchId = req.params.id;
   try {
@@ -45,18 +48,14 @@ async function createBranch(req, res) {
     city: req.body.city,
     phoneNumber: req.body.phoneNumber,
     active: req.body.active,
+    location: { ...req.body.location },
   };
   try {
-    if (
-      !branchData.name ||
-      !branchData.address ||
-      !branchData.city ||
-      !branchData.phoneNumber ||
-      branchData.active === undefined
-    ) {
-      throw new BaseError.BadRequestError(
-        "Not all required fields were provided!"
-      );
+    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || !branchData.location || branchData.active === undefined) {
+      throw new BaseError.BadRequestError("Not all required fields were provided!");
+    }
+    if (!validateLocationDictionary(branchData.location)) {
+      throw new BaseError.BadRequestError("Excessive keys were detected! Must be of type {lat: Number, lon: Number}");
     }
     const branch = await Branch.create(new Branch({ ...branchData }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
@@ -79,6 +78,11 @@ async function updateBranch(req, res) {
     if (!mongoose.isValidObjectId(branchId)) {
       throw new BaseError.BadRequestError(`Invalid branch ID format: ${branchId}`);
     }
+    Object.keys(dataToUpdate).forEach((key) => {
+      if(UNUPDATEABLE_FIELDS.includes(key)) {
+        throw new BaseError.BadRequestError("Cannot update branch's address, city or location!");
+      }
+    })
     const updatedBranch = await Branch.findOneAndUpdate(
       { _id: branchId },
       dataToUpdate,
@@ -120,6 +124,18 @@ async function deleteBranchById(req, res) {
     const status = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
     return res.status(status).json(error);
   }
+}
+
+function validateLocationDictionary(location) {
+  if (typeof location !== 'object' || location === null || Array.isArray(location) || Object.keys(location).length !== 2) {
+    return false;
+  }
+  const locationKeys = Object.keys(location);
+  locationKeys.forEach((key) => {
+    if (typeof location[key] !== 'number' || !isFinite(location[key]) || !LOCATION_VALID_FIELDS.includes(key)) {
+      throw new BaseError.BadRequestError("The provided location is not valid! Must be of type {lat: Number, lon: Number}")    }
+  });
+  return locationKeys.length === LOCATION_VALID_FIELDS.length;
 }
 
 module.exports = {
