@@ -1,23 +1,16 @@
 const http = require("http");
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 const logger = require("./middleware/logger");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
-
-const connectDB = require("./db/connect");
-
-const app = express();
-const cookieParser = require('cookie-parser');
-
-
-// middleware
-const middleware = require("./middleware/auth");
 const errorHandlerMiddleware = require("./middleware/error-handler");
+const cookieParser = require('cookie-parser');
 
 //Make sure your .env file contains everything required for you application to operate properly.
 require("dotenv").config();
+
+const app = express();
+const connectDB = require("./db/connect");
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
@@ -33,10 +26,10 @@ connectDB()
 //Routes
 app.use("/", webRouter);
 app.use("/api", apiRouter);
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.redirect("/login"); // Redirect root to login page
 });
-app.use((req, res) => {
+app.use((_, res) => {
   const header = "Oops!";
   const message = "This page doesn't exist...";
   res.render("../views/includes/error", { header, message });
