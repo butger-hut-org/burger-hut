@@ -1,6 +1,7 @@
 const http = require("http");
 const express = require("express");
 const logger = require("./middleware/logger");
+const middleware = require("./middleware/auth");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -27,12 +28,12 @@ connectDB()
 app.use("/", webRouter);
 app.use("/api", apiRouter);
 app.get("/", (_, res) => {
-  res.redirect("/login"); // Redirect root to login page
+  res.redirect("/login");
 });
-app.use((_, res) => {
+app.use(async (req, res) => {
   const header = "Oops!";
   const message = "This page doesn't exist...";
-  res.render("../views/includes/error", { header, message });
+  res.render("../views/includes/error", { header, message, isAdmin: await middleware.isAdmin(req) });
 });
 
 const server = http.createServer(app);
