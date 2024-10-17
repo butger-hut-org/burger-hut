@@ -14,7 +14,13 @@ function getBranches() {
         response.forEach((branch) => {
         let branchObject = $("#branchContainer").html();
         Object.keys(branch).forEach((key) => {
-          branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
+          if (key === "location") {
+            const coordinateText = `${branch[key]["lat"]}, ${branch[key]["lon"]}`
+            branchObject = branchObject.replace("{" + key + "}", coordinateText);
+          }
+          else {
+            branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
+          }
         });
         $("#branchList").append(branchObject);
       });
@@ -39,10 +45,11 @@ function editBranch(branchId) {
     success: function (branch) {
       // Populate the form with the existing branch data
       $("#addBranchPopup").modal('toggle');
-      $("#branchId").val(branchId);
-      $("#branchName").val(branch.name);
       $("#branchAddressFields").hide();
       $("#branchCityFields").hide();
+      $("#branchCoordinates").hide();
+      $("#branchId").val(branchId);
+      $("#branchName").val(branch.name);
       $("#branchPhoneNumber").val(branch.phoneNumber);
       $("#branchStatus").val(branch.active ? "true" : "false");
       $("#branchModalLabel").text("Edit Branch");
@@ -81,7 +88,15 @@ function saveBranch() {
   if (branchId) {
     updateBranch(branchId, commonBranchData);
   } else {
-    createBranch({ ...commonBranchData ,address: $("#branchAddress").val() ,city: $("#branchCity").val() });
+    const newBranchExtraData = {
+      address: $("#branchAddress").val(),
+      city: $("#branchCity").val(),
+      location: {
+        lat: $("#branchLat").val(),
+        lon: $("#branchLon").val(),
+      }
+    }
+    createBranch({ ...commonBranchData, ...newBranchExtraData });
   }
   $("#addBranchPopup").modal("toggle");
   resetForm();
@@ -119,15 +134,26 @@ function createBranch(branchData) {
   });
 }
 
-function resetForm() {
+function resetValues() {
   $("#branchId").val("");
   $("#branchName").val("");
   $("#branchAddress").val("");
-  $("#branchAddressFields").show();
   $("#branchCity").val("");
-  $("#branchCityFields").show();
   $("#branchPhoneNumber").val("");
   $("#branchStatus").val("");
+  $("#branchLat").val("");
+  $("#branchLon").val("");
+}
+
+function resetDisplay() {
+  $("#branchAddressFields").show();
+  $("#branchCityFields").show();
+  $("#branchCoordinates").show();
   $("#branchModalLabel").text("Add New Branch");
   $("#saveBranchButton").text("Create");
+}
+
+function resetForm() {
+  resetValues();
+  resetDisplay();
 }
