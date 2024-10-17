@@ -1,0 +1,40 @@
+.category-title {
+    width: 100%; /* Make the title take 100% of the width */
+    text-align: center; /* Center the title text */
+    font-size: 2rem; /* Larger font size */
+    margin: 20px 0; /* Space above and below the title */
+    color: #333; /* Darker color for contrast */
+    font-weight: bold; /* Make the text bold */
+    border-bottom: 2px solid #ccc; /* Underline the title */
+    padding-bottom: 10px; /* Space between title and border */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.items-container {
+    display: flex; /* Use flexbox for horizontal layout */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+    justify-content: space-around; /* Distribute items evenly */
+    margin-top: 20px; /* Add space between the title and items */
+}
+
+.item {
+    padding: 10px; /* Add some padding for each item */
+    border: 1px solid #ccc; /* Optional: add a border for better visibility */
+    margin: 10px; /* Space between items */
+    /* flex: 0 1 calc(25% - 20px); Adjust width for responsive design */
+    box-sizing: border-box; /* Ensure padding and border are included in width/height */
+    text-align: center; /* Center align text inside each item */
+}
+
+.btn {
+    display: inline-block; /* Display button inline */
+    padding: 10px 15px; /* Add padding for button */
+    text-decoration: none; /* Remove underline */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker background on hover */
+}
