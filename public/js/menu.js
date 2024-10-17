@@ -26,54 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-// Function to generate menu items dynamically
-// function generateMenuItems(category) {
-//     const menuItemsContainer = document.getElementById("menuItems");
-
-//     // Create and style the category title
-//     const categoryTitle = document.createElement("h1");
-//     categoryTitle.textContent = `${category['_id']}`;
-//     categoryTitle.className = "category-title"; // Apply CSS class for styling
-
-//     // Append the category title to the container
-//     menuItemsContainer.appendChild(categoryTitle);
-
-//     // Create a container for product items
-//     const itemsContainer = document.createElement("div");
-//     itemsContainer.className = "items-container"; // Apply CSS class for styling
-
-//     category['products'].forEach(product => {
-//         const itemDiv = document.createElement("div");
-//         itemDiv.classList.add("item");
-//         itemDiv.id = product._id;
-
-//         const title = document.createElement("h3");
-//         title.textContent = `${product.name} - ${product.category}`;
-
-//         const price = document.createElement("p");
-//         price.textContent = `$${product.basePrice.toFixed(2)}`;
-
-//         const button = document.createElement("a");
-//         button.textContent = "Add to Cart";
-//         button.classList.add("btn", "btn-primary");
-//         button.setAttribute('data-bs-toggle', 'modal');
-//         button.setAttribute('data-bs-target', '#addToCartModal');
-//         button.setAttribute('onclick', `addItemIdToModal('${product._id}')`);
-
-//         // Append all elements to the item div
-//         itemDiv.appendChild(title);
-//         itemDiv.appendChild(price);
-//         itemDiv.appendChild(button);
-
-//         // Append the item div to the items container
-//         itemsContainer.appendChild(itemDiv);
-//     });
-
-//     // Append the items container to the menuItems container
-//     menuItemsContainer.appendChild(itemsContainer);
-// }
-
 function generateMenuItems(category) {
     const menuItemsContainer = document.getElementById("menuItems");
 
