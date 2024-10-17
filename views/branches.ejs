@@ -3,7 +3,7 @@
 <head>
     <%- include('./includes/head') %>
     <link rel="stylesheet" href="/public/css/branches.css">
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <!-- <link rel="stylesheet" href="/public/css/styles.css"> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
@@ -12,6 +12,16 @@
         <div id="branches">
             <div id="branchHeader">
                 <h1 class="formtitle">Branches</h1>
+                <input class="form-control" type="text" placeholder="Search"/>
+                <p class="d-flex gap-2 mt-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false" autocomplete="off">Filter Active Branches</button>
+                    <select class="form-select" id="location" required>
+                        <option value="" disabled selected>Filter location</option>
+                        <option value="true">North</option>
+                        <option value="false">Center</option>
+                        <option value="false">South</option>
+                    </select>
+                </p>
             </div>
             <div id="branchList">
                 <!-- Branch cards will be appended here by JavaScript -->
