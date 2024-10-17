@@ -110,6 +110,38 @@ async function productSpecificSearch(req, res) {
     res.status(StatusCodes.OK).json({result});
 };
 
+async function productGroupBy(req, res){
+    // response example:
+    // {
+    //     "_id": "Vegan", // Category or other group field
+    //     "products": [
+    //       { "name": "Vegan Burger", "price": 12.00, "category": "Vegan", ... }, 
+    //       { "name": "Vegan Wrap", "price": 8.50, "category": "Vegan", ... }
+    //     ],
+    //     "totalProducts": 2
+    // }
+
+    const groupField = req.query.field; // Field to group by, passed in the query
+    // console.log(groupField);
+    if (!groupField){
+        throw new BaseError.BadRequestError('Please provide values');
+    }
+
+    try {
+        const groupedProducts = await Product.aggregate([
+            {
+                $group: {
+                    _id: `$${groupField}`, // Dynamically group by the provided field
+                    products: { $push: "$$ROOT" }, // Push the entire product document
+                    totalProducts: { $sum: 1 } // Count the total number of products in each group
+                }
+            }
+        ]);
+        res.status(StatusCodes.OK).json(groupedProducts);
+    } catch (error) {
+        throw new BaseError.InternalError("Failed to list products");
+    }
+}
 module.exports = {
     productCreate,
     productUpdate,
@@ -117,4 +149,5 @@ module.exports = {
     productList,
     productSearch,
     productSpecificSearch,
+    productGroupBy
 };

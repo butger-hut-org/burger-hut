@@ -8,6 +8,7 @@ const {
     productList,
     productSearch,
     productSpecificSearch,
+    productGroupBy
 } = require('../../controllers/product');
 // for now it is without auth
 router.route('/create').post(middleware.verifyJwt, middleware.verifyAdmin, productCreate);
@@ -17,5 +18,6 @@ router.route('/delete').delete(middleware.verifyJwt, middleware.verifyAdmin, pro
 router.route('/list').get(productList);
 router.route('/search').get(productSearch);
 router.route('/searchSpecific').get(productSpecificSearch);
+router.route('/groupBy').get(productGroupBy);
 
 module.exports = router;
