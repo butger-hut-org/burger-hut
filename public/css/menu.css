@@ -9,7 +9,9 @@
     padding-bottom: 10px; /* Space between title and border */
     box-sizing: border-box; /* Include padding and border in the element's total width */
 }
-
+input {
+    margin-top: 20px;
+}
 .items-container {
     display: flex; /* Use flexbox for horizontal layout */
     flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
