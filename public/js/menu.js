@@ -38,7 +38,6 @@ function generateMenuItems(category) {
     category['products'].forEach(product => {
         const itemDiv = document.createElement("div");
         itemDiv.classList.add("item");
-        // itemDiv.className = "items-container";
         itemDiv.id = (product._id);
 
         // const img = document.createElement("img");
