@@ -79,14 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category.classList.add("card-text");
                 category.innerHTML = `<strong>Category:</strong> ${product.category}`;
 
-                // Optional best seller label
-                if (product.bestSeller) {
-                    const bestSeller = document.createElement("p");
-                    bestSeller.classList.add("text-success");
-                    bestSeller.innerHTML = `<strong>🌟 Best Seller 🌟</strong>`;
-                    cardBodyDiv.appendChild(bestSeller);
-                }
-
+                
                 // Append all elements to the card body
                 cardBodyDiv.appendChild(dropdownButton);
                 cardBodyDiv.appendChild(dropdownMenu);
@@ -95,7 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardBodyDiv.appendChild(basePrice);
                 cardBodyDiv.appendChild(extraPrice);
                 cardBodyDiv.appendChild(category);
-
+                
+                // Optional best seller label
+                if (product.bestSeller) {
+                    const bestSeller = document.createElement("p");
+                    bestSeller.classList.add("text-success");
+                    bestSeller.innerHTML = `<strong>🌟 Best Seller 🌟</strong>`;
+                    cardBodyDiv.appendChild(bestSeller);
+                }
                 // Append card body to card, and card to column div
                 cardDiv.appendChild(cardBodyDiv);
                 colDiv.appendChild(cardDiv);
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     $("input").on("keyup", function () {
         var value = $(this).val().toLowerCase();
-        $("#product-list").filter(function () {
+        $("#product-list div").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
