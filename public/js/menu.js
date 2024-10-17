@@ -108,7 +108,7 @@ function collectFormFields() {
         size: $("#productSize").val(),
         quantity: $("#productQuantity").val()
     };
-    if (request.size == null || request.quantity == null) {
+    if (!request.size || !request.quantity) {
         alert("Please fill out all fields");
         return null;
     }
