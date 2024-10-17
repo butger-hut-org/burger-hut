@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="card-body">
                                 <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
-                                    <li onclick="deleteProduct('${product._id}')"><a class="dropdown-item" href="#">DELETE</a></li>
+                                    <li onclick="deleteProduct('${product._id}','${product.name}')"><a class="dropdown-item" href="#">DELETE</a></li>
                                     <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
                                 </ul>              
                                 <h5 class="card-title">${product.name}</h5>
@@ -48,15 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function deleteProduct(productId){
+function deleteProduct(productId,productName){
     const userResponse = confirm("Do you want to proceed?");
     if(!userResponse){
         return;
     }
     $.ajax({
         url: "http://localhost:9898/api/products/delete",
-        type: "POST",
-        data: {productId: productId},
+        type: "DELETE",
+        data: {productId: productId, name: productName},
         success: function (response) {
             alert("product was deleted:)");
             location.reload();

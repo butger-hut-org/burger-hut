@@ -2,7 +2,7 @@ const {StatusCodes} = require('http-status-codes');
 const Product = require('../models/product');
 const BaseError = require('../errors');
 const logger = require("../middleware/logger");
-// const {postTweet} = require('../twitter');
+const {postTweet} = require('../utils/twitter');
 
 
 async function productCreate(req, res) {
@@ -25,8 +25,8 @@ async function productCreate(req, res) {
         throw BaseError.InternalError("Failed to save new product");
     }
     logger.info(`Successfully created product ${req.body.name}`);
-    // postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
-    // TODO: post on facebook
+    postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
+    logger.info(`Post a tweet about upload this product: ${req.body.name}`);
     return res.status(StatusCodes.CREATED).json({result});
 }
 
@@ -57,6 +57,8 @@ async function productDelete(req, res) {
         throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.productId}`);
     }
     logger.info(`Successfully deleted product ${req.body.name}`);
+    postTweet(`we have deleted this product:\n ${req.body.name}\n`)
+    logger.info(`Post a tweet about delete this product: ${req.body.name}`);
     res.status(StatusCodes.OK).json({result});
 };
 
