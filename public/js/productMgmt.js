@@ -7,27 +7,102 @@ document.addEventListener('DOMContentLoaded', () => {
         success: function (response) {
             const products = response.result;
             products.forEach(product => {
-                const productCard = `
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100 d-flex flex-column">
-                            <div class="card-body">
-                                <button class="btn btn-secondary dropdown-toggle position-absolute top-0 end-0 m-2" type="button" id="optionsMenuButton" data-bs-toggle="dropdown" aria-expanded="false"></button>
-                                <ul class="dropdown-menu" aria-labelledby="optionsMenuButton">
-                                    <li onclick="deleteProduct('${product._id}','${product.name}')"><a class="dropdown-item" href="#">DELETE</a></li>
-                                    <li onclick="changePopupToEdit('${product._id}')" data-bs-toggle="modal" data-bs-target="#addProductPopup"><a class="dropdown-item" href="#">EDIT</a></li>
-                                </ul>              
-                                <h5 class="card-title">${product.name}</h5>
-                                <p class="card-text"><strong>Description:</strong> ${product.description}</p>
-                                <p class="card-text"><strong>basePrice:</strong> ${product.basePrice.toFixed(2)} $</p>
-                                <p class="card-text"><strong>extraPrice:</strong> ${product.extraPrice.toFixed(2)} $</p>
-                                <p class="card-text"><strong>Category:</strong> ${product.category}</p>
-                                ${product.bestSeller ? '<p class="text-success"><strong>🌟 Best Seller 🌟</strong></p>' : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                const productList = document.getElementById('product-list');
-                productList.insertAdjacentHTML('beforeend', productCard);
+                // Create card column container
+                const colDiv = document.createElement("div");
+                colDiv.classList.add("col-md-4", "mb-4");
+
+                // Create the card
+                const cardDiv = document.createElement("div");
+                cardDiv.classList.add("card", "h-100", "d-flex", "flex-column");
+
+                // Create card body
+                const cardBodyDiv = document.createElement("div");
+                cardBodyDiv.classList.add("card-body");
+
+                // Create the dropdown button
+                const dropdownButton = document.createElement("button");
+                dropdownButton.classList.add("btn", "btn-secondary", "dropdown-toggle", "position-absolute", "top-0", "end-0", "m-2");
+                dropdownButton.setAttribute("type", "button");
+                dropdownButton.setAttribute("id", "optionsMenuButton");
+                dropdownButton.setAttribute("data-bs-toggle", "dropdown");
+                dropdownButton.setAttribute("aria-expanded", "false");
+
+                // Create the dropdown menu
+                const dropdownMenu = document.createElement("ul");
+                dropdownMenu.classList.add("dropdown-menu");
+                dropdownMenu.setAttribute("aria-labelledby", "optionsMenuButton");
+
+                // Create DELETE item in dropdown
+                const deleteItem = document.createElement("li");
+                const deleteLink = document.createElement("a");
+                deleteLink.classList.add("dropdown-item");
+                deleteLink.href = "#";
+                deleteLink.textContent = "DELETE";
+                deleteLink.onclick = () => deleteProduct(product._id, product.name);
+                deleteItem.appendChild(deleteLink);
+
+                // Create EDIT item in dropdown
+                const editItem = document.createElement("li");
+                const editLink = document.createElement("a");
+                editLink.classList.add("dropdown-item");
+                editLink.href = "#";
+                editLink.textContent = "EDIT";
+                editLink.onclick = () => {
+                    changePopupToEdit(product._id);
+                };
+                editItem.setAttribute('data-bs-toggle', 'modal');
+                editItem.setAttribute('data-bs-target', '#addProductPopup');
+                editItem.appendChild(editLink);
+
+                // Append dropdown items to dropdown menu
+                dropdownMenu.appendChild(deleteItem);
+                dropdownMenu.appendChild(editItem);
+
+                // Create title, description, and other elements for the card
+                const title = document.createElement("h5");
+                title.classList.add("card-title");
+                title.textContent = product.name;
+
+                const description = document.createElement("p");
+                description.classList.add("card-text");
+                description.innerHTML = `<strong>Description:</strong> ${product.description}`;
+
+                const basePrice = document.createElement("p");
+                basePrice.classList.add("card-text");
+                basePrice.innerHTML = `<strong>Base Price:</strong> ${product.basePrice.toFixed(2)} $`;
+
+                const extraPrice = document.createElement("p");
+                extraPrice.classList.add("card-text");
+                extraPrice.innerHTML = `<strong>Extra Price:</strong> ${product.extraPrice.toFixed(2)} $`;
+
+                const category = document.createElement("p");
+                category.classList.add("card-text");
+                category.innerHTML = `<strong>Category:</strong> ${product.category}`;
+
+                
+                // Append all elements to the card body
+                cardBodyDiv.appendChild(dropdownButton);
+                cardBodyDiv.appendChild(dropdownMenu);
+                cardBodyDiv.appendChild(title);
+                cardBodyDiv.appendChild(description);
+                cardBodyDiv.appendChild(basePrice);
+                cardBodyDiv.appendChild(extraPrice);
+                cardBodyDiv.appendChild(category);
+                
+                // Optional best seller label
+                if (product.bestSeller) {
+                    const bestSeller = document.createElement("p");
+                    bestSeller.classList.add("text-success");
+                    bestSeller.innerHTML = `<strong>🌟 Best Seller 🌟</strong>`;
+                    cardBodyDiv.appendChild(bestSeller);
+                }
+                // Append card body to card, and card to column div
+                cardDiv.appendChild(cardBodyDiv);
+                colDiv.appendChild(cardDiv);
+
+                // Append the entire column div to the product list
+                const productList = document.getElementById("product-list");
+                productList.appendChild(colDiv);
             });
         },
         failure: function (response) {
@@ -41,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     $("input").on("keyup", function () {
         var value = $(this).val().toLowerCase();
-        $("#productTable tr").filter(function () {
+        $("#product-list div").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
