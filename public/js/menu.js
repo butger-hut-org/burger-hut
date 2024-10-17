@@ -77,6 +77,9 @@ function addItemIdToModal(id){
 
 function addToTempCart(){
     let itemFields = collectFormFields();
+    if (!itemFields){
+        return;
+    }
     const productId = document.getElementById('productId').innerText;
     itemFields.productId = productId;
     let currentProductsInCart = localStorage.getItem('cart');

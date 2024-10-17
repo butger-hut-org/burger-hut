@@ -32,7 +32,7 @@ async function productCreate(req, res) {
 
 async function productUpdate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.basePrice ||
-        !req.body.category || !req.body.bestSeller) {
+        !req.body.extraPrice || !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
