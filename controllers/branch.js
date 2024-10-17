@@ -3,7 +3,7 @@ const Branch = require("../models/branch");
 const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
-const { getIsraelCoordinates } = require('./utils.js');
+const { validateLocation } = require('./utils.js');
 // const {postTweet} = require('../twitter');
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
@@ -48,12 +48,16 @@ async function createBranch(req, res) {
     city: req.body.city,
     phoneNumber: req.body.phoneNumber,
     active: req.body.active,
+    location: req.body.location ? { ...req.body.location } : undefined,
   };
   try {
-    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || branchData.active === undefined) {
+    if (!branchData.name || !branchData.address || !branchData.city || !branchData.phoneNumber || !branchData.location || branchData.active === undefined) {
       throw new BaseError.BadRequestError("Not all required fields were provided!");
     }
-    const branch = await Branch.create(new Branch({ ...branchData, location: getIsraelCoordinates() }));
+    if (!validateLocation(branchData.location)) {
+      throw new BaseError.BadRequestError("The provided location is not valid! Must be of type {lat: Number, lon: Number}");
+    }
+    const branch = await Branch.create(new Branch({ ...branchData }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
     return res.status(StatusCodes.CREATED).json(branch);
   } catch (error) {

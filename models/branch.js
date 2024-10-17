@@ -33,12 +33,13 @@ const branchSchema = new mongoose.Schema(
       lon: {
         type: Number,
         required: true
-      }
+      },
     }
   },
   { autoCreate: true }
 );
 
+branchSchema.index({ 'location.lat': 1, 'location.lon': 1 }, { unique: true });
 const Branch = mongoose.model("Branch", branchSchema);
 
 module.exports = Branch;
