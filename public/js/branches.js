@@ -1,4 +1,5 @@
 const port = 9898;
+let filterFields = {};
 
 $(document).ready(function () {
   getBranches();
@@ -6,13 +7,13 @@ $(document).ready(function () {
   activeBranchFilteringListener();
 });
 
-function getBranches(filter) {
+function getBranches() {
   $.ajax({
     type: "GET",
     url: `http://localhost:${port}/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
-    data: filter,
+    data: filterFields,
     success: function (branches) {
       $("#branchList").empty();
       branches.forEach((branch) => {
@@ -49,10 +50,7 @@ function addSearchBarListener() {
 function activeBranchFilteringListener() {
   $("#filterActiveBranches").on('change', function() {
     const isChecked = $(this).prop('checked');
-    if (isChecked) {
-      getBranches({"active": true});
-    } else {
-      getBranches();
-    }
+    isChecked ? filterFields["active"] = true : delete filterFields.active;
+    getBranches();
   });
 }
