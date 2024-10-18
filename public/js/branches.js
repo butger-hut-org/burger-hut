@@ -2,6 +2,7 @@ const port = 9898;
 
 $(document).ready(function () {
   getBranches();
+  addSearchBarListener();
 });
 
 function getBranches() {
@@ -29,5 +30,15 @@ function getBranches() {
       alert("Error");
       alert(response);
     },
+  });
+}
+
+function addSearchBarListener() {
+  $("#branchSearchBar").on('input', function() {
+    const searchText = $(this).val().toLowerCase();
+    $("#branchList").children().filter(function() {
+      //displays the element if the specified text is present and hides if not
+      $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+    });
   });
 }
