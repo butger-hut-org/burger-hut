@@ -13,8 +13,11 @@
             <div id="branchHeader">
                 <h1 class="formtitle">Branches</h1>
                 <input id="branchSearchBar" class="form-control" type="text" placeholder="Search"/>
-                <p class="d-flex gap-2 mt-2">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="button" aria-pressed="false" autocomplete="off">Filter Active Branches</button>
+                <p class="d-flex gap-1 mt-1">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="filterActiveBranches">
+                        <label class="form-check-label" for="filterActiveBranches">Filter Active Branches</label>
+                    </div>
                     <select class="form-select" id="location" required>
                         <option value="" disabled selected>Filter location</option>
                         <option value="true">North</option>

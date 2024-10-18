@@ -3,15 +3,18 @@ const port = 9898;
 $(document).ready(function () {
   getBranches();
   addSearchBarListener();
+  activeBranchFilteringListener();
 });
 
-function getBranches() {
+function getBranches(filter) {
   $.ajax({
     type: "GET",
     url: `http://localhost:${port}/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
+    data: filter,
     success: function (branches) {
+      $("#branchList").empty();
       branches.forEach((branch) => {
         let branchObject = $("#branchCard").html();
         Object.keys(branch).forEach((key) => {
@@ -40,5 +43,16 @@ function addSearchBarListener() {
       //displays the element if the specified text is present and hides if not
       $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
     });
+  });
+}
+
+function activeBranchFilteringListener() {
+  $("#filterActiveBranches").on('change', function() {
+    const isChecked = $(this).prop('checked');
+    if (isChecked) {
+      getBranches({"active": true});
+    } else {
+      getBranches();
+    }
   });
 }

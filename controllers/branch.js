@@ -31,7 +31,7 @@ async function getBranchById(req, res) {
 
 // TODO: validate body of filter requests
 async function getBranches(req, res) {
-  const filterFields = { ...req.body };
+  const filterFields = { ...req.query };
   try {
     const branches = filterFields ? await Branch.find(filter=filterFields) : await Branch.find();
     logger.info("Successfully retrieved branches");
