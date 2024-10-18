@@ -53,3 +53,11 @@
 .login_form button:hover {
     background-color: #e69c00;
 }
+
+ .top-left-image {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100px; 
+    height: 100px; 
+}
