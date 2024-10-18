@@ -507,9 +507,8 @@ footer {
     padding: 20px;
     margin-top: 40px;
     width: 100%;
-    position: fixed;
+    position: relative; /* שינוי מ-fixed ל-relative */
     bottom: 0;
-    z-index: 9999;
 }
 
 footer p {
