@@ -23,6 +23,7 @@ function getBranches() {
         });
         $("#branchList").append(branchObject);
       });
+      $("#branchSearchBar").val("");
       clearMarkers();
       markBranches(branches);
     },
