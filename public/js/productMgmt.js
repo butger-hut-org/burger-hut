@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/products/list",
+        url: "/api/products",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(response);
         },
     });
-    $("input").on("keyup", function () {
+    $("#productMgmtSearch").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#product-list div").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
@@ -129,7 +129,7 @@ function deleteProduct(productId,productName){
         return;
     }
     $.ajax({
-        url: "http://localhost:9898/api/products/delete",
+        url: "/api/products",
         type: "DELETE",
         data: {productId: productId, name: productName},
         success: function (response) {
@@ -150,7 +150,7 @@ function createProduct(){
     const req = collectFormFields();
     if (req != null) {
         $.ajax({
-            url: "http://localhost:9898/api/products/create",
+            url: "/api/products",
             type: "POST",
             data: {
                 name: req.name,
@@ -201,17 +201,17 @@ function collectFormFields() {
 function updateProduct(productId) {
     const req = collectFormFields();
     $.ajax({
-        url: "http://localhost:9898/api/products/update",
-        type: "POST",
-        data: {
+        url: `/api/products/${productId}`,
+        type: "PUT",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
             name: req.name,
             description: req.description,
             basePrice: req.basePrice,
             extraPrice: req.extraPrice,
             category: req.category,
-            bestSeller: req.bestSeller,
-            productId: productId
-        },
+            bestSeller: req.bestSeller
+        }),
         success: function (res) {
             alert("Updated!");
             console.log(res);
@@ -234,7 +234,7 @@ function changePopupToEdit(productId){
     $('#productModalLabel').text('Edit product');
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/products/search",
+        url: "/api/products/search",
         contentType: "application/json; charset=utf-8",
         data: {
             productId: productId
@@ -242,6 +242,7 @@ function changePopupToEdit(productId){
         success: function (response) {
             let product = response.result;
             $('#productBasePrice').val(product.basePrice);
+            $('#productExtraPrice').val(product.extraPrice);
             $('#productDescription').val(product.description);
             $('#productName').val(product.name);
             $('#productCategory').val(product.category);

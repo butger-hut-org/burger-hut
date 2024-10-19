@@ -4,6 +4,7 @@ const logger = require("./middleware/logger");
 const middleware = require("./middleware/auth");
 const apiRouter = require("./routes/apiRoutes/apiRouter");
 const webRouter = require("./routes/webRoutes/webRouter");
+const adminRouter = require("./routes/webRoutes/adminRouter");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const cookieParser = require('cookie-parser');
 
@@ -26,6 +27,7 @@ connectDB()
 
 //Routes
 app.use("/", webRouter);
+app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
 app.get("/", (_, res) => {
   res.redirect("/login");
