@@ -439,7 +439,7 @@ textarea {
     width: 250px; /* Width of the sidebar */
     background-color: #f8f9fa; /* Sidebar background color */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow for depth */
-    transition: width 0.3s; /* Smooth transition for width */
+    transition: width 0.3s ease; /* Smooth transition for width */
     overflow: hidden; /* Hide overflow */
 }
 .adminPortalContent {
@@ -447,7 +447,11 @@ textarea {
     flex-grow: 1; /* Allow content to take remaining space */
     padding: 20px; /* Padding for the content */
     background-color: #fff; /* Content background color */
-    /* overflow-y: auto; Allow vertical scrolling if content overflows */
+    overflow-y: auto; /* Allow vertical scrolling if content overflows */
+}
+
+#sidebar-wrapper.collapsed {
+    transform: translateX(-100%); /* Move sidebar out of view */
 }
 
 .sidebar {

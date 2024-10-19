@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
      $(".adminPortalContent").hide();
      $("#adminPortal").show(); // Show adminPortal by default
  
-     // Handle click event on sidebar links
      $(".sidebar a").on("click", function(e) {
          e.preventDefault(); // Prevent page reload
  
@@ -20,4 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
          // Show the selected content section
          $("#" + contentId).show();
      });
+
+    //  let isCollapsed = false;
+
+    //  $(".toggle-btn").on("click", function () {
+    //      isCollapsed = !isCollapsed; // Toggle the state
+    //      $("#sidebar-wrapper").toggleClass("collapsed", isCollapsed);
+    //  });
 });
