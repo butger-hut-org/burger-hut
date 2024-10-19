@@ -1,16 +1,29 @@
-// Assuming you're getting grouped data via AJAX
-document.addEventListener('DOMContentLoaded', () => { 
-    $.ajax({
-        type: "GET",
-        url: "/api/products/groupBy?field=category", // Assuming this is your endpoint
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(response) {
-            createPieChart(response);
-        },
-        error: function(error) {
-            console.error("Error fetching grouped data:", error);
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    // Function to fetch data and create the pie chart
+    function fetchDataAndCreateChart(field) {
+        $.ajax({
+            type: "GET",
+            url: `/api/products/groupBy?field=${field}`, // Use the selected field
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                // Clear the existing pie chart before drawing a new one
+                d3.select("#pieChart").selectAll("*").remove();
+                createPieChart(response);
+            },
+            error: function(error) {
+                console.error("Error fetching grouped data:", error);
+            }
+        });
+    }
+
+    // Initial chart load
+    fetchDataAndCreateChart("category"); // Default field
+
+    // Event listener for the dropdown
+    document.getElementById('fieldSelect').addEventListener('change', (event) => {
+        const selectedField = event.target.value; // Get selected field
+        fetchDataAndCreateChart(selectedField); // Fetch data for the selected field
     });
 });
 
