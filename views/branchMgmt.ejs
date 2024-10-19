@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./includes/head') %>
+<body>
+    <%- include('./includes/header') %>
+    <div class="container mt-5">
+        <button onclick="resetForm()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addBranchPopup">Add Branch</button>
+        <%- include("templates/branchPopup") %>
+        <h1 class="text-center">Manage Branches</h1>
+        <div class="row" id="branchList">
+            <!-- Branches will be generated here by JavaScript -->
+        </div>
+    </div>
+    <%- include ("./includes/scripts") %>
+    <%- include ("./templates/branchCard") %>
+    <script src="/public/js/branchMgmt.js"></script>
+    <%- include('./includes/footer') %>
+</body>
+</html>

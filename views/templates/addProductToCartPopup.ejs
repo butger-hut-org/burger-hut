@@ -12,7 +12,7 @@
                     <div class="mb-3">
                         <label for="productSize" class="form-label">Select Size</label>
                         <select class="form-select" id="productSize" required>
-                            <option value="">Choose size</option>
+                            <option value="" disabled selected>Choose size</option>
                             <option value="S">Small (S)</option>
                             <option value="M">Medium (M)</option>
                             <option value="L">Large (L)</option>
@@ -25,7 +25,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addToCartButton" onclick="addToTempCart()">Add to Cart</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="addToCartButton" onclick="addToTempCart()">Add to Cart</button>
             </div>
         </div>
     </div>

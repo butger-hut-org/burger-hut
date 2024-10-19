@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ("./includes/head") %>
+<body>
+<%- include ("./includes/header", {isAuthenticated: true, isAdmin: true}) %>
+
+<div class="admin_section">
+    <%- include ("./includes/sidebar") %>
+    <div class="d-flex" id="wrapper"></div>
+    <div class="user_management container">
+        <span class="h1" style="margin-right: 60%">User Management</span>
+        <p>Filter users:</p>
+        <input class="form-control" type="text" placeholder="Search"/>
+        <br/>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Admin</th>
+                <th>Delete</th>
+                <th>Promote</th>
+            </tr>
+            </thead>
+            <tbody id="userTable">
+            <%- include ("./public/userManagementTable.ejs") %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<%- include ("./includes/scripts.ejs") %>
+<%- include('./includes/footer') %>
+<%- include ("./includes/scripts") %>
+<script src="/public/js/userMgmt.js"></script>
+</body>
+</html>

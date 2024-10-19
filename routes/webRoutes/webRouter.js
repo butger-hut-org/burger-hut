@@ -1,41 +1,67 @@
+const usersController = require("../../controllers/users");
 const middleware = require("../../middleware/auth");
-const auth = require("../../controllers/users");
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();
 
-// Route for register page
-router.get("/register", (req, res) => {
+router.get("/register", async (req, res) => {
   res.render("public/register", {});
 });
 
-// Route for login page
-router.get("/login", (req, res) => {
+router.get("/login", async (req, res) => {
   res.render("public/login", {});
 });
 
-// Route for main page
-router.get("/main", async(req, res) => {
-  res.render("./index",{isAuthenticated: await middleware.isLoggedIn(req), isAdmin: await middleware.isAdmin(req)});
+router.get("/home", middleware.verifyJwt, async (req, res) => {
+  res.render("./index", { isAdmin: await middleware.isAdmin(req) });
 });
 
-// Route for displaying branches
-router.get("/branches", async (req, res) => {
-  try {
-    res.render("public/branches", {});
-  } catch (error) {
-    res.status(500).send("An error occurred while fetching branches");
-  }
+router.get("/branches", middleware.verifyJwt, async (req, res) => {
+  res.render("./branches", { isAdmin: await middleware.isAdmin(req) });
 });
 
-router.get('/products/mgmt', async (req, res) => {
-  res.render('./productsMgmt');
+router.get("/menu", middleware.verifyJwt, async (req, res) => {
+  res.render("./menu", { isAdmin: await middleware.isAdmin(req) });
 })
 
-router.get('/menu', async (req, res) => {
-  res.render('./menu');
+router.get("/about", middleware.verifyJwt, async (req, res) => {
+  res.render("./about", { isAdmin: await middleware.isAdmin(req) });
 })
-router.get('/cart', async (req, res) => {
+router.get('/cart', middleware.verifyJwt, async (req, res) => {
   res.render('./cart');
 })
+
+router.get("/deals", middleware.verifyJwt, async (req, res) => {
+  res.render("./deals", { isAdmin: await middleware.isAdmin(req) });
+})
+
+router.get("/contact", middleware.verifyJwt, async (req, res) => {
+  res.render("./contact", { isAdmin: await middleware.isAdmin(req) });
+})
+
+router.get("/profile", middleware.verifyJwt, async (req, res) => {
+  res.render("./profile", { isAdmin: await middleware.isAdmin(req) });
+})
+
+
+router.get("/adminPortal", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./adminPortal.ejs", { isAdmin: await middleware.isAdmin(req) });
+});
+
+router.get("/branchManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./branchMgmt", { isAdmin: await middleware.isAdmin(req) });
+});
+
+router.get("/productManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./productMgmt", { isAdmin: await middleware.isAdmin(req) });
+});
+
+router.get("/userManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./userManagement.ejs", { isAdmin: await middleware.isAdmin(req) });
+});
+
+router.get('/logout', usersController.logout);
+
 module.exports = router;
+
+

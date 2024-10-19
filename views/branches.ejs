@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./includes/head') %>
+    <link rel="stylesheet" href="/public/css/branches.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <%- include('./includes/header') %>
+
+    <div class="container">
+        <div id="branches">
+            <div id="branchHeader">
+                <h1 class="formtitle">Branches</h1>
+            </div>
+            <div id="branchList">
+                <!-- Branch cards will be appended here by JavaScript -->
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+    <%- include('./includes/footer') %>
+    <!-- Template for a branch card -->
+    <script type="text/template" id="branchCard">
+        <div class="branch-card">
+            <h2>Branch Name: {name}</h2>
+            <p>Address: {address}, {city}</p>
+            <p>Phone number: {phoneNumber}</p>
+            <p>Active: {active}</p>
+        </div>
+    </script>
+    <%- include ("./includes/scripts") %>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="/public/js/branches.js"></script>
+    <script src="/public/js/map.js"></script>
+</body>
+</html>

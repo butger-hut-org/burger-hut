@@ -1,26 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('./includes/head') %>
-</head>
+<%- include('./includes/head') %>
 <body>
     <%- include('./includes/header') %>
 
+    <!-- Hero Area -->
     <div class="hero_area">
-        <div class="bg-box">
-            <img src="/images/hero-bg.jpg" alt="Hero Image">
-        </div>
+        <div class="bg-box"></div>
         <section class="slider_section">
             <div class="container">
                 <div class="detail-box">
                     <h1>Welcome to Burger Hut</h1>
-                    <p>Best burgers in town, order now!</p>
-                    <a href="/menu">View Menu</a>
+                    <p>The best burgers in town, order now!</p>
+                    <a href="/menu" class="btn">View Our Menu</a>
                 </div>
             </div>
         </section>
     </div>
 
+    <!-- About Us Section -->
+    <section class="about_section">
+        <div class="container">
+            <h2>About Burger Hut</h2>
+            <p>
+                Burger Hut has been serving the best burgers in town for over 10 years. We are committed to providing our 
+                customers with high-quality fresh ingredients and a unique dining experience.
+            </p>
+            <p>
+                Whether you're craving a classic cheeseburger or something new and exciting, our menu offers a wide variety 
+                of tasty options to satisfy your appetite.
+            </p>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="features_section">
+        <div class="container">
+            <h2>Why Choose Burger Hut?</h2>
+            <ul>
+                <li>Fresh, locally sourced ingredients.</li>
+                <li>A wide range of burgers, including vegetarian options.</li>
+                <li>Family-friendly atmosphere and excellent service.</li>
+                <li>Exclusive deals and discounts for regular customers.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Special Deals Section -->
+    <section class="deals_section">
+        <div class="container">
+            <h2>Special Deals</h2>
+            <ul>
+                <li>20% off all combo meals!</li>
+                <li>Half-price on the second burger every Tuesday!</li>
+                <li>Free drink with any double burger meal.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Opening Hours Section -->
+    <section class="hours_section">
+        <div class="container">
+            <h2>Opening Hours</h2>
+            <p>Sunday - Thursday: 11:00 AM - 10:00 PM</p>
+            <p>Friday - Saturday: 12:00 PM - 11:00 PM</p>
+        </div>
+    </section>
+
     <%- include('./includes/footer') %>
+    <%- include ("./includes/scripts") %>
 </body>
 </html>

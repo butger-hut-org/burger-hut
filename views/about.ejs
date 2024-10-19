@@ -1,16 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('./includes/head') %>
-</head>
+<%- include('./includes/head') %>
 <body>
     <%- include('./includes/header') %>
 
+    <!-- About Section -->
     <div class="about_section">
         <h2>About Us</h2>
         <p>Burger Hut was founded in 2024 with the goal of serving the best burgers in town. Our passion for high-quality ingredients and friendly service sets us apart.</p>
+        <p>We believe that food should not only taste great, but it should also bring people together. From our classic burgers to our unique house specials, every bite is crafted to perfection.</p>
+        <p>Whether you're grabbing a quick lunch, dining with family, or ordering delivery, Burger Hut guarantees a delicious meal and a memorable experience.</p>
     </div>
 
+    <!-- Why Choose Us Section -->
+    <section class="features_section">
+        <div class="container">
+            <h2>Why Choose Burger Hut?</h2>
+            <ul>
+                <li>Fresh, locally sourced ingredients.</li>
+                <li>A wide variety of burgers, including vegetarian options.</li>
+                <li>Family-friendly atmosphere with excellent service.</li>
+                <li>Exclusive deals and discounts for loyal customers.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <div class="cube-container">
+        <div class="cube">
+            <div class="cube-face cube-front">
+                <!-- Video from S3 -->
+                <video controls width="100%" height="100%">
+                    <source src="https://prod-burgerhut.s3.eu-north-1.amazonaws.com/BurgerHut.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Values Section -->
+    <section class="values_section">
+        <div class="container">
+            <h2>Our Values</h2>
+            <p>At Burger Hut, we are committed to quality, innovation, and sustainability. Here are the core values that drive us:</p>
+            <ul>
+                <li><strong>Quality:</strong> Only the finest ingredients make it into our kitchen. We handpick each ingredient to ensure that every bite is full of flavor.</li>
+                <li><strong>Innovation:</strong> We're always experimenting with new recipes and burger creations. Our menu evolves to reflect our love for creativity.</li>
+                <li><strong>Sustainability:</strong> We take pride in our eco-friendly practices, from locally sourcing our ingredients to using biodegradable packaging.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Customer Testimonials Section -->
+    <section class="testimonials_section">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial">
+                <p>"Burger Hut never disappoints! The burgers are always juicy, and the service is top-notch!" - <strong>Jane D.</strong></p>
+            </div>
+            <div class="testimonial">
+                <p>"As a vegetarian, I love their wide selection of veggie burgers. It’s rare to find a burger joint with so many options!" - <strong>Mike R.</strong></p>
+            </div>
+            <div class="testimonial">
+                <p>"Best burgers in town, hands down. I’m a regular and highly recommend it to anyone who appreciates quality food." - <strong>Sarah L.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location and Hours Section -->
+    <section class="location_section">
+        <div class="container">
+            <h2>Find Us</h2>
+            <p>We are located in the heart of the city, easily accessible for both locals and tourists. Visit us at:</p>
+            <p><strong>Burger Hut, 123 Burger Street, Main City</strong></p>
+            <p>Our opening hours are:</p>
+            <p>Monday - Friday: 10:00 AM - 10:00 PM</p>
+            <p>Saturday - Sunday: 11:00 AM - 11:00 PM</p>
+        </div>
+    </section>
+
     <%- include('./includes/footer') %>
+    <%- include('./includes/scripts') %>
 </body>
 </html>

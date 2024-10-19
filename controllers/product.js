@@ -1,12 +1,13 @@
 const {StatusCodes} = require('http-status-codes');
 const {Product} = require('../models/product');
 const BaseError = require('../errors');
-// const {postTweet} = require('../twitter');
+const logger = require("../middleware/logger");
+const {postTweet} = require('../utils/twitter');
 
 
 async function productCreate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.basePrice ||
-        !req.body.category || !req.body.bestSeller) {
+        !req.body.extraPrice || !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
@@ -23,18 +24,18 @@ async function productCreate(req, res) {
     if (!result) {
         throw BaseError.InternalError("Failed to save new product");
     }
-    // postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
-    // TODO: post on facebook
+    logger.info(`Successfully created product ${req.body.name}`);
+    postTweet(`we have added a new product!!!:\n the ${req.body.name}\n ${req.body.description}\n only ${req.body.basePrice}$\n OMG`)
+    logger.info(`Post a tweet about upload this product: ${req.body.name}`);
     return res.status(StatusCodes.CREATED).json({result});
 }
 
 async function productUpdate(req, res) {
     if (!req.body.name || !req.body.description || !req.body.basePrice ||
-        !req.body.category || !req.body.bestSeller) {
+        !req.body.extraPrice || !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
-    // using callback
     result = await Product.findOneAndUpdate({_id: req.body.productId}, {
         name: req.body.name,
         description: req.body.description,
@@ -55,7 +56,9 @@ async function productDelete(req, res) {
     if (!result) {
         throw new BaseError.NotFoundError(`Failed to delete product: ${req.body.productId}`);
     }
-
+    logger.info(`Successfully deleted product ${req.body.name}`);
+    postTweet(`we have deleted this product:\n ${req.body.name}\n`)
+    logger.info(`Post a tweet about delete this product: ${req.body.name}`);
     res.status(StatusCodes.OK).json({result});
 };
 
@@ -64,7 +67,7 @@ async function productList(req, res) {
     if (!result) {
         throw new BaseError.InternalError("Failed to list products");
     }
-
+    logger.info(`Successfully get all product`);
     res.status(StatusCodes.OK).json({result});
 };
 
@@ -107,6 +110,38 @@ async function productSpecificSearch(req, res) {
     res.status(StatusCodes.OK).json({result});
 };
 
+async function productGroupBy(req, res){
+    // response example:
+    // {
+    //     "_id": "Vegan", // Category or other group field
+    //     "products": [
+    //       { "name": "Vegan Burger", "price": 12.00, "category": "Vegan", ... }, 
+    //       { "name": "Vegan Wrap", "price": 8.50, "category": "Vegan", ... }
+    //     ],
+    //     "totalProducts": 2
+    // }
+
+    const groupField = req.query.field; // Field to group by, passed in the query
+    // console.log(groupField);
+    if (!groupField){
+        throw new BaseError.BadRequestError('Please provide values');
+    }
+
+    try {
+        const groupedProducts = await Product.aggregate([
+            {
+                $group: {
+                    _id: `$${groupField}`, // Dynamically group by the provided field
+                    products: { $push: "$$ROOT" }, // Push the entire product document
+                    totalProducts: { $sum: 1 } // Count the total number of products in each group
+                }
+            }
+        ]);
+        res.status(StatusCodes.OK).json(groupedProducts);
+    } catch (error) {
+        throw new BaseError.InternalError("Failed to list products");
+    }
+}
 module.exports = {
     productCreate,
     productUpdate,
@@ -114,4 +149,5 @@ module.exports = {
     productList,
     productSearch,
     productSpecificSearch,
+    productGroupBy
 };
