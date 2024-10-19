@@ -298,3 +298,40 @@ window.onscroll = function() {
         document.getElementById("backToTop").style.display = "none";
     }
 };
+/* Center the cube container */
+.cube-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Full viewport height */
+}
+
+/* Create a cube effect */
+.cube {
+    width: 300px;  /* Size of the cube */
+    height: 300px;
+    perspective: 1000px;
+    position: relative;
+}
+
+/* Cube face (front) where video will be displayed */
+.cube-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    backface-visibility: hidden;
+}
+
+.cube-front {
+    transform: rotateY(0deg);  /* Keep the front face visible */
+}
+
+/* Optional: Add media query for responsiveness */
+@media (max-width: 768px) {
+    .cube {
+        width: 250px;
+        height: 250px;
+    }
+}

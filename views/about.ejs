@@ -9,7 +9,20 @@
         <p>Burger Hut was founded in 2024 with the goal of serving the best burgers in town. Our passion for high-quality ingredients and friendly service sets us apart.</p>
     </div>
 
+    <!-- Cube Container -->
+    <div class="cube-container">
+        <div class="cube">
+            <div class="cube-face cube-front">
+                <!-- Video from S3 -->
+                <video controls width="100%" height="100%">
+                    <source src="https://prod-burgerhut.s3.eu-north-1.amazonaws.com/BurgerHut.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
     <%- include('./includes/footer') %>
-    <%- include ("./includes/scripts") %>
+    <%- include('./includes/scripts') %>
 </body>
 </html>
