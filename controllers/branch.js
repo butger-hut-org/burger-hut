@@ -29,10 +29,12 @@ async function getBranchById(req, res) {
   }
 }
 
-async function getAllBranches(_, res) {
+// TODO: validate body of filter requests
+async function getBranches(req, res) {
+  const filterFields = { ...req.query };
   try {
-    const branches = await Branch.find();
-    logger.info("Successfully retrieved all branches");
+    const branches = filterFields ? await Branch.find(filter=filterFields) : await Branch.find();
+    logger.info("Successfully retrieved branches");
     return res.status(StatusCodes.OK).json(branches);
   } catch (error) {
     logger.error(error);
@@ -128,7 +130,7 @@ async function deleteBranchById(req, res) {
 
 module.exports = {
   getBranchById,
-  getAllBranches,
+  getBranches,
   createBranch,
   deleteBranchById,
   updateBranch,
