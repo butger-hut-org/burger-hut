@@ -1,4 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(function () {
+    getProducts();
+  });
+
+
+function getProducts(){
     $.ajax({
         type: "GET",
         url: "/api/products",
@@ -10,15 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create card column container
                 const colDiv = document.createElement("div");
                 colDiv.classList.add("col-md-4", "mb-4");
-
+            
                 // Create the card
                 const cardDiv = document.createElement("div");
                 cardDiv.classList.add("card", "h-100", "d-flex", "flex-column");
-
+            
                 // Create card body
                 const cardBodyDiv = document.createElement("div");
                 cardBodyDiv.classList.add("card-body");
-
+            
                 // Create the dropdown button
                 const dropdownButton = document.createElement("button");
                 dropdownButton.classList.add("btn", "btn-secondary", "dropdown-toggle", "position-absolute", "top-0", "end-0", "m-2");
@@ -26,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 dropdownButton.setAttribute("id", "optionsMenuButton");
                 dropdownButton.setAttribute("data-bs-toggle", "dropdown");
                 dropdownButton.setAttribute("aria-expanded", "false");
-
+            
                 // Create the dropdown menu
                 const dropdownMenu = document.createElement("ul");
                 dropdownMenu.classList.add("dropdown-menu");
                 dropdownMenu.setAttribute("aria-labelledby", "optionsMenuButton");
-
+            
                 // Create DELETE item in dropdown
                 const deleteItem = document.createElement("li");
                 const deleteLink = document.createElement("a");
@@ -40,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteLink.textContent = "DELETE";
                 deleteLink.onclick = () => deleteProduct(product._id, product.name);
                 deleteItem.appendChild(deleteLink);
-
+            
                 // Create EDIT item in dropdown
                 const editItem = document.createElement("li");
                 const editLink = document.createElement("a");
@@ -53,42 +58,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 editItem.setAttribute('data-bs-toggle', 'modal');
                 editItem.setAttribute('data-bs-target', '#addProductPopup');
                 editItem.appendChild(editLink);
-
+            
                 // Append dropdown items to dropdown menu
                 dropdownMenu.appendChild(deleteItem);
                 dropdownMenu.appendChild(editItem);
-
+            
+                // Append dropdown button and menu to the card body
+                cardBodyDiv.appendChild(dropdownButton);
+                cardBodyDiv.appendChild(dropdownMenu);
+            
+                // Initialize the dropdown after appending it to the DOM
+                const dropdown = new bootstrap.Dropdown(dropdownButton);
+            
                 // Create title, description, and other elements for the card
                 const title = document.createElement("h5");
                 title.classList.add("card-title");
                 title.textContent = product.name;
-
+            
                 const description = document.createElement("p");
                 description.classList.add("card-text");
                 description.innerHTML = `<strong>Description:</strong> ${product.description}`;
-
+            
                 const basePrice = document.createElement("p");
                 basePrice.classList.add("card-text");
                 basePrice.innerHTML = `<strong>Base Price:</strong> ${product.basePrice.toFixed(2)} $`;
-
+            
                 const extraPrice = document.createElement("p");
                 extraPrice.classList.add("card-text");
                 extraPrice.innerHTML = `<strong>Extra Price:</strong> ${product.extraPrice.toFixed(2)} $`;
-
+            
                 const category = document.createElement("p");
                 category.classList.add("card-text");
                 category.innerHTML = `<strong>Category:</strong> ${product.category}`;
-
-                
-                // Append all elements to the card body
-                cardBodyDiv.appendChild(dropdownButton);
-                cardBodyDiv.appendChild(dropdownMenu);
+            
+                // Append the rest of the content to the card body
                 cardBodyDiv.appendChild(title);
                 cardBodyDiv.appendChild(description);
                 cardBodyDiv.appendChild(basePrice);
                 cardBodyDiv.appendChild(extraPrice);
                 cardBodyDiv.appendChild(category);
-                
+            
                 // Optional best seller label
                 if (product.bestSeller) {
                     const bestSeller = document.createElement("p");
@@ -96,10 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     bestSeller.innerHTML = `<strong>🌟 Best Seller 🌟</strong>`;
                     cardBodyDiv.appendChild(bestSeller);
                 }
+            
                 // Append card body to card, and card to column div
                 cardDiv.appendChild(cardBodyDiv);
                 colDiv.appendChild(cardDiv);
-
+            
                 // Append the entire column div to the product list
                 const productList = document.getElementById("product-list");
                 productList.appendChild(colDiv);
@@ -120,7 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
-});
+}
+// document.addEventListener('DOMContentLoaded', () => {
+    
+// });
 
 
 function deleteProduct(productId,productName){

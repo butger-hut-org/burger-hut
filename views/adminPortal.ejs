@@ -2,24 +2,32 @@
 <html lang="en">
 <%- include ("./includes/head") %>
 <body>
+<%- include ("./includes/scripts") %>
 <%- include ("./includes/header") %>
-<div class="admin_section">
-    <div class="d-flex" id="wrapper"></div>
+
+<div class="d-flex" id="wrapper"></div>
+<div class="admin-portal-wrapper">
     <%- include ("./includes/sidebar") %>
-    <div class="container">
-        <div id="admin-statistics">
-            <div class="chart-container" id="usersChartContainer"></div>
-            <div class="mb-2"></div>
-            <div class="chart-container" id="productsChartContainer"></div>
-            <div class="mb-2"></div>
-            <div class="chart-container" id="branchesChartContainer"></div>
-        </div>
+
+    <div class="adminPortalContent" id="productMgmt">
+        <%- include ("./productMgmt") %>
+    </div>
+    
+    <div class="adminPortalContent" id="branchMgmt">
+        <%- include ("./branchMgmt") %>
+    </div>
+
+    <div class="adminPortalContent" id="adminStats">
+        <%- include ("./adminStats") %>
+    </div>
+
+    <div class="adminPortalContent" id="userMgmt">
+        <%- include ("./userManagement") %>
     </div>
 </div>
-<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
-<script src="./js/charts.js"></script>
-<%- include ("./includes/scripts") %>
+
+
+<script src="/public/js/adminPortal.js"></script>
 <%- include ("./includes/footer") %>
 </body>
 </html>

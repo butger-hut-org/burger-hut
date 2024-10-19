@@ -2,10 +2,9 @@ $('.active-page-side-bar').removeClass('active-page-side-bar');
 $('a[href="/userManagement"]').addClass("active-page-side-bar");
 
 document.addEventListener('DOMContentLoaded', () => {
-  
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/users/list",
+        url: "/api/users/list",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function deleteUser(element) {
     let userToDelete = document.getElementById('userTable').rows[element.parentNode.parentNode.rowIndex - 1].cells[0].innerText;
     $.ajax({
-        url: "api/users/delete",
+        url: "/api/users/delete",
         type: "DELETE",
         data: {userToDelete: userToDelete},
         success: function (response) {
@@ -83,7 +82,7 @@ function deleteUser(element) {
 function promoteUser(element) {
     let userToPromote = document.getElementById('userTable').rows[element.parentNode.parentNode.rowIndex - 1].cells[0].innerText;
     $.ajax({
-        url: "api/users/promote",
+        url: "/api/users/promote",
         type: "PUT",
         data: {userToPromote: userToPromote},
         success: function (res) {
