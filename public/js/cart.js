@@ -53,8 +53,43 @@ function localStorageToJson() {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const products = await fetchAllProducts();
-        console.log(products);
+        renderCart(products);
     } catch (error) {
         console.error('An error occurred:', error);
     }
 });
+
+// Function to render the cart items in a list format using Bootstrap
+function renderCart(products) {
+    const cartContainer = document.getElementById('cart-container');
+    cartContainer.innerHTML = '';
+
+    if (products.length === 0) {
+        cartContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+        return;
+    }
+
+    const productList = products.map(product => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="${product.imageUrl}" alt="${product.name}" class="img-thumbnail me-3" style="width: 80px; height: 80px;">
+                <div>
+                    <h5 class="mb-1">${product.name}</h5>
+                    <p class="mb-1">${product.description}</p>
+                    <p class="mb-1 text-muted">Price: $${product.price}</p>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-danger btn-sm" onclick="removeFromCart('${product.id}')">Remove</button>
+            </div>
+        </li>
+    `).join('');
+
+    cartContainer.innerHTML = `<ul class="list-group">${productList}</ul>`;
+}
+
+// Function to remove an item from the cart
+function removeFromCart(productId) {
+    localStorage.removeItem(productId);
+    fetchAllProducts().then(products => renderCart(products));
+}
