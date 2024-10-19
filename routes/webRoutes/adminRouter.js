@@ -1,4 +1,3 @@
-const usersController = require("../../controllers/users");
 const middleware = require("../../middleware/auth");
 const express = require("express");
 const adminRouter = express.Router();
