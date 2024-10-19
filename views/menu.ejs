@@ -7,16 +7,24 @@
 <body>
     <%- include('./includes/header') %>
 
-    <!-- שדה חיפוש -->
-    <div class="search-container">
-        <input class="form-control search-bar" type="text" placeholder="חפש במנות..."/>
-    </div>
+    <!-- Search Bar -->
+    <section class="search_section">
+        <div class="container">
+            <input class="form-control" type="text" placeholder="Search for your favorite burger..." />
+        </div>
+    </section>
 
-    <!-- אזור התפריט -->
-    <div class="menu_items" id="menuItems">
-        <!-- Dynamic content will be inserted here -->
-    </div>
+    <!-- Menu Items -->
+    <section class="menu_section">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <div class="menu_items" id="menuItems">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </section>
 
+    <!-- Add to Cart Popup -->
     <%- include("templates/addProductToCartPopup") %>
 
     <%- include('./includes/footer') %>
