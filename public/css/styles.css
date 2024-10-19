@@ -543,21 +543,7 @@ footer p {
 }
 
 .cube-front {
-    transform: rotateY(0deg);
-}
-
-/* Add a simple rotation animation (optional) */
-.cube {
-    animation: rotate-cube 10s infinite linear;
-}
-
-@keyframes rotate-cube {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
+    transform: rotateY(0deg);  /* Keep the front face visible */
 }
 
 /* Optional: Add media query for responsiveness */
