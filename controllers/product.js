@@ -122,7 +122,6 @@ async function productGroupBy(req, res){
     // }
 
     const groupField = req.query.field; // Field to group by, passed in the query
-    // console.log(groupField);
     if (!groupField){
         throw new BaseError.BadRequestError('Please provide values');
     }
