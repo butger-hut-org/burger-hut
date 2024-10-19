@@ -3,16 +3,29 @@
 <head>
     <%- include('./includes/head') %>
     <link rel="stylesheet" href="/public/css/branches.css">
-    <link rel="stylesheet" href="/public/css/styles.css">
+    <!-- <link rel="stylesheet" href="/public/css/styles.css"> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
     <%- include('./includes/header') %>
-
     <div class="container">
         <div id="branches">
             <div id="branchHeader">
                 <h1 class="formtitle">Branches</h1>
+                <input id="branchSearchBar" class="form-control" type="text" placeholder="Search"/>
+                <p class="d-flex gap-1 mt-1">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="filterActiveBranches">
+                        <label class="form-check-label" for="filterActiveBranches">Only Active Branches</label>
+                    </div>
+                    <select class="form-select" id="regionFilter" required>
+                        <option value="" disabled selected>Filter Region</option>
+                        <option value="None">None</option>
+                        <option value="North">North</option>
+                        <option value="Center">Center</option>
+                        <option value="South">South</option>
+                    </select>
+                </p>
             </div>
             <div id="branchList">
                 <!-- Branch cards will be appended here by JavaScript -->
@@ -21,15 +34,7 @@
         <div id="map"></div>
     </div>
     <%- include('./includes/footer') %>
-    <!-- Template for a branch card -->
-    <script type="text/template" id="branchCard">
-        <div class="branch-card">
-            <h2>Branch Name: {name}</h2>
-            <p>Address: {address}, {city}</p>
-            <p>Phone number: {phoneNumber}</p>
-            <p>Active: {active}</p>
-        </div>
-    </script>
+    <%- include ("./templates/branchCard") %>
     <%- include ("./includes/scripts") %>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="/public/js/branches.js"></script>
