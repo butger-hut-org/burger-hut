@@ -1,4 +1,4 @@
-/* סגנון כללי לגוף העמוד */
+/* General Styling */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f9f9f9;
@@ -7,10 +7,10 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(to bottom, #f9f9f9, #e0e0e0); /* הוספת גרדיאנט */
+    background: linear-gradient(to bottom, #f9f9f9, #e0e0e0); /* Adding gradient */
 }
 
-/* עיצוב כותרת ותפריט */
+/* Header and Navigation */
 header {
     background-color: #333;
     color: white;
@@ -41,7 +41,7 @@ header nav a:hover {
     color: #ff9800;
 }
 
-/* אזור הגיבורים */
+/* Hero Section */
 .hero_area {
     height: 500px;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/hero-burger.jpg') no-repeat center center/cover;
@@ -63,7 +63,7 @@ header nav a:hover {
     font-size: 4em;
     margin: 0.5em 0;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    animation: slideInLeft 1.5s ease; /* הוספת אנימציה לכותרת */
+    animation: slideInLeft 1.5s ease;
 }
 
 .hero_area p {
@@ -87,7 +87,7 @@ header nav a:hover {
     transform: scale(1.1);
 }
 
-/* אפקט fadeIn */
+/* Fade-In Effect */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -97,7 +97,7 @@ header nav a:hover {
     }
 }
 
-/* אפקט slideInLeft */
+/* Slide-In Effect */
 @keyframes slideInLeft {
     from {
         transform: translateX(-100%);
@@ -109,18 +109,18 @@ header nav a:hover {
     }
 }
 
-/* עיצוב אזור אודות */
+/* About Section */
 .about_section {
     padding: 80px 0;
     background-color: #f0f0f0;
-    text-align: center;
+    text-align: left;
 }
 
 .about_section h2 {
     font-size: 2.5em;
     margin-bottom: 20px;
     color: #333;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* הוספת טקסט-צל */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .about_section p {
@@ -128,9 +128,10 @@ header nav a:hover {
     color: #555;
     margin-bottom: 20px;
     line-height: 1.8;
+    text-align: left;
 }
 
-/* אזור חיפוש */
+/* Search Bar Section */
 .search-container {
     text-align: center;
     margin: 30px 0;
@@ -152,7 +153,7 @@ header nav a:hover {
     transform: scale(1.02);
 }
 
-/* עיצוב אזור מבצעים */
+/* Deals Section */
 .deals_section {
     padding: 60px 0;
     background-color: #ffefd5;
@@ -182,10 +183,10 @@ header nav a:hover {
 }
 
 .deals_section ul li:hover {
-    transform: scale(1.05); /* אפקט hover להגדלת כרטיסיות */
+    transform: scale(1.05);
 }
 
-/* עיצוב כפתורים */
+/* Buttons */
 .btn {
     padding: 15px 30px;
     background-color: #ff9800;
@@ -202,14 +203,14 @@ header nav a:hover {
     transform: scale(1.05);
 }
 
-/* עיצוב התפריט */
+/* Menu Items */
 .menu_items {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     padding: 50px 0;
     background-color: #fff;
-    text-align: center;
+    text-align: left;
 }
 
 .menu_items .item {
@@ -261,7 +262,7 @@ header nav a:hover {
     transform: scale(1.05);
 }
 
-/* כפתור למעלה */
+/* Back to Top Button */
 #backToTop {
     position: fixed;
     bottom: 30px;
@@ -274,7 +275,7 @@ header nav a:hover {
     transform: scale(1.05);
 }
 
-/* עיצוב הפוטר */
+/* Footer */
 footer {
     background-color: #333;
     color: white;
@@ -290,48 +291,145 @@ footer p {
     font-size: 1em;
 }
 
-/* אפקט כפתור למעלה */
-window.onscroll = function() {
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        document.getElementById("backToTop").style.display = "block";
-    } else {
-        document.getElementById("backToTop").style.display = "none";
-    }
-};
-/* Center the cube container */
+/* Cube Map */
 .cube-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;  /* Full viewport height */
+    margin-top: 50px;
 }
 
-/* Create a cube effect */
 .cube {
-    width: 300px;  /* Size of the cube */
+    width: 300px;
     height: 300px;
     perspective: 1000px;
-    position: relative;
 }
 
-/* Cube face (front) where video will be displayed */
 .cube-face {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
-    backface-visibility: hidden;
 }
 
 .cube-front {
-    transform: rotateY(0deg);  /* Keep the front face visible */
+    transform: rotateY(0deg);
 }
 
-/* Optional: Add media query for responsiveness */
-@media (max-width: 768px) {
-    .cube {
-        width: 250px;
-        height: 250px;
-    }
+iframe {
+    border-radius: 10px;
 }
+
+/* Form Styling */
+.contact_section {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.section-heading {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.section-description {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.contact-form {
+    width: 100%;
+    max-width: 600px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.btn-primary {
+    padding: 10px 20px;
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e68900;
+}
+
+/* FAQ Section */
+.faq_section {
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-item h4 {
+    font-size: 1.5em;
+    color: #ff9800;
+    margin-bottom: 10px;
+}
+
+.faq-item p {
+    font-size: 1.1em;
+    color: #333;
+}
+
+/* Map Section */
+.map_section {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.map_section h3 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
