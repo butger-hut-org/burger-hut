@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/products/list",
+        url: "/api/products",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
@@ -129,7 +129,7 @@ function deleteProduct(productId,productName){
         return;
     }
     $.ajax({
-        url: "http://localhost:9898/api/products/delete",
+        url: "/api/products",
         type: "DELETE",
         data: {productId: productId, name: productName},
         success: function (response) {
@@ -150,7 +150,7 @@ function createProduct(){
     const req = collectFormFields();
     if (req != null) {
         $.ajax({
-            url: "http://localhost:9898/api/products/create",
+            url: "/api/products",
             type: "POST",
             data: {
                 name: req.name,
@@ -201,7 +201,7 @@ function collectFormFields() {
 function updateProduct(productId) {
     const req = collectFormFields();
     $.ajax({
-        url: "http://localhost:9898/api/products/update",
+        url: "/api/products/update",
         type: "POST",
         data: {
             name: req.name,
@@ -234,7 +234,7 @@ function changePopupToEdit(productId){
     $('#productModalLabel').text('Edit product');
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/products/search",
+        url: "/api/products/search",
         contentType: "application/json; charset=utf-8",
         data: {
             productId: productId
