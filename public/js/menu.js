@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(response);
         },
     });
-    $("input").on("keyup", function () {
+    $("#menuSearch").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#menuItems div").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);

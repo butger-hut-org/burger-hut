@@ -31,12 +31,15 @@ async function productCreate(req, res) {
 }
 
 async function productUpdate(req, res) {
+    const productId = req.params.id;
+    // console.log(req.body.name);
+    // console.log(req.body.description);
     if (!req.body.name || !req.body.description || !req.body.basePrice ||
         !req.body.extraPrice || !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
     }
 
-    result = await Product.findOneAndUpdate({_id: req.body.productId}, {
+    result = await Product.findOneAndUpdate({_id: productId}, {
         name: req.body.name,
         description: req.body.description,
         basePrice: req.body.basePrice,

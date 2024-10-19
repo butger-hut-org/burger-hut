@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert(response);
         },
     });
-    $("input").on("keyup", function () {
+    $("#productMgmtSearch").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#product-list div").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
@@ -201,17 +201,17 @@ function collectFormFields() {
 function updateProduct(productId) {
     const req = collectFormFields();
     $.ajax({
-        url: "/api/products/update",
-        type: "POST",
-        data: {
+        url: `/api/products/${productId}`,
+        type: "PUT",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
             name: req.name,
             description: req.description,
             basePrice: req.basePrice,
             extraPrice: req.extraPrice,
             category: req.category,
-            bestSeller: req.bestSeller,
-            productId: productId
-        },
+            bestSeller: req.bestSeller
+        }),
         success: function (res) {
             alert("Updated!");
             console.log(res);
@@ -242,6 +242,7 @@ function changePopupToEdit(productId){
         success: function (response) {
             let product = response.result;
             $('#productBasePrice').val(product.basePrice);
+            $('#productExtraPrice').val(product.extraPrice);
             $('#productDescription').val(product.description);
             $('#productName').val(product.name);
             $('#productCategory').val(product.category);

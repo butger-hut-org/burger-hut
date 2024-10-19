@@ -12,7 +12,7 @@ const {
 } = require('../../controllers/product');
 // for now it is without auth
 router.route('/').post(middleware.verifyJwt, middleware.verifyAdmin, productCreate); // create
-router.route('/update').post(middleware.verifyJwt, middleware.verifyAdmin, productUpdate); // update
+router.route('/:id').put(middleware.verifyJwt, middleware.verifyAdmin, productUpdate); // update
 router.route('/').delete(middleware.verifyJwt, middleware.verifyAdmin, productDelete); // delete
 
 router.route('/').get(productList); //list
