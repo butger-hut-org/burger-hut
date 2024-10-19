@@ -2,10 +2,8 @@
 <html lang="en">
 <%- include ("./includes/head") %>
 <body>
-<%- include ("./includes/header", {isAuthenticated: true, isAdmin: true}) %>
 
 <div class="admin_section">
-    <%- include ("./includes/sidebar") %>
     <div class="d-flex" id="wrapper"></div>
     <div class="user_management container">
         <span class="h1" style="margin-right: 60%">User Management</span>
@@ -28,7 +26,6 @@
         </table>
     </div>
 </div>
-<%- include('./includes/footer') %>
 <%- include ("./includes/scripts") %>
 <script src="/public/js/userMgmt.js"></script>
 </body>
