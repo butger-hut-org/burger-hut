@@ -1,23 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <%- include('./includes/head') %>
 <body>
     <%- include('./includes/header') %>
 
+    <!-- אזור הגיבורים -->
     <div class="hero_area">
-        <div class="bg-box">
-            <img src="/images/burgerHutIcon.png" alt="Hero Image">
-        </div>
+        <div class="bg-box"></div>
         <section class="slider_section">
             <div class="container">
                 <div class="detail-box">
-                    <h1>Welcome to Burger Hut</h1>
-                    <p>Best burgers in town, order now!</p>
-                    <a href="/menu">View Our Menu</a>
+                    <h1>ברוכים הבאים ל-Burger Hut</h1>
+                    <p>ההמבורגרים הטובים בעיר, הזמינו עכשיו!</p>
+                    <a href="/menu" class="btn">צפו בתפריט שלנו</a>
                 </div>
             </div>
         </section>
     </div>
+
+    <!-- הוספת אזור נוסף - עלינו -->
+    <section class="about_section">
+        <div class="container">
+            <h2>על Burger Hut</h2>
+            <p>
+                Burger Hut מגישה את ההמבורגרים הטובים ביותר בעיר כבר מעל 10 שנים. אנו מחויבים לספק ללקוחותינו 
+                מרכיבים טריים באיכות גבוהה וחוויית אכילה ייחודית.
+            </p>
+            <p>
+                אם אתם רוצים קלאסיקת צ'יזבורגר או משהו חדש ומרגש, התפריט שלנו מציע מגוון רחב של אפשרויות טעימות 
+                לכל חשק.
+            </p>
+        </div>
+    </section>
+
+    <!-- הוספת אזור נוסף - למה לבחור בנו -->
+    <section class="features_section">
+        <div class="container">
+            <h2>למה לבחור ב-Burger Hut?</h2>
+            <ul>
+                <li>מרכיבים טריים שמקורם מקומי.</li>
+                <li>מגוון רחב של המבורגרים, כולל אפשרויות צמחוניות.</li>
+                <li>אווירה משפחתית ושירות מעולה.</li>
+                <li>מבצעים והנחות בלעדיים ללקוחות קבועים.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- הוספת אזור נוסף - מבצעים -->
+    <section class="deals_section">
+        <div class="container">
+            <h2>מבצעים מיוחדים</h2>
+            <ul>
+                <li>20% הנחה על כל ארוחות הקומבו!</li>
+                <li>המבורגר שני בחצי מחיר בכל יום שלישי!</li>
+                <li>שתייה חינם בכל רכישת ארוחת המבורגר כפולה.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- שעות פתיחה -->
+    <section class="hours_section">
+        <div class="container">
+            <h2>שעות פעילות</h2>
+            <p>ראשון - חמישי: 11:00 - 22:00</p>
+            <p>שישי - שבת: 12:00 - 23:00</p>
+        </div>
+    </section>
+
     <%- include('./includes/footer') %>
     <%- include ("./includes/scripts") %>
 </body>

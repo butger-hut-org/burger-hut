@@ -6,12 +6,18 @@
 </head>
 <body>
     <%- include('./includes/header') %>
-    <input class="form-control" type="text" placeholder="Search"/>
+
+    <!-- שדה חיפוש -->
+    <div class="search-container">
+        <input class="form-control search-bar" type="text" placeholder="חפש במנות..."/>
+    </div>
+
+    <!-- אזור התפריט -->
     <div class="menu_items" id="menuItems">
         <!-- Dynamic content will be inserted here -->
     </div>
-    <%- include("templates/addProductToCartPopup") %>
 
+    <%- include("templates/addProductToCartPopup") %>
 
     <%- include('./includes/footer') %>
     <%- include ("./includes/scripts") %>
