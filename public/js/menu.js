@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => { 
     $.ajax({
         type: "GET",
-        url: "http://localhost:9898/api/products/groupBy?field=category",
+        url: "/api/products/groupBy?field=category",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (productsResponse) {
@@ -45,7 +45,7 @@ function generateMenuItems(category) {
         // img.alt = product.name;
 
         const title = document.createElement("h3");
-        title.textContent = `${product.name} - ${product.category}`;
+        title.textContent = `${product.name}`;
 
         const price = document.createElement("p");
         price.textContent = `$${product.basePrice.toFixed(2)}`;
