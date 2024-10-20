@@ -1,146 +1,69 @@
-const {StatusCodes} = require('http-status-codes');
+const { StatusCodes } = require('http-status-codes');
 const { Order } = require('../models/order');
 const { Product } = require('../models/product');
-const mongoose = require('mongoose');
 
+// Create a new order
 async function orderCreate(req, res) {
     try {
-      const userId = req.body.user && req.body.user._id;
-      if (!userId) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: 'User ID is required' });
-      }
+        const userId = req.user._id; // Extracted from middleware (verifyJwt)
 
-      if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: `Invalid user ID: ${userId}` });
-      }
-  
-      const userObjectId = new mongoose.Types.ObjectId(userId);
-  
-      const products = req.body.products;
-      if (!Array.isArray(products) || products.length === 0) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: 'Products must be a non-empty array' });
-      }
-  
-      const orderProducts = [];
-  
-      for (const item of products) {
-        const productData = item.product;
-        const amount = item.amount;
-  
-        if (!productData || !amount) {
-          return res.status(StatusCodes.BAD_REQUEST).json({
-            error: 'Each product must have product details and an amount',
-          });
+        const products = req.body.products;
+        if (!Array.isArray(products) || products.length === 0) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Products must be a non-empty array.' });
         }
-        const { name, price } = productData;
-        if (!name || price === undefined) {
-          return res.status(StatusCodes.BAD_REQUEST).json({
-            error: 'Product name and price are required',
-          });
+
+        const orderProducts = await Promise.all(
+            products.map(async (item) => {
+                const product = await Product.findById(item.productId);
+                if (!product) throw new Error(`Product not found: ${item.productId}`);
+
+                return {
+                    product: product.toObject({ versionKey: false }), // Exclude __v
+                    productId: product._id.toString(),
+                    amount: item.amount,
+                };
+            })
+        );
+
+        const newOrder = new Order({
+            user: userId,
+            products: orderProducts,
+            orderDate: new Date(),
+        });
+
+        await newOrder.save();
+        res.status(StatusCodes.CREATED).json({ message: 'Order placed successfully' });
+    } catch (error) {
+        console.error('Order creation failed:', error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+}
+
+// Delete an order
+async function orderDelete(req, res) {
+    try {
+        const orderId = req.body.orderId;
+        const deletedOrder = await Order.findByIdAndDelete(orderId);
+        if (!deletedOrder) {
+            return res.status(StatusCodes.NOT_FOUND).json({ error: 'Order not found.' });
         }
-        let product = await Product.findOne({ name: productData.name });
-  
-        if (!product) {
-            return res.status(StatusCodes.BAD_REQUEST).json({
-              error: 'Product does not exist',
-            });
-        } 
-        const orderProduct = {
-          product: product.toObject({ versionKey: false }), // Exclude __v field
-          amount: amount,
-        };
-        orderProducts.push(orderProduct);
-      }
-      const order = new Order({
-        user: userObjectId,
-        products: orderProducts,
-      });
-      const result = await order.save();
-
-      return res.status(StatusCodes.CREATED).json({ order: result });
-    } catch (err) {
-      console.error('Error in orderCreate:', err);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: 'An unexpected error occurred' });
+        res.status(StatusCodes.OK).json({ message: 'Order deleted successfully.' });
+    } catch (error) {
+        console.error('Order deletion failed:', error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
-  }
+}
 
-  async function orderDelete(req, res) {
+// List all orders for the user
+async function orderList(req, res) {
     try {
-      if (!req.body.user || !req.body.user._id) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ error: 'User is not authenticated' });
-      }
-      const userId = req.body.user._id;
-      const orderId = req.body.orderId;
-      if (!orderId) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: 'Order ID is required' });
-      }
-      if (!mongoose.Types.ObjectId.isValid(orderId)) {
-        return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ error: `Invalid order ID: ${orderId}` });
-      }
-      const order = await Order.findById(orderId);
-      if (!order) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ error: 'Order not found' });
-      }
-      if (!order.user.equals(userId)) {
-        return res
-          .status(StatusCodes.FORBIDDEN)
-          .json({ error: 'You are not authorized to delete this order' });
-      }
-      await Order.findByIdAndDelete(orderId);
-      return res.status(StatusCodes.OK).json({
-        message: 'Order deleted successfully',
-        orderId: orderId,
-      });
-    } catch (err) {
-      console.error('Error in orderDelete:', err);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: 'An unexpected error occurred' });
+        const userId = req.user._id;
+        const orders = await Order.find({ user: userId }).populate('products.product');
+        res.status(StatusCodes.OK).json({ orders });
+    } catch (error) {
+        console.error('Failed to retrieve orders:', error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
-  }
-  
+}
 
-  async function orderList(req, res) {
-    try {
-      if (!req.body.user || !req.body.user._id) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ error: 'User is not authenticated' });
-      }
-      const userId = req.body.user._id;
-      const orders = await Order.find({ user: userId });
-      if (orders.length === 0) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ message: 'No orders found for this user' });
-      }
-      return res.status(StatusCodes.OK).json({ orders });
-    } catch (err) {
-      console.error('Error in orderList:', err);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ error: 'An unexpected error occurred' });
-    }
-  }
-
-module.exports = {
-    orderCreate,
-    orderDelete,
-    orderList
-};
+module.exports = { orderCreate, orderDelete, orderList };

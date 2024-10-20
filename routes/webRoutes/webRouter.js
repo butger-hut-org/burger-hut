@@ -28,7 +28,7 @@ router.get("/about", middleware.verifyJwt, async (req, res) => {
   res.render("./about", { isAdmin: await middleware.isAdmin(req) });
 })
 router.get('/cart', middleware.verifyJwt, async (req, res) => {
-  res.render('./cart');
+  res.render('./cart', { isAdmin: await middleware.isAdmin(req) });
 })
 
 router.get("/deals", middleware.verifyJwt, async (req, res) => {

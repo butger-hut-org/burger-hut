@@ -1,65 +1,37 @@
-// Function to fetch a single product by ID
-async function fetchProduct(id) {
-    const url = `http://localhost:9898/api/products/search?productId=${encodeURIComponent(id)}`; // Replace with your actual API endpoint
+// Retrieve cart items from localStorage
+function getCartItems() {
+    const cart = localStorage.getItem('cart');
     try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        return JSON.parse(cart) || [];
+    } catch (e) {
+        console.error('Error parsing cart from localStorage:', e);
+        return [];
+    }
+}
+
+// Function to fetch a product by ID
+async function fetchProduct(id) {
+    const url = `http://localhost:9898/api/products/search?productId=${encodeURIComponent(id)}`;
+    try {
+        const response = await fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
         return data.result;
     } catch (error) {
-        console.error(`Error fetching productId ${id}:`, error);
+        console.error(`Error fetching product ${id}:`, error);
         return null;
     }
 }
 
-// Function to fetch all products by calling fetchProduct for each ID
+// Fetch all products in the cart
 async function fetchAllProducts() {
-    const tempOrder = getTempOrder();
-    const orderObj = JSON.parse(tempOrder);
-    const productIds = Object.keys(orderObj);
-    const fetchPromises = productIds.map(id => fetchProduct(id));
+    const cartItems = getCartItems();
+    const fetchPromises = cartItems.map(item => fetchProduct(item.productId));
     const products = await Promise.all(fetchPromises);
     return products.filter(product => product !== null);
 }
 
-// Function to retrieve all localStorage items as a JSON string
-function getTempOrder() {
-    return localStorageToJson();
-}
-
-// Function to convert localStorage to a JSON string
-function localStorageToJson() {
-    const storageObj = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const value = localStorage.getItem(key);
-        try {
-            storageObj[key] = JSON.parse(value);
-        } catch (e) {
-            storageObj[key] = value;
-        }
-    }
-    return JSON.stringify(storageObj, null, 2);
-}
-
-// Fetch and display all products when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const products = await fetchAllProducts();
-        renderCart(products);
-    } catch (error) {
-        console.error('An error occurred:', error);
-    }
-});
-
-// Function to render the cart items in a list format using Bootstrap
+// Render the cart
 function renderCart(products) {
     const cartContainer = document.getElementById('cart-container');
     cartContainer.innerHTML = '';
@@ -80,7 +52,7 @@ function renderCart(products) {
                 </div>
             </div>
             <div>
-                <button class="btn btn-danger btn-sm" onclick="removeFromCart('${product.id}')">Remove</button>
+                <button class="btn btn-danger btn-sm" onclick="removeFromCart('${product._id}')">Remove</button>
             </div>
         </li>
     `).join('');
@@ -88,8 +60,49 @@ function renderCart(products) {
     cartContainer.innerHTML = `<ul class="list-group">${productList}</ul>`;
 }
 
-// Function to remove an item from the cart
+// Remove an item from the cart
 function removeFromCart(productId) {
-    localStorage.removeItem(productId);
+    const cartItems = getCartItems();
+    const updatedCart = cartItems.filter(item => item.productId !== productId);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
     fetchAllProducts().then(products => renderCart(products));
 }
+
+// Place an order
+async function placeOrder() {
+    const cartItems = getCartItems();
+    if (cartItems.length === 0) {
+        alert('Your cart is empty.');
+        return;
+    }
+
+    const orderData = {
+        products: cartItems.map(item => ({ productId: item.productId, amount: item.quantity })),
+    };
+
+    try {
+        const response = await fetch('http://localhost:9898/api/orders/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify(orderData),
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        alert('Order placed successfully!');
+        localStorage.removeItem('cart');
+        renderCart([]);
+    } catch (error) {
+        console.error('Error placing order:', error);
+        alert('Failed to place the order. Please try again.');
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', async () => {
+    const products = await fetchAllProducts();
+    renderCart(products);
+});
+document.getElementById('place-order-btn').addEventListener('click', placeOrder);
