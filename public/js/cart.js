@@ -41,21 +41,33 @@ function renderCart(products) {
         return;
     }
 
-    const productList = products.map(product => `
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <img src="${product.imageUrl}" alt="${product.name}" class="img-thumbnail me-3" style="width: 80px; height: 80px;">
-                <div>
-                    <h5 class="mb-1">${product.name}</h5>
-                    <p class="mb-1">${product.description}</p>
-                    <p class="mb-1 text-muted">Price: $${product.price}</p>
+    const cartItems = getCartItems(); // Get stored cart items with size
+
+    const productList = products.map((product, index) => {
+        const cartItem = cartItems[index]; // Retrieve corresponding cart item details
+
+        // Calculate price based on size
+        let price = product.basePrice;
+        if (cartItem.size === 'M') price += product.extraPrice;
+        else if (cartItem.size === 'L') price += 2 * product.extraPrice;
+
+        return `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="${product.imageUrl}" alt="${product.name}" class="img-thumbnail me-3" style="width: 80px; height: 80px;">
+                    <div>
+                        <h5 class="mb-1">${product.name}</h5>
+                        <p class="mb-1">${product.description}</p>
+                        <p class="mb-1 text-muted">Size: ${cartItem.size}</p>
+                        <p class="mb-1 text-muted">Price: $${price.toFixed(2)}</p>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-danger btn-sm" onclick="removeFromCart('${product._id}')">Remove</button>
-            </div>
-        </li>
-    `).join('');
+                <div>
+                    <button class="btn btn-danger btn-sm" onclick="removeFromCart('${product._id}')">Remove</button>
+                </div>
+            </li>
+        `;
+    }).join('');
 
     cartContainer.innerHTML = `<ul class="list-group">${productList}</ul>`;
 }
@@ -77,7 +89,7 @@ async function placeOrder() {
     }
 
     const orderData = {
-        products: cartItems.map(item => ({ productId: item.productId, amount: item.quantity })),
+        products: cartItems.map(item => ({ productId: item.productId, amount: item.quantity, size: item.size })),
     };
 
     try {

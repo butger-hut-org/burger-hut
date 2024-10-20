@@ -17,10 +17,17 @@ async function orderCreate(req, res) {
                 const product = await Product.findById(item.productId);
                 if (!product) throw new Error(`Product not found: ${item.productId}`);
 
+                // Calculate the price based on size
+                let price = product.basePrice;
+                if (item.size === 'M') price += product.extraPrice;
+                else if (item.size === 'L') price += 2 * product.extraPrice;
+
                 return {
                     product: product.toObject({ versionKey: false }), // Exclude __v
                     productId: product._id.toString(),
                     amount: item.amount,
+                    size: item.size, // Store the size in the order
+                    price: price, // Store the calculated price
                 };
             })
         );
