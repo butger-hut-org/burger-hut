@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
      // Initially hide all content divs except for the default
      $(".adminPortalContent").hide();
-     $("#adminPortal").show(); // Show adminPortal by default
+     $("#userMgmt").show(); // Show adminPortal by default
  
      $(".sidebar a").on("click", function(e) {
          e.preventDefault(); // Prevent page reload
