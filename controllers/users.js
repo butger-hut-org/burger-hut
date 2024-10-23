@@ -152,16 +152,14 @@ async function getUser(req, res) {
   }
 
 async function editUser(req, res) {
-
-    const userId = req.params.id;
-
+    const userId = req.user._id;
     if (!req.body.username || !req.body.password || !req.body.email ||
         !req.body.creditNumber || !req.body.date || !req.body.cvv) {
         throw new BaseError.BadRequestError('Please provide values');
     }
     encryptedPassword = await bcrypt.hash(req.body.password, 10);
 
-    result = await Product.findOneAndUpdate({_id: userId}, {
+    result = await User.findOneAndUpdate({_id: userId}, {
         username: req.body.username,
         password: encryptedPassword,
         email: req.body.email,

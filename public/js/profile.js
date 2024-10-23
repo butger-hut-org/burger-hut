@@ -22,52 +22,47 @@ function getUser() {
     });
 }
 
-function collectUserFormFields() {
-    const request = {
-        username: $("#userame").val(),
-        password: $("#password").val(),
-        email: $("#email").val(),
-        creditNumber: $("#creditNumber").val(),
-        date: $("#date").val(),
-        cvv: $("#cvv").val(),
-    };
-    if (request.username == null || request.password == null ||
-        request.email == null || request.creditNumber == null ||
-        request.date == null || request.cvv == null
-    ) {
-        alert("Please fill out all fields")
-        return null;
-    }
-    return request;
+function changeUserPopupToEdit() {
+    $.ajax({
+        type: "GET",
+        url: "/api/users/", 
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            $('#usernameInput').val(response.username);
+            $('#passwordInput').val(response.password); 
+            $('#emailInput').val(response.email);
+            $('#creditNumberInput').val(response.creditNumber);
+            $('#dateInput').val(response.date);
+            $('#cvvInput').val(response.cvv);
+        },
+        error: function (response) {
+            alert("Error loading user details: " + response.responseText);
+        }
+    });
 }
 
-function editUser(userId) {
-   const req = collectUserFormFields();
+function editUser() {
+    const request = {
+        username: $('#usernameInput').val(),
+        password: $('#passwordInput').val(),
+        email: $('#emailInput').val(),
+        creditNumber: $('#creditNumberInput').val(),
+        date: $('#dateInput').val(),
+        cvv: $('#cvvInput').val()
+    };
     $.ajax({
-        url: `/api/users/${userId}`,
+        url: `/api/users/`,
         type: "PUT",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({
-            username: req.username,
-            password: req.password,
-            email: req.email,
-            creditNumber: req.creditNumber,
-            date: req.date,
-            cvv: req.cvv
-        }),
+        data: JSON.stringify(request),
         success: function (res) {
-            alert("Updated!");
-            console.log(res);
-            location.reload();
+            alert("User updated successfully!");
+            location.reload(); 
         },
-        failure: function (res) {
-            alert(response.responseText);
-            alert("Failure");
-        },
+
         error: function (res) {
-            alert(response.responseText);
-            alert("Failed to update user");
+            alert("Error updating user: " + res.responseText);
         },
     });
-
-};
+}

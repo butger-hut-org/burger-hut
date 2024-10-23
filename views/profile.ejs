@@ -5,10 +5,10 @@
     <%- include('./includes/header') %>
 
     <div class="container mt-5">
-        <button class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#editUserPopUp">Edit User</button>
+        <button onclick="changeUserPopupToEdit()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#userModal">Edit User</button>
+        <%- include('templates/userPopup') %>
         <h1 class="text-center">User Information</h1>
         <div class="row" id="information-list">
-            <!-- User Information will be injected here by JavaScript -->
             <div class="col-md-12">
                 <p><strong>Username:</strong> <span id="username"></span></p>
                 <p><strong>Password:</strong> <span id="password"></span></p>
@@ -19,8 +19,9 @@
             </div>
         </div>
     </div>
+
     <%- include('./includes/footer') %>
-    <%- include ("./includes/scripts") %>
+    <%- include("./includes/scripts") %>
     <script src="/public/js/profile.js"></script>
 
 </body>
