@@ -3,6 +3,9 @@ const { User, validateUser, validateLogin } = require("../models/user.js");
 const bcrypt = require("bcrypt");
 const BaseError = require('../errors');
 require('dotenv').config();
+const logger = require("../middleware/logger");
+const { StatusCodes } = require("http-status-codes");
+const mongoose = require("mongoose");
 
 const COOKIE_MAX_AGE = 2 * 60 * 60 * 1000;
 
@@ -48,23 +51,23 @@ async function registerUser(req, res, next) {
         });
         res.json({message: "Registered Successfully"})
     } catch (error) {
-        console.log('Error in RegisterUser: sending to error handler')
+        logger.error('Error in RegisterUser: sending to error handler')
         next(error)
     }
 }
 
 async function login(req, res, next) {
     try{
-        console.log('[Login]', req.body);
+        logger.info('[Login]', req.body);
         const { error } = validateLogin(req.body);
         if (error) {
-            console.log("error")
+            logger.error("error")
             throw new BaseError.BadRequestError(error.details[0].message);
         }
         let user = await User.findOne({ username: req.body.username })
-        console.log(user)
+        logger.info(user)
         if (!user) {
-            console.log("!user")
+            logger.error("!user")
             throw new BaseError.UnauthenticatedError('incorrect user or password');
         }
         if (await bcrypt.compare(req.body.password, user.password)) {
@@ -81,12 +84,12 @@ async function login(req, res, next) {
                 email: user.email
             });
         } else {
-            console.log('wrong password');
+            logger.error('wrong password');
             throw new BaseError.UnauthenticatedError('incorrect user or password');
         }
     }catch (error) {
-        console.log(error);
-        console.log('Error in login: sending to error handler')
+        logger.error(error);
+        logger.error('Error in login: sending to error handler')
         next(error)
     }
 }
@@ -109,7 +112,7 @@ async function deleteUser(req, res, next) {
         }
         res.send(`the user "${deletedUser.username}" was deleted`);
     } catch(error){
-        console.log('Error in deleteUser: sending to error handler')
+        logger.error('Error in deleteUser: sending to error handler')
         next(error)
     }
 
@@ -122,10 +125,57 @@ async function promoteUser(req, res, next) {
         }
         res.send(`the user "${promotedUser.username}" was promoted`);
     }catch(error){
-        console.log('Error in promoteUser: sending to error handler')
+        logger.error('Error in promoteUser: sending to error handler')
         next(error)
     }
     
 }
 
-module.exports = {registerUser, login, listUsers, deleteUser, logout, promoteUser};
+async function getUser(req, res) {
+    const userId = req.user._id;
+    try {
+      if (!mongoose.isValidObjectId(userId)) {
+        throw new BaseError.BadRequestError(`Invalid user ID format: ${userId}`);
+      }
+      const user = await User.findById({ _id: userId });
+      if (user) {
+        logger.info(`Successfully retrieved user with id: ${userId}`);
+        console.log(user)
+        return res.status(StatusCodes.OK).json(user);
+      }
+      throw new BaseError.NotFoundError(`User with id: ${userId} not found!`);
+    } catch (error) {
+      logger.error(error);
+      const status = error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
+      return res.status(status).json(error);
+    }
+  }
+
+async function editUser(req, res) {
+
+    const userId = req.params.id;
+
+    if (!req.body.username || !req.body.password || !req.body.email ||
+        !req.body.creditNumber || !req.body.date || !req.body.cvv) {
+        throw new BaseError.BadRequestError('Please provide values');
+    }
+    encryptedPassword = await bcrypt.hash(req.body.password, 10);
+
+    result = await Product.findOneAndUpdate({_id: userId}, {
+        username: req.body.username,
+        password: encryptedPassword,
+        email: req.body.email,
+        creditNumber: req.body.creditNumber,
+        date: req.body.date,
+        cvv: req.body.cvv
+    });
+    if (!result) {
+        throw new BaseError.NotFoundError(`Failed to update user : ${req.body.name}`);
+    }
+
+    res.status(StatusCodes.OK).json({result});
+}
+
+
+
+module.exports = {registerUser, login, listUsers, deleteUser, logout, promoteUser,getUser,editUser};

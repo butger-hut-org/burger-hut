@@ -1,0 +1,51 @@
+<body>
+    <div class="container mt-5 text-center">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel">Add New Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addProductForm">
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="productName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productDescription" class="form-label">Description</label>
+                                <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productBasePrice" class="form-label">Base price</label>
+                                <input type="number" class="form-control" id="productBasePrice" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productExtraPrice" class="form-label">Extra price</label>
+                                <h6>*** The extra money for size upgrade ***</h6>
+                                <input type="number" class="form-control" id="productExtraPrice" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="productCategory" class="form-label">Category</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="" disabled selected>Select category</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Vegan">Vegan</option>
+                                    <option value="Spicy">Spicy</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bestSeller" class="form-check-label">Best Seller</label>
+                                <input type="checkbox" class="form-check-input" id="bestSeller">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="actionButton" form="newProductForm" class="btn btn-primary" onclick="createProduct()">create or add</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+    
+</body>
