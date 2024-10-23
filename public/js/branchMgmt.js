@@ -2,6 +2,7 @@ const port = 9898;
 
 $(document).ready(function () {
   getBranches();
+  addSearchBarListener();
 });
 
 function getBranches() {
@@ -69,6 +70,7 @@ function deleteBranch(branchId) {
       success: function () {
         // Reload the branches list after deletion
         $("#branchList").empty();
+        $("#branchMgmtSearchBar").val("");
         getBranches();
       },
       error: function (response) {
@@ -151,9 +153,20 @@ function resetDisplay() {
   $("#branchCoordinates").show();
   $("#branchModalLabel").text("Add New Branch");
   $("#saveBranchButton").text("Create");
+  $("#branchMgmtSearchBar").val("");
 }
 
 function resetForm() {
   resetValues();
   resetDisplay();
+}
+
+function addSearchBarListener() {
+  $("#branchMgmtSearchBar").on("input", function() {
+    const searchText = $(this).val().toLowerCase();
+    $("#branchList").children().filter(function() {
+      //displays the element if the specified text is present and hides if not
+      $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1);
+    });
+  });
 }

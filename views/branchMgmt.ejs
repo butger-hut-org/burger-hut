@@ -6,7 +6,8 @@
         <button onclick="resetForm()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addBranchPopup">Add Branch</button>
         <%- include("templates/branchPopup") %>
         <h1 class="text-center">Manage Branches</h1>
-        <div class="row" id="branchList">
+        <input class="form-control" id="branchMgmtSearchBar" type="text" placeholder="Search"/>
+        <div class="row pt-2" id="branchList">
             <!-- Branches will be generated here by JavaScript -->
         </div>
     </div>
