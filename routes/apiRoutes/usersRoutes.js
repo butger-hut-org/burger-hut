@@ -9,4 +9,6 @@ router.get("/logout", user.logout);
 router.delete("/delete", middleware.verifyJwt, middleware.verifyAdmin, user.deleteUser);
 router.put("/promote", middleware.verifyJwt, middleware.verifyAdmin, user.promoteUser);
 router.get("/list", middleware.verifyJwt, middleware.verifyAdmin, user.listUsers);
+router.get("/",middleware.verifyJwt, user.getUser);
+router.put("/",middleware.verifyJwt, user.editUser);
 module.exports = router;
