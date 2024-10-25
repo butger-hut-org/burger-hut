@@ -1,5 +1,3 @@
-const port = 9898;
-
 $(document).ready(function () {
   getBranches();
   addSearchBarListener();
@@ -8,7 +6,7 @@ $(document).ready(function () {
 function getBranches() {
   $.ajax({
     type: "GET",
-    url: `http://localhost:${port}/api/branches`,
+    url: `/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (response) {
@@ -40,7 +38,7 @@ function getBranches() {
 function editBranch(branchId) {
   $.ajax({
     type: "GET",
-    url: `http://localhost:${port}/api/branches/${branchId}`,
+    url: `/api/branches/${branchId}`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     success: function (branch) {
@@ -66,7 +64,7 @@ function deleteBranch(branchId) {
   if (confirm("Are you sure you want to delete this branch?")) {
     $.ajax({
       type: "DELETE",
-      url: `http://localhost:${port}/api/branches/${branchId}`,
+      url: `/api/branches/${branchId}`,
       success: function () {
         // Reload the branches list after deletion
         $("#branchList").empty();
@@ -107,7 +105,7 @@ function saveBranch() {
 function updateBranch(branchId, branchData) {
   $.ajax({
     type: "PUT",
-    url: `http://localhost:${port}/api/branches/${branchId}`,
+    url: `/api/branches/${branchId}`,
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
@@ -123,7 +121,7 @@ function updateBranch(branchId, branchData) {
 function createBranch(branchData) {
   $.ajax({
     type: "POST",
-    url: `http://localhost:${port}/api/branches`,
+    url: `/api/branches`,
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify(branchData),
     success: function () {
