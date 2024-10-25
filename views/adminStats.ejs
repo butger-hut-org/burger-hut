@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ("./includes/head") %>
+    <link rel="stylesheet" href="/public/css/adminStats.css">
+</head>
+<body>
+    <select id="fieldSelect">
+        <option value="category">Category</option>
+        <option value="bestSeller">Best seller</option>
+    </select>
+    <div id="pieChart"></div>
+    
+    <div id="pieChart"></div>
+    <div id="pieChart">
+        <svg></svg>
+    </div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="/public/js/adminStats.js"></script>
+</body>
+</html>

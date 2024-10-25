@@ -4,7 +4,7 @@ const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
 const { validateLocation } = require('./utils.js');
-// const {postTweet} = require('../twitter');
+const { postTweet } = require("../utils/twitter.js");
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
 const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
@@ -29,10 +29,12 @@ async function getBranchById(req, res) {
   }
 }
 
-async function getAllBranches(_, res) {
+// TODO: validate body of filter requests
+async function getBranches(req, res) {
+  const filterFields = { ...req.query };
   try {
-    const branches = await Branch.find();
-    logger.info("Successfully retrieved all branches");
+    const branches = filterFields ? await Branch.find(filter=filterFields) : await Branch.find();
+    logger.info("Successfully retrieved branches");
     return res.status(StatusCodes.OK).json(branches);
   } catch (error) {
     logger.error(error);
@@ -59,6 +61,7 @@ async function createBranch(req, res) {
     }
     const branch = await Branch.create(new Branch({ ...branchData }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
+    await postTweet(`Hello! We are glad to inform you that we have opened a new branch!!! Pay a visit to ${branch.name} in ${branch.address}, ${branch.city}`);
     return res.status(StatusCodes.CREATED).json(branch);
   } catch (error) {
     if (error.code === DUPLICATE_KEY_STATUS_CODE) {
@@ -90,6 +93,7 @@ async function updateBranch(req, res) {
     );
     if (updatedBranch) {
       logger.info(`Successfully updated a branch with id: ${branchId}`);
+      await postTweet(`Hello! We have made some changes to our branch ${updatedBranch.name} in ${updatedBranch.address}, ${updatedBranch.city}. Check out our website for more info.`);
       return res.status(StatusCodes.OK).json(updatedBranch);
     }
     throw new BaseError.NotFoundError(`Branch with id: ${branchId} not found!`);
@@ -112,6 +116,7 @@ async function deleteBranchById(req, res) {
     const deletedBranch = await Branch.findByIdAndDelete({ _id: branchId });
     if (deletedBranch) {
       logger.info(`Successfully deleted a branch with id: ${branchId}`);
+      await postTweet(`We are sorry to inform you that branch ${deletedBranch.name} in ${deletedBranch.address}, ${deletedBranch.city} has been closed... Hope to meet you in another one!.`);
       return res
         .status(StatusCodes.OK)
         .json({ msg: `Successfully deleted branch ${branchId}!` });
@@ -128,7 +133,7 @@ async function deleteBranchById(req, res) {
 
 module.exports = {
   getBranchById,
-  getAllBranches,
+  getBranches,
   createBranch,
   deleteBranchById,
   updateBranch,
