@@ -19,11 +19,4 @@ document.addEventListener('DOMContentLoaded', () => {
          // Show the selected content section
          $("#" + contentId).show();
      });
-
-    //  let isCollapsed = false;
-
-    //  $(".toggle-btn").on("click", function () {
-    //      isCollapsed = !isCollapsed; // Toggle the state
-    //      $("#sidebar-wrapper").toggleClass("collapsed", isCollapsed);
-    //  });
 });

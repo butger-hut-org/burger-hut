@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => { 
+// const CATEGORIES = ['Standard', 'Spicy', 'Vegan'];
+
+document.addEventListener('DOMContentLoaded', () => {
     $.ajax({
         type: "GET",
         url: "/api/products/groupBy?field=category",
@@ -6,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dataType: "json",
         success: function (productsResponse) {
             productsResponse.forEach(category => {
-                generateMenuItems(category);
+                generateMenuItemsByCategory(category);
             });
         },
         failure: function (response) {
@@ -26,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function generateMenuItems(category) {
+
+function generateMenuItemsByCategory(category) {
     const menuItemsContainer = document.getElementById("menuItems");
 
     const categoryTitle = document.createElement("h1");
@@ -36,7 +39,19 @@ function generateMenuItems(category) {
     menuItemsContainer.appendChild(categoryTitle);
     
     category['products'].forEach(product => {
-        const itemDiv = document.createElement("div");
+        var cardItem = createProductCard(product);
+        // Append item div to the menuItems container
+        menuItemsContainer.appendChild(cardItem);
+    });
+
+}
+
+function removeAllMenuItems(){
+    document.getElementById('menuItems').innerHTML = '';
+}
+
+function createProductCard(product){
+    const itemDiv = document.createElement("div");
         itemDiv.classList.add("item");
         itemDiv.id = (product._id);
 
@@ -63,10 +78,7 @@ function generateMenuItems(category) {
         itemDiv.appendChild(price);
         itemDiv.appendChild(button);
         
-        // Append item div to the menuItems container
-        
-        menuItemsContainer.appendChild(itemDiv);
-    });
+        return itemDiv;
 }
 
 function addItemIdToModal(id){
@@ -115,4 +127,40 @@ function collectFormFields() {
         return null;
     }
     return request;
+}
+
+function submitFilter() {
+    const category = document.getElementById("category").value;
+    const bestSeller = document.getElementById("bestSeller").value;
+    const minPrice = document.getElementById('minPrice').value;
+    const maxPrice = document.getElementById('maxPrice').value;
+  
+    // Build the query string
+    const queryString = new URLSearchParams({
+        category,
+        bestSeller,
+        minPrice: minPrice || undefined,
+        maxPrice: maxPrice || undefined
+    }).toString();
+  
+    $.ajax({
+        url: `/api/products/searchSpecific?${queryString}`,
+        method: 'GET',
+        dataType: 'json',
+        success: function(products) {
+            removeAllMenuItems();
+            generateMenuItems(products);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error:", textStatus, errorThrown);
+        }
+      });
+}
+
+function generateMenuItems(products) { // without categories
+    const menuItemsContainer = document.getElementById("menuItems");
+    products.forEach(product => {
+        var cardItem = createProductCard(product);
+        menuItemsContainer.appendChild(cardItem);
+    });
 }
