@@ -71,6 +71,13 @@ function createProductCard(product){
         button.setAttribute('data-bs-toggle', 'modal');
         button.setAttribute('data-bs-target', '#addToCartModal');
         button.setAttribute('onclick', `addItemIdToModal('${product._id}')`);
+
+        if (product.bestSeller) {
+            const bestSeller = document.createElement("p");
+            bestSeller.classList.add("text-success");
+            bestSeller.innerHTML = `<strong>🌟 Best Seller 🌟</strong>`;
+            itemDiv.appendChild(bestSeller);
+        }
        
         // Append all elements to the item div
         // itemDiv.appendChild(img);
