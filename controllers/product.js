@@ -32,8 +32,6 @@ async function productCreate(req, res) {
 
 async function productUpdate(req, res) {
     const productId = req.params.id;
-    // console.log(req.body.name);
-    // console.log(req.body.description);
     if (!req.body.name || !req.body.description || !req.body.basePrice ||
         !req.body.extraPrice || !req.body.category || !req.body.bestSeller) {
         throw new BaseError.BadRequestError('Please provide values');
@@ -85,32 +83,36 @@ async function productSearch(req, res) {
 };
 
 async function productSpecificSearch(req, res) {
-    let searchParametrs = [];
-
-    if (!req.query["category"].includes("All")) {
-        searchParametrs.push({category: req.query.category});
+    const { category, bestSeller, minPrice, maxPrice} = req.query; // Destructure from query
+    let searchParameters = [];
+  
+    if (category && category !== "All") {
+      searchParameters.push({ category });
     }
-    if (!req.query["size"].includes("All")) {
-        searchParametrs.push({size: req.query.size});
+    if (bestSeller && bestSeller !== "All") {
+      searchParameters.push({ bestSeller });
     }
-    if (!req.query["bestSeller"].includes("All")) {
-        searchParametrs.push({bestSeller: req.query.bestSeller});
-    }
-
-    console.log(searchParametrs);
-    if (!(Array.isArray(searchParametrs) && searchParametrs.length)) {
-        result = await Product.find();
-    } else {
-        result = await Product.find({
-            $and: searchParametrs
-        });
-    }
-
-    if (!result) {
-        throw new BaseError.NotFoundError(`No product: ${req.query.name}`);
+ 
+    if (minPrice !== undefined || maxPrice !== undefined) {
+        const priceFilter = {};
+        if (minPrice !== undefined) {
+           priceFilter.$gte = minPrice; // Add min price filter
+        }
+        if (maxPrice !== undefined) {
+            priceFilter.$lte = maxPrice; // Add max price filter
+        }
+        searchParameters.push({ basePrice: priceFilter });
     }
 
-    res.status(StatusCodes.OK).json({result});
+    const result = searchParameters.length
+      ? await Product.find({ $and: searchParameters })
+      : await Product.find();
+  
+    if (!result || result.length === 0) {
+        logger.info('No results for your product filters');
+    }
+  
+    res.status(StatusCodes.OK).json(result);
 };
 
 async function productGroupBy(req, res){

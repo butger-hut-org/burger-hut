@@ -14,10 +14,41 @@
         </div>
     </section>
 
+    <form id="productFilterForm" class="container">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+          <option value="All">All</option>
+          <option value="Standard">Standard</option>
+          <option value="Spicy">Spicy</option>
+          <option value="Vegan">Vegan</option>
+        </select>
+    
+        <label for="bestSeller">Best Seller:</label>
+        <select id="bestSeller" name="bestSeller">
+          <option value="All">All</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+    
+        <label for="priceRange">Price Range:</label>
+        <div class="price-inputs">
+            <div>
+                <label for="minPrice">Min Price</label>
+                <input type="number" id="minPrice" name="minPrice" value="0" min="0" step="1">
+            </div>
+            <div>
+                <label for="maxPrice">Max Price</label>
+                <input type="number" id="maxPrice" name="maxPrice" value="100" min="0" step="1">
+            </div>
+        </div>
+
+    
+        <button type="button" onclick="submitFilter()">Search</button>
+      </form>
+
     <!-- Menu Items -->
     <section class="menu_section">
         <div class="container">
-            <h2>Our Menu</h2>
             <div class="menu_items" id="menuItems">
                 <!-- Dynamic content will be inserted here -->
             </div>

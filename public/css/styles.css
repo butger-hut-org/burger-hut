@@ -475,16 +475,6 @@ textarea {
     background-color: #007bff; /* Active link background color */
     color: white; /* Active link text color */
 }
-.toggle-btn {
-    cursor: pointer; /* Pointer cursor for button */
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-bottom: 10px; /* Space below button */
-    width: 100%; /* Full width button */
-}
 
 .admin-portal-wrapper {
     display: flex;
