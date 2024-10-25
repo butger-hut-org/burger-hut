@@ -5,7 +5,9 @@ const orderProductSchema = new mongoose.Schema({
   product: productSchema,
   productId: { type: String, required: true },
   amount: { type: Number, required: true },
+  size: { type: String, required: true }, // Add this line
 }, { _id: false });
+
 
 const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
