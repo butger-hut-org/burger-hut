@@ -31,7 +31,7 @@ async function fetchAllProducts() {
     return products.filter(product => product !== null);
 }
 
-// Render the cart
+// Render the cart with total price
 function renderCart(products) {
     const cartContainer = document.getElementById('cart-container');
     cartContainer.innerHTML = '';
@@ -43,6 +43,8 @@ function renderCart(products) {
 
     const cartItems = getCartItems(); // Get stored cart items with size
 
+    let totalPrice = 0; // Initialize total price
+
     const productList = products.map((product, index) => {
         const cartItem = cartItems[index]; // Retrieve corresponding cart item details
 
@@ -50,6 +52,8 @@ function renderCart(products) {
         let price = product.basePrice;
         if (cartItem.size === 'M') price += product.extraPrice;
         else if (cartItem.size === 'L') price += 2 * product.extraPrice;
+
+        totalPrice += price * cartItem.quantity; // Add to total price
 
         return `
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -69,7 +73,27 @@ function renderCart(products) {
         `;
     }).join('');
 
+    // Append the product list to the container
     cartContainer.innerHTML = `<ul class="list-group">${productList}</ul>`;
+
+    // Add the total price below the product list
+    renderTotalPrice(totalPrice);
+}
+
+// Render the total price
+function renderTotalPrice(totalPrice) {
+    let totalPriceElement = document.getElementById('total-price');
+
+    // If the total price element doesn't exist, create it
+    if (!totalPriceElement) {
+        totalPriceElement = document.createElement('h3');
+        totalPriceElement.id = 'total-price';
+        totalPriceElement.className = 'text-end mt-3';
+        document.getElementById('cart-container').appendChild(totalPriceElement); // Append below the cart
+    }
+
+    // Update the total price text
+    totalPriceElement.textContent = `Total Price: $${totalPrice.toFixed(2)}`;
 }
 
 // Remove an item from the cart
@@ -93,7 +117,7 @@ async function placeOrder() {
     };
 
     try {
-        const response = await fetch('http://localhost:9898/api/orders/create', {
+        const response = await fetch('http://localhost:9898/api/orders/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ const { Product } = require('../models/product');
 // Create a new order
 async function orderCreate(req, res) {
     try {
-        const userId = req.user._id; // Extracted from middleware (verifyJwt)
+        const userId = req.user._id; 
 
         const products = req.body.products;
         if (!Array.isArray(products) || products.length === 0) {
@@ -17,17 +17,17 @@ async function orderCreate(req, res) {
                 const product = await Product.findById(item.productId);
                 if (!product) throw new Error(`Product not found: ${item.productId}`);
 
-                // Calculate the price based on size
+                
                 let price = product.basePrice;
                 if (item.size === 'M') price += product.extraPrice;
                 else if (item.size === 'L') price += 2 * product.extraPrice;
 
                 return {
-                    product: product.toObject({ versionKey: false }), // Exclude __v
+                    product: product.toObject({ versionKey: false }), 
                     productId: product._id.toString(),
                     amount: item.amount,
-                    size: item.size, // Store the size in the order
-                    price: price, // Store the calculated price
+                    size: item.size, 
+                    price: price, 
                 };
             })
         );
@@ -49,11 +49,13 @@ async function orderCreate(req, res) {
 // Delete an order
 async function orderDelete(req, res) {
     try {
-        const orderId = req.body.orderId;
-        const deletedOrder = await Order.findByIdAndDelete(orderId);
+        const { id } = req.params;
+        const deletedOrder = await Order.findByIdAndDelete(id);
+
         if (!deletedOrder) {
             return res.status(StatusCodes.NOT_FOUND).json({ error: 'Order not found.' });
         }
+
         res.status(StatusCodes.OK).json({ message: 'Order deleted successfully.' });
     } catch (error) {
         console.error('Order deletion failed:', error);
@@ -61,16 +63,18 @@ async function orderDelete(req, res) {
     }
 }
 
-// List all orders for the user
+// List all orders for the admin portal
 async function orderList(req, res) {
     try {
-        const userId = req.user._id;
-        const orders = await Order.find({ user: userId }).populate('products.product');
-        res.status(StatusCodes.OK).json({ orders });
+        const orders = await Order.find({})
+            .populate('user', 'username') 
+            .populate('products.product');
+
+        console.log('Fetched Orders:', orders); 
+        res.status(200).json({ orders });
     } catch (error) {
         console.error('Failed to retrieve orders:', error);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 }
-
 module.exports = { orderCreate, orderDelete, orderList };

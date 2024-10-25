@@ -15,6 +15,10 @@ adminRouter.get("/productManagement", middleware.verifyJwt, middleware.verifyAdm
   res.render("./productMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
+adminRouter.get("/orderManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
+  res.render("./orderMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
+});
+
 adminRouter.get("/userManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
   res.render("./userManagement.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
@@ -22,5 +26,6 @@ adminRouter.get("/userManagement", middleware.verifyJwt, middleware.verifyAdmin,
 adminRouter.get("/adminStats", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
     res.render("./adminStats.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
+
 
 module.exports = adminRouter;
