@@ -4,37 +4,54 @@
 <body>
     <%- include('./includes/header') %>
 
-    <div class="deals_section">
-        <h2>Special Deals</h2>
-        
-        <!-- Deal 1 -->
-        <div class="deal_item">
-            <h3>Buy One, Get One Free</h3>
-            <p>Valid on all classic burgers</p>
-            <a href="/menu" class="btn btn-primary">Order Now</a>
-        </div>
+    <!-- Main Content Section -->
+    <section class="main-content">
+        <div class="deals_section">
+            <h2>Special Deals</h2>
 
-        <!-- Deal 2 -->
-        <div class="deal_item">
-            <h3>20% Off Family Meals</h3>
-            <p>Order family meals and get 20% off! Limited time only.</p>
-            <a href="/menu" class="btn btn-primary">Order Now</a>
-        </div>
+            <!-- Deal 1 -->
+            <div class="deal_item">
+                <h3>Buy One, Get One Free</h3>
+                <p>Valid on all classic burgers</p>
+                <a href="/menu" class="btn btn-primary">Order Now</a>
+            </div>
 
-        <!-- Deal 3 -->
-        <div class="deal_item">
-            <h3>Free Delivery on Orders Over 30₪</h3>
-            <p>Enjoy free delivery when your order total exceeds 30₪. No coupon needed!</p>
-            <a href="/menu" class="btn btn-primary">Order Now</a>
-        </div>
+            <!-- Deal 2 -->
+            <div class="deal_item">
+                <h3>20% Off Family Meals</h3>
+                <p>Order family meals and get 20% off! Limited time only.</p>
+                <a href="/menu" class="btn btn-primary">Order Now</a>
+            </div>
 
-        <!-- Deal 4 -->
-        <div class="deal_item">
-            <h3>Weekend Special: Triple Burger Combo</h3>
-            <p>Get a Triple Burger combo with fries and a drink for only 12.99₪. Only on weekends!</p>
-            <a href="/menu" class="btn btn-primary">Order Now</a>
+            <!-- Deal 3 -->
+            <div class="deal_item">
+                <h3>Free Delivery on Orders Over 30₪</h3>
+                <p>Enjoy free delivery when your order total exceeds 30₪. No coupon needed!</p>
+                <a href="/menu" class="btn btn-primary">Order Now</a>
+            </div>
+
+            <!-- Deal 4 -->
+            <div class="deal_item">
+                <h3>Weekend Special: Triple Burger Combo</h3>
+                <p>Get a Triple Burger combo with fries and a drink for only 12.99₪. Only on weekends!</p>
+                <a href="/menu" class="btn btn-primary">Order Now</a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Sidebar with Additional Info -->
+    <aside class="sidebar-section">
+        <h3>Need Help?</h3>
+        <p>If you have any questions or need assistance with your order, feel free to contact us!</p>
+        <a href="/contact" class="btn btn-primary">Contact Us</a>
+
+        <h3>Popular Burgers</h3>
+        <ul>
+            <li><a href="/menu#cheeseburger">Cheeseburger</a></li>
+            <li><a href="/menu#veggie-burger">Veggie Burger</a></li>
+            <li><a href="/menu#bacon-burger">Bacon Burger</a></li>
+        </ul>
+    </aside>
 
     <%- include('./includes/footer') %>
 </body>
