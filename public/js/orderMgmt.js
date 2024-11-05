@@ -16,7 +16,7 @@ async function fetchOrders() {
 // Render orders in the table
 function renderOrders(orderList) {
     const ordersTableBody = document.getElementById('ordersTableBody');
-    ordersTableBody.innerHTML = ''; // Clear existing rows
+    ordersTableBody.innerHTML = ''; 
 
     if (orderList.length === 0) {
         ordersTableBody.innerHTML = '<tr><td colspan="6" class="text-center">No orders found.</td></tr>';
@@ -25,13 +25,12 @@ function renderOrders(orderList) {
 
     orderList.forEach(order => {
         const totalAmount = order.products.reduce((total, product) => {
-            // Aligning price calculation with cart logic
             const basePrice = Number(product.product.basePrice) || 0;
             const extraPrice = Number(product.product.extraPrice) || 0;
             const productPrice = calculateProductPrice(basePrice, extraPrice, product.size);
 
-            const productTotal = productPrice * product.amount; // Calculate total for the product
-            return total + productTotal; // Accumulate total amount for the order
+            const productTotal = productPrice * product.amount; 
+            return total + productTotal; 
         }, 0);
 
         const productDetails = order.products.map(product => {
@@ -56,6 +55,9 @@ function renderOrders(orderList) {
                         Delete
                     </button>
                 </td>
+                <td>
+                <button class="btn btn-danger" onclick="editOrder('${order._id}')">Edit</button>
+                </td>
             </tr>
         `;
         ordersTableBody.innerHTML += row;
@@ -64,9 +66,9 @@ function renderOrders(orderList) {
 
 // Helper function to calculate the product price based on size
 function calculateProductPrice(basePrice, extraPrice, size) {
-    if (size === 'M') return basePrice + extraPrice; // Medium: Base + 1x extra price
-    if (size === 'L') return basePrice + 2 * extraPrice; // Large: Base + 2x extra price
-    return basePrice; // Small or default size: No extra price
+    if (size === 'M') return basePrice + extraPrice; 
+    if (size === 'L') return basePrice + 2 * extraPrice; 
+    return basePrice;
 }
 
 // Delete an order by ID
@@ -82,6 +84,92 @@ async function deleteOrder(orderId) {
         console.error('Error deleting order:', error);
     }
 }
+let currentOrderId = null; 
+
+// Populate the form with current order data
+function populateEditOrderForm(order) {
+    const form = document.getElementById("editOrderForm");
+    form.innerHTML = ""; 
+    order.products.forEach((product, index) => {
+        form.innerHTML += `
+            <div>
+                <label>Product ID: <input type="text" id="productId${index}" value="${product.productId}" readonly></label><br>
+                <label>Amount: <input type="number" id="amount${index}" value="${product.amount}" required></label><br>
+                <label>Size: 
+                    <select id="size${index}">
+                        <option value="S" ${product.size === 'S' ? 'selected' : ''}>Small</option>
+                        <option value="M" ${product.size === 'M' ? 'selected' : ''}>Medium</option>
+                        <option value="L" ${product.size === 'L' ? 'selected' : ''}>Large</option>
+                    </select>
+                </label><br><br>
+            </div>
+        `;
+    });
+}
+
+// open edit order modal
+async function editOrder(orderId) {
+    try {
+        currentOrderId = orderId;
+        const response = await fetch(`/api/orders/${orderId}`);
+        if (!response.ok) {
+            throw new Error(`Error fetching order for edit: ${response.statusText}`);
+        }
+
+        let order;
+        try {
+            order = await response.json();
+        } catch (jsonError) {
+            console.error("Failed to parse JSON. The response may be an HTML page:", jsonError);
+            return alert("Error: Unable to fetch order details. Please check if the route exists and the server is responding correctly.");
+        }
+
+        populateEditOrderForm(order);
+        document.getElementById("editOrderModal").style.display = "block";
+    } catch (error) {
+        console.error("Error in editOrder function:", error);
+    }
+}
+
+// Close the edit order modal
+function closeEditOrderModal() {
+    document.getElementById("editOrderModal").style.display = "none";
+}
+
+// Collect data and submit the edit
+async function submitEditOrder() {
+    const form = document.getElementById("editOrderForm");
+    const products = [];
+
+    for (let i = 0; i < form.children.length; i++) {
+        const product = {
+            productId: document.getElementById(`productId${i}`).value,
+            amount: parseInt(document.getElementById(`amount${i}`).value, 10),
+            size: document.getElementById(`size${i}`).value,
+        };
+        products.push(product);
+    }
+    try {
+        const response = await fetch(`/api/orders/${currentOrderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ products }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error updating order: ${response.statusText}`);
+        }
+
+        console.log(`Order ${currentOrderId} updated successfully`);
+        closeEditOrderModal();
+        refreshOrders(); 
+    } catch (error) {
+        console.error('Error editing order:', error);
+    }
+}
+
 
 // Refresh the order list by fetching and rendering the data
 async function refreshOrders() {

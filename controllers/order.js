@@ -77,4 +77,56 @@ async function orderList(req, res) {
         res.status(500).json({ error: error.message });
     }
 }
-module.exports = { orderCreate, orderDelete, orderList };
+
+// Update an order
+async function updateOrder(req, res) {
+    try {
+        const { id } = req.params;
+        const { products } = req.body;
+        const fullProductDetails = await Promise.all(
+            products.map(async (product) => {
+                const fullProduct = await Product.findById(product.productId);
+                if (!fullProduct) {
+                    throw new Error(`Product not found for ID: ${product.productId}`);
+                }
+                return {
+                    product: fullProduct,
+                    productId: product.productId,
+                    amount: product.amount,
+                    size: product.size
+                };
+            })
+        );
+        const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            { products: fullProductDetails },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(StatusCodes.NOT_FOUND).json({ error: 'Order not found' });
+        }
+
+        res.status(StatusCodes.OK).json(updatedOrder);
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+}
+
+
+
+
+async function orderFetchById(req, res) {
+    try {
+        const order = await Order.findById(req.params.id).populate('user').populate('products.product');
+        if (!order) {
+            return res.status(StatusCodes.NOT_FOUND).json({ error: 'Order not found' });
+        }
+        res.json(order);
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    }
+}
+
+
+module.exports = { orderCreate, orderDelete, orderList, updateOrder, orderFetchById };
