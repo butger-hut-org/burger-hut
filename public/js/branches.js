@@ -1,4 +1,3 @@
-const port = 9898;
 const southAndCenterBorderLatitude = 31;
 const centerAndNorthBorderLatitude = 32.5;
 let filterFields = {};
@@ -13,7 +12,7 @@ $(document).ready(function () {
 function getBranches() {
   $.ajax({
     type: "GET",
-    url: `http://localhost:${port}/api/branches`,
+    url: `/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: filterFields,
@@ -22,6 +21,9 @@ function getBranches() {
       branches.forEach((branch) => {
         let branchObject = $("#branchCard").html();
         Object.keys(branch).forEach((key) => {
+          if (key === "phoneNumber") {
+            branch[key] = stylePhoneNumber(branch[key])
+          }
           branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
         });
         $("#branchList").append(branchObject);
@@ -78,4 +80,9 @@ function regionFilteringListener() {
     }
     getBranches();
   });
+}
+
+function stylePhoneNumber(phoneNumber) {
+  let dashPosition = phoneNumber.length === 10 ? 3 : 2;
+  return phoneNumber.slice(0, dashPosition) + "-" + phoneNumber.slice(dashPosition);
 }

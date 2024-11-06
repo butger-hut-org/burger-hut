@@ -1,4 +1,5 @@
 const VALID_LOCATION_FIELDS = ["lat", "lon"];
+const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
 
 function validateCoordinates(lat, lon) {
     const isLatValid = lat >= -90 && lat <= 90;
@@ -27,7 +28,22 @@ function validateLocation(location) {
     return validateLocationObject(location) && getLocationInvalidKeyCount(locationKeys) && validateCoordinates(location.lat, location.lon);
 }
 
+function validatePhoneNumber(phoneNumber) {
+    return typeof(phoneNumber) === 'string' && /^\d{9,10}$/.test(phoneNumber);
+}
+
+function areFieldsUpdatable(data) {
+    Object.keys(data).forEach((key) => {
+        if(UNUPDATEABLE_FIELDS.includes(key)) {
+          return false;
+        }
+    })
+    return true;
+}
+
 module.exports = {
-    validateLocation
+    validateLocation,
+    validatePhoneNumber,
+    areFieldsUpdatable
 };
   
