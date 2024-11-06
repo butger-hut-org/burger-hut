@@ -1,4 +1,3 @@
-const port = 9898;
 const southAndCenterBorderLatitude = 31;
 const centerAndNorthBorderLatitude = 32.5;
 let filterFields = {};
@@ -13,7 +12,7 @@ $(document).ready(function () {
 function getBranches() {
   $.ajax({
     type: "GET",
-    url: `http://localhost:${port}/api/branches`,
+    url: `/api/branches`,
     contentType: "application/json; charset=utf-8",
     dataType: "json",
     data: filterFields,
