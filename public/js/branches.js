@@ -22,6 +22,9 @@ function getBranches() {
       branches.forEach((branch) => {
         let branchObject = $("#branchCard").html();
         Object.keys(branch).forEach((key) => {
+          if (key === "phoneNumber") {
+            branch[key] = stylePhoneNumber(branch[key])
+          }
           branchObject = branchObject.replaceAll("{" + key + "}", branch[key]);
         });
         $("#branchList").append(branchObject);
@@ -78,4 +81,9 @@ function regionFilteringListener() {
     }
     getBranches();
   });
+}
+
+function stylePhoneNumber(phoneNumber) {
+  let dashPosition = phoneNumber.length === 10 ? 3 : 2;
+  return phoneNumber.slice(0, dashPosition) + "-" + phoneNumber.slice(dashPosition);
 }
