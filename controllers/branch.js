@@ -3,7 +3,7 @@ const Branch = require("../models/branch");
 const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
-const { validateLocation, validatePhoneNumber, areFieldsUpdatable } = require('./utils.js');
+const { validateLocation, validatePhoneNumber, areFieldsUpdatable } = require('../utils/validations.js');
 const { postTweet } = require("../utils/twitter.js");
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;

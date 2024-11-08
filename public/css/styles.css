@@ -300,8 +300,8 @@ footer p {
 }
 
 .cube {
-    width: 300px;
-    height: 300px;
+    width: 600px;
+    height: 400px;
     perspective: 1000px;
 }
 
