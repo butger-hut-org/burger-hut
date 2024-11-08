@@ -480,6 +480,7 @@ textarea {
     display: flex;
     flex-direction: row;
 }
+
 /* Sidebar Section Styling */
 .sidebar-section {
     background-color: #fff;
@@ -488,28 +489,23 @@ textarea {
     border-radius: 8px;
     margin-top: 30px;
 }
-
 .sidebar-section h3 {
     font-size: 1.8em;
     color: #333;
     margin-bottom: 15px;
 }
-
 .sidebar-section ul {
     list-style-type: none;
     padding: 0;
 }
-
 .sidebar-section ul li {
     margin: 10px 0;
     font-size: 1.2em;
 }
-
 .sidebar-section ul li a {
     color: #ff9800;
     text-decoration: none;
 }
-
 .sidebar-section ul li a:hover {
     text-decoration: underline;
 }
