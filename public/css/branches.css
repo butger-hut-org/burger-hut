@@ -2,7 +2,7 @@
     display: flex;
     height: 100vh;
     background-color: #222831;
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Arial', sans-serif;
     margin-top: 50px;
 }
 
@@ -40,96 +40,6 @@
     margin: 10px 0;
     border-radius: 10px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    background: #53566c;
+    background: #708fa3;
     color: #ffffff;
-}
-
-/* Title styling */
-.formtitle {
-    font-family: "Dancing Script", Fantasy;
-    color: #ffffff;
-}
-
-#newBranchForm {
-    display: none; /* Initially hidden */
-    position: fixed; /* Fixed positioning */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust position */
-    background: #53566c; /* Background color */
-    padding: 45px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    z-index: 1000; /* On top of other elements */
-}
-
-#overlay {
-    display: none; /* Initially hidden */
-    position: fixed; /* Fixed positioning */
-    top: 0;
-    left: 0;
-    width: 100%; /* Cover full screen */
-    height: 100%; /* Cover full screen */
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 999; /* Below the modal */
-}
-
-/* Styling for the checkbox and label container */
-.form-group {
-    display: flex; /* Flexbox layout for inline elements */
-    align-items: center; /* Vertically centers items */
-    margin: 5px; /* Space between form elements */
-    color: #ffffff; /* White text for label */
-    font-size: 10px; /* Consistent font size */
-}
-
-.login_form {
-    background: #53566c;
-    max-width: 360px;
-    margin: 0 auto;
-    padding: 45px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.login_form input {
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-    border-radius: 10px;
-}
-
-.login_form button {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: .1em;
-    outline: 0;
-    background: #ffbe33;
-    width: 100%;
-    border: 0;
-    border-radius: 30px;
-    margin: 8px 0px 8px;
-    padding: 15px;
-    color: #FFFFFF;
-}
-
-.login_form button:hover {
-    background-color: #e69c00;
-}
-
-.ui-dialog {
-    background: #53566c; /* Background color of the dialog */
-    border-radius: 10px;
-    color: #ffffff; /* Text color */
-}
-
-.ui-dialog-titlebar {
-    background: #ffbe33; /* Title bar color */
-    color: #fff; /* Title bar text color */
 }
