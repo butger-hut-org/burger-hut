@@ -5,7 +5,6 @@ const OPENSTREETMAP_TILES_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
 const map = L.map("map").setView(CENTER_ISRAEL_COORDINATES, ZOOM_LEVEL);
 
 $(document).ready(function () {
-  // Add OpenStreetMap tiles
   L.tileLayer(OPENSTREETMAP_TILES_URL, { maxZoom: 19 }).addTo(map);
 });
 
@@ -14,6 +13,7 @@ function addMarker(lat, lon, popupText) {
   marker.bindPopup(popupText);
 }
 
+// TODO: Remove branch when filtering
 function markBranches(branchList) {
   branchList.map((branch) => {
     addMarker(branch.location.lat, branch.location.lon, branch.name);

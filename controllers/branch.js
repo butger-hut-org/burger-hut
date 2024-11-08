@@ -3,11 +3,10 @@ const Branch = require("../models/branch");
 const BaseError = require("../errors");
 const mongoose = require("mongoose");
 const logger = require("../middleware/logger");
-const { validateLocation } = require('./utils.js');
+const { validateLocation, validatePhoneNumber, areFieldsUpdatable } = require('./utils.js');
 const { postTweet } = require("../utils/twitter.js");
 
 const DUPLICATE_KEY_STATUS_CODE = 11000;
-const UNUPDATEABLE_FIELDS = ["city", "address", "location"]
 
 // TODO: add bad request error handling on the catch of each route
 async function getBranchById(req, res) {
@@ -29,7 +28,6 @@ async function getBranchById(req, res) {
   }
 }
 
-// TODO: validate body of filter requests
 async function getBranches(req, res) {
   const filterFields = { ...req.query };
   try {
@@ -59,6 +57,9 @@ async function createBranch(req, res) {
     if (!validateLocation(branchData.location)) {
       throw new BaseError.BadRequestError("The provided location is not valid! Must be of type {lat: Number, lon: Number}");
     }
+    if (!validatePhoneNumber(branchData.phoneNumber)) {
+      throw new BaseError.BadRequestError("The provided phone number is not valid! Must be a String that is consisted of 9-10 digits.");
+    }
     const branch = await Branch.create(new Branch({ ...branchData }));
     logger.info(`Successfully created a branch with id: ${branch._id}`);
     await postTweet(`Hello! We are glad to inform you that we have opened a new branch!!! Pay a visit to ${branch.name} in ${branch.address}, ${branch.city}`);
@@ -81,11 +82,12 @@ async function updateBranch(req, res) {
     if (!mongoose.isValidObjectId(branchId)) {
       throw new BaseError.BadRequestError(`Invalid branch ID format: ${branchId}`);
     }
-    Object.keys(dataToUpdate).forEach((key) => {
-      if(UNUPDATEABLE_FIELDS.includes(key)) {
-        throw new BaseError.BadRequestError("Cannot update branch's address, city or location!");
-      }
-    })
+    if (!areFieldsUpdatable(dataToUpdate)) {
+      throw new BaseError.BadRequestError("Cannot update branch's address, city or location!");
+    }
+    if (dataToUpdate.phoneNumber && !validatePhoneNumber(dataToUpdate.phoneNumber)) {
+      throw new BaseError.BadRequestError("The provided phone number is not valid! Must be a String that is consisted of 9-10 digits.");
+    }
     const updatedBranch = await Branch.findOneAndUpdate(
       { _id: branchId },
       dataToUpdate,
