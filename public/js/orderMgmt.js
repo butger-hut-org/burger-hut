@@ -1,3 +1,5 @@
+let allOrders = [];
+
 // Fetch all orders from the server
 async function fetchOrders() {
     try {
@@ -169,13 +171,23 @@ async function submitEditOrder() {
         console.error('Error editing order:', error);
     }
 }
+// filter orders by searchbar
+function filterOrders() {
+    const query = document.getElementById('orderSearch').value.toLowerCase();
 
+    const filteredOrders = allOrders.filter(order => 
+        order._id.toLowerCase().includes(query) || 
+        (order.user && order.user.username.toLowerCase().includes(query))
+    );
+
+    renderOrders(filteredOrders);
+}
 
 // Refresh the order list by fetching and rendering the data
 async function refreshOrders() {
-    const orders = await fetchOrders();
-    console.log('Fetched orders:', orders); 
-    renderOrders(orders);
+    allOrders = await fetchOrders();
+    console.log('Fetched orders:', allOrders); 
+    renderOrders(allOrders);
 }
 
 document.addEventListener('DOMContentLoaded', refreshOrders);
