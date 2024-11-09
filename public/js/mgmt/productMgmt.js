@@ -204,9 +204,11 @@ function collectFormFields() {
         alert("Please fill out all fields")
         return null;
     }
-    if (request.category != "Standard" && request.category != "Vegan" && request.category != "Spicy") {
-        alert("Category can be only Standard / Vegan / Spicy")
-        return null
+    if (request.category != "Standard" && request.category != "Vegan" &&
+         request.category != "Spicy" && request.category != "Drink" &&
+         request.category != "Snack" && request.category != "Dessert") {
+        alert("Category can be only Standard / Vegan / Spicy / Drink / Snack / Dessert");
+        return null;
     }
     return request;
 }

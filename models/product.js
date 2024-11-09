@@ -16,7 +16,7 @@ var productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['Standard', 'Vegan', 'Spicy'],
+        enum: ['Standard', 'Vegan', 'Spicy', 'Drink', 'Snack', 'Dessert'],
     },
     size: {
         type: String,

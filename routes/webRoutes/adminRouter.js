@@ -4,27 +4,27 @@ const adminRouter = express.Router();
 require("dotenv").config();
 
 adminRouter.get("/adminPortal", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./adminPortal.ejs", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./mgmt/adminPortal.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 adminRouter.get("/branchManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./branchMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./mgmt/branchMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 adminRouter.get("/productManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./productMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./mgmt/productMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 adminRouter.get("/orderManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./orderMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./mgmt/orderMgmt.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 adminRouter.get("/userManagement", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-  res.render("./userManagement.ejs", { isAdmin: await middleware.isAdmin(req) });
+  res.render("./mgmt/userManagement.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 adminRouter.get("/adminStats", middleware.verifyJwt, middleware.verifyAdmin, async (req, res) => {
-    res.render("./adminStats.ejs", { isAdmin: await middleware.isAdmin(req) });
+    res.render("./mgmt/adminStats.ejs", { isAdmin: await middleware.isAdmin(req) });
 });
 
 
