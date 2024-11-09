@@ -5,11 +5,11 @@ canvas.height = 200;
 const ctx = canvas.getContext("2d");
 // Burger layers setup (image sources)
 const layerImages = [
-    { src: '/public/images/canvas/topBun.png', y: -100 },   // Top bun
-    { src: '/public/images/canvas/lettuce.png', y: -150 },   // Lettuce
-    { src: '/public/images/canvas/tomato.png', y: -200 },    // Tomato
-    { src: '/public/images/canvas/patty.png', y: -250 },     // Patty
-    { src: '/public/images/canvas/bottomBun.png', y: -300 }  // Bottom bun
+    { src: 'https://prod-burgerhut.s3.eu-north-1.amazonaws.com/topBun.png', y: -100 },   // Top bun
+    { src: 'https://prod-burgerhut.s3.eu-north-1.amazonaws.com/lettuce.png', y: -150 },   // Lettuce
+    { src: 'https://prod-burgerhut.s3.eu-north-1.amazonaws.com/tomato.png', y: -200 },    // Tomato
+    { src: 'https://prod-burgerhut.s3.eu-north-1.amazonaws.com/patty.png', y: -250 },     // Patty
+    { src: 'https://prod-burgerhut.s3.eu-north-1.amazonaws.com/bottomBun.png', y: -300 }  // Bottom bun
 ];
 
 const targetY = [50, 80, 100, 120, 150]; // Target Y positions for each layer
