@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./includes/head') %>
+<head>
+    <%- include('./includes/head') %>
+    <link rel="stylesheet" href="/public/css/canvas.css">
+</head>
 <body>
     <%- include('./includes/header') %>
 
@@ -13,7 +16,14 @@
             <p>Whether you're grabbing a quick lunch, dining with family, or ordering delivery, Burger Hut guarantees a delicious meal and a memorable experience.</p>
         </div>
     </section>
-
+  <!-- Canvas Section -->
+  <section class="canvas_section">
+    <div class="container">
+        <h2>Build your own Burger Hut</h2>
+        <canvas id="burgerCanvas"></canvas>
+        <script src="/public/js/burgerAnimation.js"></script>
+    </div>
+    </section>
     <!-- Why Choose Us Section -->
     <section class="features_section">
         <div class="container">
