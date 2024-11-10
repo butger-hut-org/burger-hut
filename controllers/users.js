@@ -15,6 +15,8 @@ async function registerUser(req, res, next) {
             username: req.body.username,
             password: req.body.password,
             email: req.body.email,
+            address: req.body.address,
+            city: req.body.city,
             creditNumber: req.body.creditNumber,
             date: req.body.date,
             cvv: req.body.cvv,
@@ -153,7 +155,7 @@ async function getUser(req, res) {
 
 async function editUser(req, res) {
     const userId = req.user._id;
-    if (!req.body.username || !req.body.password || !req.body.email ||
+    if (!req.body.username || !req.body.password || !req.body.address || !req.body.city ||!req.body.email ||
         !req.body.creditNumber || !req.body.date || !req.body.cvv) {
         throw new BaseError.BadRequestError('Please provide values');
     }
@@ -163,6 +165,8 @@ async function editUser(req, res) {
         username: req.body.username,
         password: encryptedPassword,
         email: req.body.email,
+        address: req.body.address,
+        city: req.body.city,
         creditNumber: req.body.creditNumber,
         date: req.body.date,
         cvv: req.body.cvv
