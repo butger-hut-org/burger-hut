@@ -91,19 +91,29 @@ let currentOrderId = null;
 // Populate the form with current order data
 function populateEditOrderForm(order) {
     const form = document.getElementById("editOrderForm");
-    form.innerHTML = ""; 
+    form.innerHTML += `
+        <div>
+            <p class="form-control-plaintext"><strong>Order ID: </strong>${order._id}</p>
+        </div>
+    `;
+
     order.products.forEach((product, index) => {
         form.innerHTML += `
             <div>
-                <label>Product ID: <input type="text" id="productId${index}" value="${product.productId}" readonly></label><br>
-                <label>Amount: <input type="number" id="amount${index}" value="${product.amount}" required></label><br>
-                <label>Size: 
-                    <select id="size${index}">
-                        <option value="S" ${product.size === 'S' ? 'selected' : ''}>Small</option>
-                        <option value="M" ${product.size === 'M' ? 'selected' : ''}>Medium</option>
-                        <option value="L" ${product.size === 'L' ? 'selected' : ''}>Large</option>
-                    </select>
-                </label><br><br>
+                <label class="form-label">Product:</label>
+                <input type="text" id="productId${index}" value="${product.product.name}" readonly class="form-control">
+                
+                <label class="form-label" for="amount${index}">Amount:</label>
+                <input type="number" id="amount${index}" value="${product.amount}" required class="form-control">
+                
+                <label class="form-label" for="size${index}">Size:</label>
+                <select id="size${index}" class="form-select">
+                    <option value="S" ${product.size === 'S' ? 'selected' : ''}>Small</option>
+                    <option value="M" ${product.size === 'M' ? 'selected' : ''}>Medium</option>
+                    <option value="L" ${product.size === 'L' ? 'selected' : ''}>Large</option>
+                </select>
+                
+                <br><br>
             </div>
         `;
     });
@@ -118,20 +128,14 @@ async function editOrder(orderId) {
             throw new Error(`Error fetching order for edit: ${response.statusText}`);
         }
 
-        let order;
-        try {
-            order = await response.json();
-        } catch (jsonError) {
-            console.error("Failed to parse JSON. The response may be an HTML page:", jsonError);
-            return alert("Error: Unable to fetch order details. Please check if the route exists and the server is responding correctly.");
-        }
-
+        const order = await response.json();
         populateEditOrderForm(order);
-        document.getElementById("editOrderModal").style.display = "block";
+        $('#editOrderModal').modal('show'); // Show the modal with Bootstrap's jQuery
     } catch (error) {
         console.error("Error in editOrder function:", error);
     }
 }
+
 
 // Close the edit order modal
 function closeEditOrderModal() {
@@ -151,6 +155,7 @@ async function submitEditOrder() {
         };
         products.push(product);
     }
+
     try {
         const response = await fetch(`/api/orders/${currentOrderId}`, {
             method: 'PUT',
@@ -165,12 +170,13 @@ async function submitEditOrder() {
         }
 
         console.log(`Order ${currentOrderId} updated successfully`);
-        closeEditOrderModal();
-        refreshOrders(); 
+        await refreshOrders();  // Wait for orders to refresh
+        $('#editOrderModal').modal('hide');  // Properly hide the modal
     } catch (error) {
         console.error('Error editing order:', error);
     }
 }
+
 // filter orders by searchbar
 function filterOrders() {
     const query = document.getElementById('orderSearch').value.toLowerCase();

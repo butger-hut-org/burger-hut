@@ -20,23 +20,30 @@
             <tbody id="ordersTableBody"></tbody> 
         </table>
     </div>
-    <div id="editOrderModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditOrderModal()">&times;</span>
-            <h2>Edit Order</h2>
-            
-            <div id="editOrderForm">
+    <div class="modal fade" id="editOrderModal" tabindex="-1" aria-labelledby="editOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editOrderModalLabel">Edit Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="editOrderForm">
+                        <!-- Products will be dynamically populated here -->
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="submitEditOrder()">Save Changes</button>
+                </div>
             </div>
-
-            <button onclick="submitEditOrder()">Submit</button>
         </div>
     </div>
-
-    <style>
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-    </style>
 
     <script src="/public/js/mgmt/orderMgmt.js"></script> 
 </body>

@@ -58,11 +58,11 @@ function renderCart(products) {
         return `
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <img src="${product.imageUrl}" alt="${product.name}" class="img-thumbnail me-3" style="width: 80px; height: 80px;">
                     <div>
                         <h5 class="mb-1">${product.name}</h5>
                         <p class="mb-1">${product.description}</p>
                         <p class="mb-1 text-muted">Size: ${cartItem.size}</p>
+                        <p class="mb-1 text-muted">Quantity: ${cartItem.quantity}</p>
                         <p class="mb-1 text-muted">Price: $${price.toFixed(2)}</p>
                     </div>
                 </div>
