@@ -91,17 +91,15 @@ let currentOrderId = null;
 // Populate the form with current order data
 function populateEditOrderForm(order) {
     const form = document.getElementById("editOrderForm");
-    form.innerHTML += `
-        <div>
-            <p class="form-control-plaintext"><strong>Order ID: </strong>${order._id}</p>
-        </div>
-    `;
+    form.innerHTML = ""; 
 
     order.products.forEach((product, index) => {
         form.innerHTML += `
             <div>
                 <label class="form-label">Product:</label>
-                <input type="text" id="productId${index}" value="${product.product.name}" readonly class="form-control">
+                <label class="form-label">${product.product.name}</label></br>
+                <label class="form-label">Product ID:</label>
+                <input type="text" id="productId${index}" value="${product.productId}" readonly class="form-control">
                 
                 <label class="form-label" for="amount${index}">Amount:</label>
                 <input type="number" id="amount${index}" value="${product.amount}" required class="form-control">
