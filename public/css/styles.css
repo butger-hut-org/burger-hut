@@ -15,9 +15,9 @@ body {
 /* Centering all headers and ensuring consistent size */
 h1, h2, h3, h4, h5 {
     text-align: center;
-    font-size: 1em;
+    font-size: 1.5em;
     color: #333;
-    text-transform: uppercase;
+    text-transform: none;
     margin-bottom: 20px;
     margin-right: 40px;
 }
