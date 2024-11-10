@@ -89,6 +89,8 @@ function createProductCard(product){
 }
 
 function addItemIdToModal(id){
+    $('#productSize').val('');
+    $('#productQuantity').val('');
     const itemDiv1 = document.getElementById("productId");
     itemDiv1.innerText = id;
 }
@@ -122,6 +124,7 @@ function addToTempCart(){
     }
 
     localStorage.setItem('cart', JSON.stringify(currentProductsInCart));
+    alert('Added to cart!');
 }
 
 function collectFormFields() {

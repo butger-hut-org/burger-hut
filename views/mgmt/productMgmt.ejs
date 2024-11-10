@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include ("../includes/head") %>
+<body>
+    <div class="container mt-5">
+        <button onclick="changePopupToCreate()" class="btn btn-primary position-absolute top-1 end-0 m-2" data-bs-toggle="modal" data-bs-target="#addProductPopup">Add Product</button>
+        <%- include("../templates/productPopup") %>
+        <h1 class="text-center">Products managament</h1>
+        <input class="form-control" id="productMgmtSearch" type="text" placeholder="Search"/>
+        <div class="row pt-2" id="product-list">
+            <!-- Products will be injected here by JavaScript -->
+        </div>
+    </div>
+    <script src="/public/js/mgmt/productMgmt.js"></script>
+</body>
+</html>
