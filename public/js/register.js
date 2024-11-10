@@ -6,13 +6,15 @@ $(document).ready(function() {
         const email = $('input[name="email"]').val().trim();
         const username = $('input[name="username"]').val().trim();
         const password = $('input[name="password"]').val();
+        const address = $('input[name="address"]').val().trim();
+        const city = $('input[name="city"]').val().trim();
         const confirmPassword = $('input[name="confirmPassword"]').val();
         const creditNumber = $('input[name="creditNumber"]').val().trim();
         const date = $('input[name="date"]').val().trim();
         const cvv = $('input[name="cvv"]').val().trim();
 
         // Basic validation
-        if (!email || !username || !password || !confirmPassword || !creditNumber || !date || !cvv) {
+        if (!email || !username || !password || !address || !city ||!confirmPassword || !creditNumber || !date || !cvv) {
             document.getElementById('error-message').innerText = 'All fields are required.';
             return; // Stop the submission
         }
@@ -27,6 +29,8 @@ $(document).ready(function() {
             email,
             username,
             password,
+            address,
+            city,
             confirmPassword,
             creditNumber,
             date,

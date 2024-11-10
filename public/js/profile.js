@@ -12,6 +12,8 @@ function getUser() {
         $("#username").text(response.username);
         $("#password").text(response.password); 
         $("#email").text(response.email);
+        $("#address").text(response.address);
+        $("#city").text(response.city);
         $("#creditNumber").text(response.creditNumber);
         $("#date").text(response.date);
         $("#cvv").text(response.cvv);
@@ -32,6 +34,8 @@ function changeUserPopupToEdit() {
             $('#usernameInput').val(response.username);
             $('#passwordInput').val(response.password); 
             $('#emailInput').val(response.email);
+            $('#addressInput').val(response.address);
+            $('#cityInput').val(response.city);
             $('#creditNumberInput').val(response.creditNumber);
             $('#dateInput').val(response.date);
             $('#cvvInput').val(response.cvv);
@@ -47,6 +51,8 @@ function editUser() {
         username: $('#usernameInput').val(),
         password: $('#passwordInput').val(),
         email: $('#emailInput').val(),
+        address: $('#addressInput').val(),
+        city: $('#cityInput').val(),
         creditNumber: $('#creditNumberInput').val(),
         date: $('#dateInput').val(),
         cvv: $('#cvvInput').val()
