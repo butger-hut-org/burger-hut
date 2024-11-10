@@ -15,10 +15,11 @@ body {
 /* Centering all headers and ensuring consistent size */
 h1, h2, h3, h4, h5 {
     text-align: center;
-    font-size: 2.5em;
+    font-size: 1em;
     color: #333;
     text-transform: uppercase;
     margin-bottom: 20px;
+    margin-right: 40px;
 }
 
 /* ---------------------------------------------
@@ -187,20 +188,21 @@ header nav a:hover {
    Buttons (General)
 ----------------------------------------------*/
 .btn {
-    padding: 15px 30px;
+    padding: 8px 16px; /* הפחתת הריווח הפנימי */
     background-color: #ff9800;
     color: white;
     text-transform: uppercase;
     border: none;
-    font-size: 1.2em;
-    border-radius: 5px;
+    font-size: 0.9em; /* הקטנת גודל הפונט */
+    border-radius: 4px; /* פינות עגולות קטנות יותר */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
     background-color: #e68900;
-    transform: scale(1.05);
+    transform: scale(1.03); /* הקטנת האפקט של הגדלת הכפתור */
 }
+
 
 /* ---------------------------------------------
    Menu Items
@@ -453,14 +455,16 @@ textarea {
 }
 
 .btn-primary {
-    padding: 10px 20px;
+    padding: 5px 10px; /* הפחתת הריווח הפנימי */
     background-color: #ff9800;
     color: white;
     border: none;
-    font-size: 1.2em;
+    font-size: 0.9em; /* גודל טקסט קטן יותר */
     cursor: pointer;
     transition: background-color 0.3s ease;
+    border-radius: 4px; /* פינות עגולות יותר עדינות */
 }
+
 
 .btn-primary:hover {
     background-color: #e68900;
